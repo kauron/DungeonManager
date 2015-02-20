@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">DungeonManager</string>
+    <string name="action_cure">Curar</string>
+    <string name="action_edit_basics">Editar personaje</string>
+    <string name="action_finish">Hecho</string>
+    <string name="adventurer_name">Nombre</string>
+    <string name="cancel">Cancelar</string>
+    <string name="class_name">Clase</string>
+    <string name="edit_PG_Title">Sufrir daño</string>
+    <string name="level">Nivel</string>
+    <string name="max_pg">PG máx.</string>
+    <string name="maxed_curative">Has llegado a tus PG máximos</string>
+    <string name="missing_info_error">Tienes que rellenar todos los campos</string>
+    <string name="new_energies1">Te quedan</string>
+    <string name="new_energies2">esfuerzos curativos.</string>
+    <string name="new_energies_title">¿Usar un esfuerzo curativo?</string>
+    <string name="no">No</string>
+    <string name="no_curative_efforts_error">No te quedan esfuerzos curativos</string>
+    <string name="ok">Ok</string>
+    <string name="race_name">Raza</string>
+    <string name="suffer_damage">Indica el daño sufrido</string>
+    <string name="title_activity_introduction">Editar personaje</string>
+    <string name="yes">Sí</string>
+    <string name="max_curative_efforts">Esfuerzos curativos</string>
+    <string name="suffer_damage_hint">PG perdidos</string>
+    <string name="action_undo">Deshacer</string>
+    <string name="action_calendar_activity">Crear evento</string>
+    <string name="action_save">Guardar</string>
+    <string name="action_undo_current_pg">Acción deshecha</string>
+    <string name="dungeons_and_dragons">Dragones y Mazmorras</string>
+</resources>

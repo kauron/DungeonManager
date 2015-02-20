@@ -1,0 +1,77 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.ddns.kauron.dungeonmanager.Introduction">
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/editNameIntro"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:hint="@string/adventurer_name"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/editRaceIntro"
+        android:layout_below="@+id/editClassIntro"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:hint="@string/race_name" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/editClassIntro"
+        android:layout_below="@+id/editNameIntro"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:hint="@string/class_name" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/editLevelIntro"
+        android:hint="@string/level"
+        android:width="70dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignLeft="@+id/editMaxPgIntro"
+        android:layout_alignStart="@+id/editMaxPgIntro" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/editMaxPgIntro"
+        android:layout_below="@+id/editLevelIntro"
+        android:hint="@string/max_pg"
+        android:layout_alignLeft="@+id/editMaxEffortIntro"
+        android:layout_alignStart="@+id/editMaxEffortIntro" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/editMaxEffortIntro"
+        android:layout_alignTop="@+id/editRaceIntro"
+        android:layout_toEndOf="@+id/editRaceIntro"
+        android:hint="@string/max_curative_efforts"
+        android:layout_toRightOf="@+id/editRaceIntro" />
+</RelativeLayout>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name" translatable="false">DungeonManager</string>
+    <string name="action_cure">Cure</string>
+    <string name="action_undo">Undo</string>
+    <string name="dungeons_and_dragons">Dungeons and Dragons</string>
+    <string name="action_save">Save</string>
+    <string name="action_calendar_activity">Create event</string>
+    <string name="action_undo_current_pg">Action undone</string>
+    <string name="action_edit_basics">Edit character</string>
+    <string name="adventurer_name">Adventurer name</string>
+    <string name="class_name">Class</string>
+    <string name="race_name">Race</string>
+
+    <string name="cancel">Cancel</string>
+    <string name="ok">Ok</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
+    <string name="edit_PG_Title">Suffer damage</string>
+    <string name="new_energies1">You have</string>
+    <string name="new_energies2">curative efforts</string>
+    <string name="new_energies_title">Use a curative effort?</string>
+    <string name="title_activity_introduction">Edit character</string>
+    <string name="action_finish">Done</string>
+
+    <string name="level">Level</string>
+    <string name="max_curative_efforts">Curative efforts</string>
+    <string name="max_pg">Max PG</string>
+    <string name="missing_info_error">You need to fill all the information</string>
+    <string name="no_curative_efforts_error">You don\'t have any curative efforts left!</string>
+    <string name="maxed_curative">You have reached your maximum level of PG</string>
+    <string name="suffer_damage">Input the damage suffered</string>
+    <string name="suffer_damage_hint">PG lost</string>
+</resources>

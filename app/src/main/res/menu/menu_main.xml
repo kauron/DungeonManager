@@ -1,0 +1,34 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
+    <item
+        android:id="@+id/action_undo"
+        android:title="@string/action_undo"
+        android:orderInCategory="1"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_action_undo"/>
+    <item
+        android:id="@+id/action_cure"
+        android:title="@string/action_cure"
+        android:orderInCategory="2"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_action_heal"/>
+    <item
+        android:id="@+id/action_save"
+        android:title="@string/action_save"
+        android:orderInCategory="3"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_action_save"/>
+    <item
+        android:id="@+id/action_edit_basics"
+        android:title="@string/action_edit_basics"
+        android:orderInCategory="4"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_action_edit"/>
+    <item
+        android:id="@+id/action_calendar_activity"
+        android:title="@string/action_calendar_activity"
+        android:orderInCategory="5"
+        app:showAsAction="never" />
+
+</menu>
