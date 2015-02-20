@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 public class Introduction extends ActionBarActivity {
 
-    EditText name, className, raceName, level, maxPg;
+    EditText name, className, raceName, level, maxPg, curativeEfforts, maxCurativeEfforts, pgE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +23,9 @@ public class Introduction extends ActionBarActivity {
         raceName = (EditText) findViewById(R.id.editRaceIntro);
         level = (EditText) findViewById(R.id.editLevelIntro);
         maxPg = (EditText) findViewById(R.id.editMaxPgIntro);
+        curativeEfforts = (EditText) findViewById(R.id.editEffortIntro);
+        maxCurativeEfforts = (EditText) findViewById(R.id.editMaxEffortIntro);
+        pgE = (EditText) findViewById(R.id.editPgIntro);
     }
 
 
@@ -61,42 +64,58 @@ public class Introduction extends ActionBarActivity {
     private boolean finished() {
         SharedPreferences p = getSharedPreferences("basics", MODE_PRIVATE);
         SharedPreferences.Editor ed = p.edit();
+
         String nameString = name.getText().toString();
         String classString = className.getText().toString();
         String raceString = raceName.getText().toString();
-        int levelInt = 0, maxPgInt = 0;
-        try {
+
+        int levelInt = 0, maxPgInt = 0, pg = 0, curEff = 0, mCurEff = 0;
+        if (!level.getText().toString().isEmpty())
             levelInt = Integer.parseInt(level.getText().toString());
-            maxPgInt = Integer.parseInt(level.getText().toString());
-        } catch (Exception e) {}
+        if (!maxPg.getText().toString().isEmpty())
+            maxPgInt = Integer.parseInt(maxPg.getText().toString());
+        if (!pgE.getText().toString().isEmpty())
+            pg = Integer.parseInt(pgE.getText().toString());
+        if (!curativeEfforts.getText().toString().isEmpty())
+            curEff = Integer.parseInt(curativeEfforts.getText().toString());
+        if (!maxCurativeEfforts.getText().toString().isEmpty())
+            mCurEff = Integer.parseInt(maxCurativeEfforts.getText().toString());
+
         if(getIntent().getExtras().getBoolean("first_time")) {
-            if (!nameString.isEmpty() &&
+            if (
+                    !nameString.isEmpty() &&
                     !classString.isEmpty() &&
                     !raceString.isEmpty() &&
                     levelInt != 0 &&
-                    maxPgInt != 0) {
+                    maxPgInt != 0 &&
+                    pg != 0 &&
+                    curEff != 0 &&
+                    mCurEff != 0
+            ) {
                 //first save it all
                 ed.putString("playerName", nameString);
                 ed.putString("className", classString);
                 ed.putString("raceName", raceString);
-                if(p.getInt("pg", Integer.MIN_VALUE) == Integer.MIN_VALUE)
-                    ed.putInt("pg", maxPgInt);
                 ed.putInt("level", levelInt);
                 ed.putInt("maxPg", maxPgInt);
+                ed.putInt("pg", pg);
+                ed.putInt("maxCurativeEfforts", mCurEff);
+                ed.putInt("curativeEfforts", curEff);
                 ed.putBoolean("saved", true);
-                ed.apply();
-                return true;
             } else {
                 return false;
             }
         } else {
-            if(!nameString.isEmpty()) ed.putString("playerName", nameString);
-            if(!classString.isEmpty()) ed.putString("className", classString);
-            if(!raceString.isEmpty()) ed.putString("raceName", raceString);
-            if(levelInt != 0) ed.putInt("level", levelInt);
-            if(maxPgInt != 0) ed.putInt("maxPg", maxPgInt);
-            ed.apply();
-            return true;
+            if (!nameString.isEmpty()) ed.putString("playerName", nameString);
+            if (!classString.isEmpty()) ed.putString("className", classString);
+            if (!raceString.isEmpty()) ed.putString("raceName", raceString);
+            if (levelInt != 0)  ed.putInt("level", levelInt);
+            if (maxPgInt != 0)  ed.putInt("maxPg", maxPgInt);
+            if (pg != 0)        ed.putInt("pg", pg);
+            if (mCurEff != 0)   ed.putInt("maxCurativeEfforts", mCurEff);
+            if (curEff != 0)    ed.putInt("curativeEfforts", curEff);
         }
+        ed.apply();
+        return true;
     }
 }

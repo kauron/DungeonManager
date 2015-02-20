@@ -60,6 +60,8 @@ public class Player {
     }
 
 
+    public int getMaxCurativeEfforts() {return maxCurativeEfforts;}
+
     public int getCurativeEfforts() {return curativeEfforts;}
     public void setCurativeEffort(int curativeEfforts) {this.curativeEfforts = curativeEfforts;}
 

@@ -23,12 +23,13 @@
         android:layout_alignParentTop="true"
         android:layout_toLeftOf="@+id/pgCurrent"
         android:layout_toStartOf="@+id/pgCurrent"
-        android:id="@+id/linearLayout">
+        android:id="@+id/linearLayout"
+        android:layout_alignBottom="@+id/pgCurrent">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="@string/adventurer_name"
             android:id="@+id/nameText"
             android:layout_alignParentTop="true"
@@ -38,7 +39,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="@string/race_name"
             android:id="@+id/raceText"
             android:layout_alignTop="@+id/classText"
@@ -49,7 +50,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="@string/class_name"
             android:id="@+id/classText"
             android:layout_below="@+id/nameText"
@@ -59,7 +60,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="@string/level"
             android:id="@+id/lvlText"
             android:layout_alignParentBottom="false"
@@ -71,7 +72,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             android:id="@+id/lvl"
             android:layout_alignParentBottom="false"
             android:layout_toRightOf="@+id/lvlText"

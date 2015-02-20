@@ -23,10 +23,10 @@
         android:inputType="textPersonName"
         android:ems="10"
         android:id="@+id/editRaceIntro"
-        android:layout_below="@+id/editClassIntro"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:hint="@string/race_name" />
+        android:hint="@string/race_name"
+        android:layout_below="@+id/editNameIntro"
+        android:layout_toRightOf="@+id/editClassIntro"
+        android:layout_toEndOf="@+id/editClassIntro" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -46,12 +46,10 @@
         android:ems="10"
         android:id="@+id/editLevelIntro"
         android:hint="@string/level"
-        android:width="70dp"
         android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignLeft="@+id/editMaxPgIntro"
-        android:layout_alignStart="@+id/editMaxPgIntro" />
+        android:layout_toRightOf="@+id/editNameIntro"
+        android:layout_alignRight="@+id/editRaceIntro"
+        android:layout_alignEnd="@+id/editRaceIntro" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -59,10 +57,13 @@
         android:inputType="number"
         android:ems="10"
         android:id="@+id/editMaxPgIntro"
-        android:layout_below="@+id/editLevelIntro"
         android:hint="@string/max_pg"
-        android:layout_alignLeft="@+id/editMaxEffortIntro"
-        android:layout_alignStart="@+id/editMaxEffortIntro" />
+        android:width="70dp"
+        android:layout_below="@+id/editClassIntro"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@+id/editMaxEffortIntro"
+        android:layout_toStartOf="@+id/editMaxEffortIntro" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -70,8 +71,33 @@
         android:inputType="number"
         android:ems="10"
         android:id="@+id/editMaxEffortIntro"
-        android:layout_alignTop="@+id/editRaceIntro"
-        android:layout_toEndOf="@+id/editRaceIntro"
         android:hint="@string/max_curative_efforts"
-        android:layout_toRightOf="@+id/editRaceIntro" />
+        android:layout_below="@+id/editRaceIntro"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/editPgIntro"
+        android:width="70dp"
+        android:hint="@string/pg"
+        android:layout_below="@+id/editMaxPgIntro"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@+id/editEffortIntro"
+        android:layout_toStartOf="@+id/editEffortIntro" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/editEffortIntro"
+        android:layout_below="@+id/editMaxEffortIntro"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:hint="@string/curative_efforts" />
 </RelativeLayout>

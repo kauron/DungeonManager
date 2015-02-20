@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -63,6 +64,7 @@ public class MainActivity extends ActionBarActivity
             showHealthDialog();
             return true;
         } else if (id == R.id.action_edit_basics) {
+            //TODO: try this startChildActivity()
             SharedPreferences p = getSharedPreferences("basics", MODE_PRIVATE);
             Intent intent = new Intent(this, Introduction.class);
             startActivity(intent.putExtra(
@@ -101,6 +103,33 @@ public class MainActivity extends ActionBarActivity
     public void showHealthDialog(){
         DialogFragment dialog = HealthDialogFragment.newInstance(player.getCurativeEfforts());
         dialog.show(getFragmentManager(), "HealthDialogFragment");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.e("UTIL", "pause");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.e("UTIL", "resume");
+        restoreData();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.e("UTIL", "stop");
+        saveData();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        saveData();
+        Log.e("UTIL", "destroy");
     }
 
     @Override
@@ -182,19 +211,23 @@ public class MainActivity extends ActionBarActivity
     private void restoreData(){
         SharedPreferences p = getSharedPreferences("basics", MODE_PRIVATE);
         //restore state
-        player = new Player(
-                p.getString("playerName", getString(R.string.adventurer_name)),
-                p.getString("className", getString(R.string.class_name)),
-                p.getString("raceName", getString(R.string.race_name)),
-                p.getInt("level", 1),
-                p.getInt("maxPg", 15),
-                p.getInt("pg", 15),
-                p.getInt("maxCurativeEfforts", 5),
-                p.getInt("curativeEfforts", 5),
-                new int[6],
-                new int[3],
-                new int[18],
-                new Power[4]);
+        if(player == null) {
+            player = new Player(
+                    p.getString("playerName", getString(R.string.adventurer_name)),
+                    p.getString("className", getString(R.string.class_name)),
+                    p.getString("raceName", getString(R.string.race_name)),
+                    p.getInt("level", 1),
+                    p.getInt("maxPg", 15),
+                    p.getInt("pg", 15),
+                    p.getInt("maxCurativeEfforts", 5),
+                    p.getInt("curativeEfforts", 5),
+                    new int[6],
+                    new int[3],
+                    new int[18],
+                    new Power[4]);
+        } else {
+
+        }
         //set restored values to the respective fields
         ((TextView) findViewById(R.id.nameText)).setText(player.getName());
         ((TextView) findViewById(R.id.raceText)).setText(player.getRaceName());
@@ -204,6 +237,15 @@ public class MainActivity extends ActionBarActivity
     }
 
     private void saveData() {
-
+        getSharedPreferences("basics", MODE_PRIVATE).edit()
+                .putString("playerName", player.getName())
+                .putString("className", player.getClassName())
+                .putString("raceName", player.getRaceName())
+                .putInt("level", player.getLevel())
+                .putInt("maxPg", player.getMaxPg())
+                .putInt("pg", player.getPg())
+                .putInt("maxCurativeEfforts", player.getMaxCurativeEfforts())
+                .putInt("curativeEfforts", player.getCurativeEfforts())
+                .apply();
     }
 }

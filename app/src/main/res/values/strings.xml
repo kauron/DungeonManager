@@ -4,6 +4,8 @@
     <string name="app_name" translatable="false">DungeonManager</string>
     <string name="action_cure">Cure</string>
     <string name="action_undo">Undo</string>
+    <string name="pg">PG</string>
+    <string name="curative_efforts">Curative efforts</string>
     <string name="dungeons_and_dragons">Dungeons and Dragons</string>
     <string name="action_save">Save</string>
     <string name="action_calendar_activity">Create event</string>
@@ -26,7 +28,7 @@
     <string name="action_finish">Done</string>
 
     <string name="level">Level</string>
-    <string name="max_curative_efforts">Curative efforts</string>
+    <string name="max_curative_efforts">Max curative efforts</string>
     <string name="max_pg">Max PG</string>
     <string name="missing_info_error">You need to fill all the information</string>
     <string name="no_curative_efforts_error">You don\'t have any curative efforts left!</string>
