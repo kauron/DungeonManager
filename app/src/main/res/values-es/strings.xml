@@ -29,4 +29,7 @@
     <string name="action_save">Guardar</string>
     <string name="action_undo_current_pg">Acción deshecha</string>
     <string name="dungeons_and_dragons">Dragones y Mazmorras</string>
+    <string name="action_load">Cargar</string>
+    <string name="curative_efforts">Esfuerzos curativos</string>
+    <string name="pg">PG</string>
 </resources>

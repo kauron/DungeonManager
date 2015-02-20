@@ -6,6 +6,10 @@
     <string name="action_undo">Undo</string>
     <string name="pg">PG</string>
     <string name="curative_efforts">Curative efforts</string>
+    <string name="curative_display_text1">You have</string>
+    <string name="curative_display_text2">out of</string>
+    <string name="curative_display_text3">daily curative efforts.</string>
+    <string name="action_load">Load</string>
     <string name="dungeons_and_dragons">Dungeons and Dragons</string>
     <string name="action_save">Save</string>
     <string name="action_calendar_activity">Create event</string>
@@ -21,6 +25,7 @@
     <string name="no">No</string>
 
     <string name="edit_PG_Title">Suffer damage</string>
+    <string name="message_death">Your character has died</string>
     <string name="new_energies1">You have</string>
     <string name="new_energies2">curative efforts</string>
     <string name="new_energies_title">Use a curative effort?</string>

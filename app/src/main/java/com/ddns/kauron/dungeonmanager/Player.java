@@ -80,7 +80,7 @@ public class Player {
         if(recovered == USE_CURATIVE_EFFORT){
             if(uses && curativeEfforts <= 0) return NOT_CURED;
             else {
-                if(uses) curativeEfforts--;
+                if(uses && pg < maxPg) curativeEfforts--;
                 pg += maxPg / 4;
             }
         } else {

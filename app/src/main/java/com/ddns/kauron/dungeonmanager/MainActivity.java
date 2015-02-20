@@ -95,6 +95,8 @@ public class MainActivity extends ActionBarActivity
             startActivity(intent);
         } else if (id == R.id.action_save) {
             saveData();
+        } else if (id == R.id.action_load) {
+            restoreData();
         }
 
         return super.onOptionsItemSelected(item);
@@ -122,7 +124,6 @@ public class MainActivity extends ActionBarActivity
     protected void onStop() {
         super.onStop();
         Log.e("UTIL", "stop");
-        saveData();
     }
 
     @Override
@@ -149,6 +150,13 @@ public class MainActivity extends ActionBarActivity
                         Toast.LENGTH_LONG
                 ).show();
             }
+            ((TextView) findViewById(R.id.curativeEffortsText)).setText(
+                    getString(R.string.curative_display_text1) + " " +
+                    player.getCurativeEfforts() + " " +
+                    getString(R.string.curative_display_text2) + " " +
+                    player.getMaxCurativeEfforts() + " " +
+                    getString(R.string.curative_display_text3)
+            );
             healthStatusCheck();
         }
     }
@@ -161,7 +169,6 @@ public class MainActivity extends ActionBarActivity
         final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_NUMBER);
         input.setHint(R.string.suffer_damage_hint);
-
 
         alert.setView(input);
 
@@ -199,7 +206,13 @@ public class MainActivity extends ActionBarActivity
         Button pg = (Button) findViewById(R.id.pgCurrent);
         pg.setText(String.valueOf(player.getPg()));
         if (status == Player.MUERTO) {
-            pg.setText("");
+            pg.setTextColor(Color.BLACK);
+            pg.setBackgroundColor(Color.RED);
+            Toast.makeText(
+                    getApplicationContext(),
+                    R.string.message_death,
+                    Toast.LENGTH_LONG
+            ).show();
         } else if (status == Player.DEBILITADO)
             pg.setTextColor(Color.RED);
         else if (status == Player.MALHERIDO)
@@ -233,7 +246,7 @@ public class MainActivity extends ActionBarActivity
         ((TextView) findViewById(R.id.raceText)).setText(player.getRaceName());
         ((TextView) findViewById(R.id.classText)).setText(player.getClassName());
         ((TextView) findViewById(R.id.lvl)).setText(String.valueOf(player.getLevel()));
-        ((Button) findViewById(R.id.pgCurrent)).setText(String.valueOf(player.getMaxPg()));
+        ((Button) findViewById(R.id.pgCurrent)).setText(String.valueOf(player.getPg()));
     }
 
     private void saveData() {

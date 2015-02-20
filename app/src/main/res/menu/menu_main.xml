@@ -14,21 +14,25 @@
         app:showAsAction="always"
         android:icon="@drawable/ic_action_heal"/>
     <item
+        android:id="@+id/action_load"
+        android:title="@string/action_load"
+        android:orderInCategory="10"
+        app:showAsAction="never"/>
+    <item
         android:id="@+id/action_save"
         android:title="@string/action_save"
-        android:orderInCategory="3"
-        app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_action_save"/>
+        android:orderInCategory="11"
+        app:showAsAction="never"/>
     <item
         android:id="@+id/action_edit_basics"
         android:title="@string/action_edit_basics"
-        android:orderInCategory="4"
+        android:orderInCategory="20"
         app:showAsAction="ifRoom"
         android:icon="@drawable/ic_action_edit"/>
     <item
         android:id="@+id/action_calendar_activity"
         android:title="@string/action_calendar_activity"
-        android:orderInCategory="5"
+        android:orderInCategory="30"
         app:showAsAction="never" />
 
 </menu>
