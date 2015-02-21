@@ -34,7 +34,7 @@ public class Introduction extends ActionBarActivity {
 
         classSpinner = (Spinner) findViewById(R.id.classSpinner);
         classSpinner.setAdapter(
-                new ArrayAdapter<String>(
+                new ArrayAdapter<>(
                         this,
                         android.R.layout.simple_spinner_dropdown_item,
                         Player.classStrings
@@ -43,7 +43,7 @@ public class Introduction extends ActionBarActivity {
 
         raceSpinner = (Spinner) findViewById(R.id.raceSpinner);
         raceSpinner.setAdapter(
-                new ArrayAdapter<String>(
+                new ArrayAdapter<>(
                         this,
                         android.R.layout.simple_spinner_dropdown_item,
                         Player.raceStrings

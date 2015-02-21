@@ -13,7 +13,7 @@
     <string name="missing_info_error">Tienes que rellenar todos los campos</string>
     <string name="new_energies1">Te quedan</string>
     <string name="new_energies2">esfuerzos curativos.</string>
-    <string name="new_energies_title">¿Usar un esfuerzo curativo?</string>
+    <string name="new_energies">Nuevas energías</string>
     <string name="no">No</string>
     <string name="no_curative_efforts_error">No te quedan esfuerzos curativos</string>
     <string name="ok">Ok</string>
@@ -31,7 +31,7 @@
     <string name="curative_efforts">Esfuerzos curativos</string>
     <string name="pg">PG</string>
     <string name="action_reset">Borrar datos</string>
-    <string name="curative_display_text1">Tienes</string>
+    <string name="curative_display_text1">Te quedan</string>
     <string name="curative_display_text2">de</string>
     <string name="curative_display_text3">esfuerzos curativos diarios</string>
     <string name="die">Morir</string>
@@ -40,9 +40,20 @@
     <string name="reset_confirmation">Todos los datos se perderán irrevocablemente</string>
     <string name="reset_confirmation_title">¿Estás seguro?</string>
     <string name="CAR">CAR</string>
-    <string name="CON" translatable="false">CON</string>
-    <string name="DES" translatable="false">DES</string>
-    <string name="FUE" translatable="false">FUE</string>
-    <string name="INT" translatable="false">INT</string>
-    <string name="SAB" translatable="false">SAB</string>
+    <string name="CON">CON</string>
+    <string name="DES">DES</string>
+    <string name="FUE">FUE</string>
+    <string name="INT">INT</string>
+    <string name="SAB">SAB</string>
+    <string name="state_changed_debilitado">Te has caído al suelo debilitado, no puedes moverte ni hacer nada.</string>
+    <string name="state_changed_malherido">¡Sólo tienes la mitad de la vida!</string>
+    <string name="new_energies_message">¿Quién va a usar un esfuerzo curativo?</string>
+    <string name="me">Yo</string>
+    <string name="other">Otro</string>
+    <string name="attack">Ataque</string>
+    <string name="defense">Defensa</string>
+    <string name="CA">CA</string>
+    <string name="FORT">FORT</string>
+    <string name="REF">REF</string>
+    <string name="VOL">VOL</string>
 </resources>

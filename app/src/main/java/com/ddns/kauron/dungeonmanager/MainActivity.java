@@ -211,6 +211,7 @@ public class MainActivity extends ActionBarActivity
 
     private void healthStatusCheck() {
         int status = player.getState();
+        int lastState = player.getLastState();
         Button pg = (Button) findViewById(R.id.pgCurrent);
         pg.setText(String.valueOf(player.getPg()));
         if (status == Player.MUERTO) {
@@ -242,9 +243,23 @@ public class MainActivity extends ActionBarActivity
         } else if (status == Player.DEBILITADO) {
             pg.setBackgroundColor(android.R.drawable.btn_default);
             pg.setTextColor(Color.RED);
+            if(lastState != Player.SAME) {
+                Toast.makeText(
+                        getApplicationContext(),
+                        R.string.state_changed_debilitado,
+                        Toast.LENGTH_LONG
+                ).show();
+            }
         } else if (status == Player.MALHERIDO) {
             pg.setBackgroundColor(android.R.drawable.btn_default);
             pg.setTextColor(Color.YELLOW);
+            if(lastState != Player.SAME) {
+                Toast.makeText(
+                        getApplicationContext(),
+                        R.string.state_changed_malherido,
+                        Toast.LENGTH_LONG
+                ).show();
+            }
         } else {
             pg.setTextColor(getResources().getColor(
                     R.color.abc_primary_text_material_dark
@@ -278,7 +293,6 @@ public class MainActivity extends ActionBarActivity
                             p.getInt("sab", 10),
                             p.getInt("car", 10),
                     },
-                    new int[3],
                     new int[18],
                     new Power[4]);
         } else {
@@ -305,6 +319,7 @@ public class MainActivity extends ActionBarActivity
 
         ((Button) findViewById(R.id.pgCurrent)).setText(String.valueOf(player.getPg()));
 
+        //attacks
         ((TextView) findViewById(R.id.FUE)).setText(
                 getString(R.string.FUE) + ": " + player.getFue()
         );
@@ -322,6 +337,20 @@ public class MainActivity extends ActionBarActivity
         );
         ((TextView) findViewById(R.id.CAR)).setText(
                 getString(R.string.CAR) + ": " + player.getCar()
+        );
+
+        //defenses
+        ((TextView) findViewById(R.id.CA)).setText(
+                getString(R.string.CA) + ": " + player.getCa()
+        );
+        ((TextView) findViewById(R.id.FORT)).setText(
+                getString(R.string.FORT) + ": " + player.getFort()
+        );
+        ((TextView) findViewById(R.id.REF)).setText(
+                getString(R.string.REF) + ": " + player.getRef()
+        );
+        ((TextView) findViewById(R.id.VOL)).setText(
+                getString(R.string.VOL) + ": " + player.getVol()
         );
 
 

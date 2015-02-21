@@ -39,18 +39,15 @@ public class HealthDialogFragment extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        String message = getString(R.string.new_energies1) +
-                " " + getArguments().getInt("curativeEfforts") + " " +
-                getString(R.string.new_energies2);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage(message)
-                .setTitle(R.string.new_energies_title)
-                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+        builder.setMessage(R.string.new_energies_message)
+                .setTitle(R.string.new_energies)
+                .setPositiveButton(R.string.me, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         mListener.heal(HealthDialogFragment.this, true);
                     }
                 })
-                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.other, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         mListener.heal(HealthDialogFragment.this, false);

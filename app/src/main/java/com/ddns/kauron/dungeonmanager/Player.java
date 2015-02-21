@@ -27,8 +27,9 @@ public class Player {
     /**
      * Values for defenses
      */
-    public static final int CA = 1, FORT = 2, REF = 3, VOL = 4;
+    public static final int CA = 0, FORT = 1, REF = 2, VOL = 3;
 
+    //TODO: develop abilities
     /**
      * Values for abilities
      */
@@ -48,11 +49,11 @@ public class Player {
     /**
      * Values for the current living state
      */
-    public static final int OK = 1, MALHERIDO = 2, DEBILITADO = 3, MUERTO = 4,
+    public static final int OK = 1, MALHERIDO = 2, DEBILITADO = 3, MUERTO = 4, SAME = 5,
             USE_CURATIVE_EFFORT = -1, CURED = 1, NOT_CURED = 0, MAXED = -1;
 
     private int pg, maxPg;
-    private int state;
+    private int state, lastState;
     private int curativeEfforts, maxCurativeEfforts;
     //TODO: convert race and class to integer values
     private int classInt, raceInt;
@@ -64,17 +65,17 @@ public class Player {
 
     public Player(
             String name, String className, String raceName,
-            int level, int[] atk, int[] def, int[] abilities,
+            int level, int[] atk, int[] abilities,
             Power[] powers
     ){
         this.name = name;
+        this.level = level;
+        this.raceName = raceName;
         this.className = className;
+        this.def = new int[4];
         setAtk(atk);
         setState();
 
-        this.raceName = raceName;
-        this.level = level;
-        this.def = def;
         this.abilities = abilities;
         this.powers = powers;
     }
@@ -104,14 +105,14 @@ public class Player {
             else {
                 if(uses && pg < maxPg) curativeEfforts--;
                 if (pg < 0) {
-
+                    pg = 0;
                 } else {
                     pg += maxPg / 4;
                 }
             }
         } else {
             if (pg < 0) {
-
+                pg = 0;
             } else {
                 pg += recovered;
             }
@@ -123,11 +124,13 @@ public class Player {
         return CURED;
     }
 
+    public int getLastState() {return lastState == state ? SAME : lastState;}
     public int getState() {return state;}
     private void setState() {
-        if (pg < maxPg / -2) state = MUERTO;
-        else if (pg < 0) state = DEBILITADO;
-        else if(pg < maxPg / 2) state = MALHERIDO;
+        lastState = state;
+        if (pg <= maxPg / -2) state = MUERTO;
+        else if (pg <= 0) state = DEBILITADO;
+        else if(pg <= maxPg / 2) state = MALHERIDO;
         else state = OK;
     }
 
@@ -143,6 +146,7 @@ public class Player {
     public String getRaceName() {return raceName;}
     public void setRaceName(String raceName) {this.raceName = raceName;}
 
+    //TODO: implement time in the app
     public void rest(boolean length) {
         if(length) {
             curativeEfforts = maxCurativeEfforts;
@@ -160,24 +164,37 @@ public class Player {
     public int getCar() {return atk[CAR];}
     public int getDes() {return atk[DES];}
     public int getInt() {return atk[INT];}
+    public int getCa() {return def[CA];}
+    public int getFort() {return def[FORT];}
+    public int getRef() {return def[REF];}
+    public int getVol() {return def[VOL];}
 
+    //TODO: set the pg level dependant
     public void setClass() {
+        int pgExtra = 0, curativeEffortsExtra = 0, defCA = 0, defFORT = 0, defVOL = 0, defREF = 0;
         if(className.equals(classStrings[1])){
             //Ardiente
         } else if (className.equals(classStrings[2])) {
             //Brujo
             //TODO: Kauron
-            pg = maxPg = 12 + atk[CON];
-            curativeEfforts = maxCurativeEfforts = 6 + Player.getModifier(atk[CON]);
-            return; //TODO: temporal
+            pgExtra = 12;
+            curativeEffortsExtra = 6;
+            defVOL = defREF = 1;
         } else if (className.equals(classStrings[3])) {
             //Buscador
         } else if (className.equals(classStrings[4])) {
             //Clérigo
             //TODO: Gárafran
+            pgExtra = 12;
+            curativeEffortsExtra = 7;
+            defVOL = 2;
         } else if (className.equals(classStrings[5])) {
             //Explorador
             //TODO: Aria Saferi
+            pgExtra = 12;
+            curativeEffortsExtra= 6;
+            defFORT = 1;
+            defREF = 1;
         } else if (className.equals(classStrings[6])) {
             //Guerrero
         } else if (className.equals(classStrings[7])) {
@@ -189,6 +206,9 @@ public class Player {
         } else if (className.equals(classStrings[10])) {
             //Paladín
             //TODO: Ceaelynna
+            pgExtra = 15;
+            curativeEffortsExtra = 10;
+            defFORT = defREF = defVOL = 1;
         } else if (className.equals(classStrings[11])) {
             //Pícaro
         } else if (className.equals(classStrings[12])) {
@@ -198,9 +218,16 @@ public class Player {
         } else {
             //Señor de la Guerra
             //TODO: Mushu
+            pgExtra = 12;
+            curativeEffortsExtra = 7;
+            defVOL = 2;
         }
-        pg = maxPg = 15;
-        curativeEfforts = maxCurativeEfforts = 15;
+        pg = maxPg = atk[CON] + pgExtra;
+        curativeEfforts = maxCurativeEfforts = Player.getModifier(atk[CON]) + curativeEffortsExtra;
+        def[CA] = 10 + level / 2 + Player.getModifier(Math.max(atk[CON], atk[FUE])) + defCA;
+        def[FORT] = 10 + level / 2 + Player.getModifier(Math.max(atk[CON], atk[FUE])) + defFORT;
+        def[REF] = 10 + level / 2 + Player.getModifier(Math.max(atk[DES], atk[INT])) + defREF;
+        def[VOL] = 10 + level / 2 + Player.getModifier(Math.max(atk[CAR], atk[SAB])) + defVOL;
     }
 
     public static int getModifier(int i) {
