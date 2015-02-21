@@ -97,4 +97,78 @@
             android:id="@+id/curativeEffortsText"/>
     </LinearLayout>
 
+    <GridLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/curativeEffortsContainer"
+        android:id="@+id/thirdLayout"
+        android:columnCount="3">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:typeface="monospace"
+            android:ems="4"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:id="@+id/FUE"
+            android:hint="@string/FUE" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:typeface="monospace"
+            android:ems="4"
+            android:layout_row="1"
+            android:layout_column="0"
+            android:id="@+id/CON"
+            android:hint="@string/CON" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:typeface="monospace"
+            android:ems="4"
+            android:layout_row="0"
+            android:layout_column="1"
+            android:id="@+id/DES"
+            android:hint="@string/DES" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:typeface="monospace"
+            android:ems="4"
+            android:layout_row="1"
+            android:layout_column="1"
+            android:id="@+id/INT"
+            android:hint="@string/INT" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:typeface="monospace"
+            android:ems="4"
+            android:layout_row="0"
+            android:layout_column="2"
+            android:id="@+id/SAB"
+            android:hint="@string/SAB" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:typeface="monospace"
+            android:ems="4"
+            android:layout_row="1"
+            android:layout_column="2"
+            android:id="@+id/CAR"
+            android:hint="@string/CAR" />
+    </GridLayout>
+
+
 </RelativeLayout>

@@ -124,6 +124,7 @@ public class MainActivity extends ActionBarActivity
         super.onResume();
         Log.e("UTIL", "resume");
         restoreData();
+        healthStatusCheck();
         updateCurativeString();
     }
 
@@ -249,17 +250,27 @@ public class MainActivity extends ActionBarActivity
     private void restoreData(){
         SharedPreferences p = getSharedPreferences("basics", MODE_PRIVATE);
         //restore state
+        if (!p.getBoolean("saved", false)) {
+            Intent intent = new Intent(this, Introduction.class);
+            startActivity(intent.putExtra(
+                    "first_time",
+                    !p.getBoolean("saved", false)
+            ));
+        }
         if(player == null) {
             player = new Player(
                     p.getString("playerName", getString(R.string.adventurer_name)),
                     p.getString("className", getString(R.string.class_name)),
                     p.getString("raceName", getString(R.string.race_name)),
                     p.getInt("level", 1),
-                    p.getInt("maxPg", 15),
-                    p.getInt("pg", 15),
-                    p.getInt("maxCurativeEfforts", 5),
-                    p.getInt("curativeEfforts", 5),
-                    new int[6],
+                    new int[] {
+                            p.getInt("fue", 10),
+                            p.getInt("con", 10),
+                            p.getInt("des", 10),
+                            p.getInt("int", 10),
+                            p.getInt("sab", 10),
+                            p.getInt("car", 10),
+                    },
                     new int[3],
                     new int[18],
                     new Power[4]);
@@ -280,14 +291,33 @@ public class MainActivity extends ActionBarActivity
         ((TextView) findViewById(R.id.raceText)).setText(player.getRaceName());
         ((TextView) findViewById(R.id.classText)).setText(player.getClassName());
         ((TextView) findViewById(R.id.lvl)).setText(String.valueOf(player.getLevel()));
+
         ((Button) findViewById(R.id.pgCurrent)).setText(String.valueOf(player.getPg()));
+
+        ((TextView) findViewById(R.id.FUE)).setText(
+                getString(R.string.FUE) + ": " + player.getFue()
+        );
+        ((TextView) findViewById(R.id.CON)).setText(
+                getString(R.string.CON) + ": " + player.getCon()
+        );
+        ((TextView) findViewById(R.id.DES)).setText(
+                getString(R.string.DES) + ": " + player.getDes()
+        );
+        ((TextView) findViewById(R.id.INT)).setText(
+                getString(R.string.INT) + ": " + player.getInt()
+        );
+        ((TextView) findViewById(R.id.SAB)).setText(
+                getString(R.string.SAB) + ": " + player.getSab()
+        );
+        ((TextView) findViewById(R.id.CAR)).setText(
+                getString(R.string.CAR) + ": " + player.getCar()
+        );
+
+
     }
 
     private void saveData() {
         getSharedPreferences("basics", MODE_PRIVATE).edit()
-                .putString("playerName", player.getName())
-                .putString("className", player.getClassName())
-                .putString("raceName", player.getRaceName())
                 .putInt("level", player.getLevel())
                 .putInt("maxPg", player.getMaxPg())
                 .putInt("pg", player.getPg())

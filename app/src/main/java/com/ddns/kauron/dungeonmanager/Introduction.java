@@ -13,7 +13,8 @@ import android.widget.Toast;
 
 public class Introduction extends ActionBarActivity {
 
-    EditText name, className, raceName, level, maxPg, curativeEfforts, maxCurativeEfforts, pgE;
+    EditText name, level;
+    EditText fue, con, des, sab, intel, car;
     Spinner classSpinner, raceSpinner;
 
     @Override
@@ -22,19 +23,20 @@ public class Introduction extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_introduction);
         name = (EditText) findViewById(R.id.editNameIntro);
-        className = (EditText) findViewById(R.id.editClassIntro);
-        raceName = (EditText) findViewById(R.id.editRaceIntro);
         level = (EditText) findViewById(R.id.editLevelIntro);
-        maxPg = (EditText) findViewById(R.id.editMaxPgIntro);
-        curativeEfforts = (EditText) findViewById(R.id.editEffortIntro);
-        maxCurativeEfforts = (EditText) findViewById(R.id.editMaxEffortIntro);
-        pgE = (EditText) findViewById(R.id.editPgIntro);
+
+        fue = (EditText) findViewById(R.id.FUE);
+        con = (EditText) findViewById(R.id.CON);
+        des = (EditText) findViewById(R.id.DES);
+        sab = (EditText) findViewById(R.id.SAB);
+        intel = (EditText) findViewById(R.id.INT);
+        car = (EditText) findViewById(R.id.CAR);
 
         classSpinner = (Spinner) findViewById(R.id.classSpinner);
         classSpinner.setAdapter(
                 new ArrayAdapter<String>(
                         this,
-                        android.R.layout.simple_spinner_item,
+                        android.R.layout.simple_spinner_dropdown_item,
                         Player.classStrings
                 )
         );
@@ -43,7 +45,7 @@ public class Introduction extends ActionBarActivity {
         raceSpinner.setAdapter(
                 new ArrayAdapter<String>(
                         this,
-                        android.R.layout.simple_spinner_item,
+                        android.R.layout.simple_spinner_dropdown_item,
                         Player.raceStrings
                 )
         );
@@ -85,43 +87,54 @@ public class Introduction extends ActionBarActivity {
     private boolean finished() {
         SharedPreferences p = getSharedPreferences("basics", MODE_PRIVATE);
         SharedPreferences.Editor ed = p.edit();
-
         String nameString = name.getText().toString();
-        String classString = className.getText().toString();
-        String raceString = raceName.getText().toString();
+        String classString = Player.classStrings[classSpinner.getSelectedItemPosition()];
+        String raceString = Player.raceStrings[raceSpinner.getSelectedItemPosition()];
 
-        int levelInt = 0, maxPgInt = 0, pg = 0, curEff = 0, mCurEff = 0;
+        int levelInt = 0;
         if (!level.getText().toString().isEmpty())
             levelInt = Integer.parseInt(level.getText().toString());
-        if (!maxPg.getText().toString().isEmpty())
-            maxPgInt = Integer.parseInt(maxPg.getText().toString());
-        if (!pgE.getText().toString().isEmpty())
-            pg = Integer.parseInt(pgE.getText().toString());
-        if (!curativeEfforts.getText().toString().isEmpty())
-            curEff = Integer.parseInt(curativeEfforts.getText().toString());
-        if (!maxCurativeEfforts.getText().toString().isEmpty())
-            mCurEff = Integer.parseInt(maxCurativeEfforts.getText().toString());
+
+        int fue = 0, con = 0, des = 0, intel = 0, sab = 0, car = 0;
+        if (!this.car.getText().toString().isEmpty())
+            car = Integer.parseInt(this.car.getText().toString());
+        if (!this.fue.getText().toString().isEmpty())
+            fue = Integer.parseInt(this.fue.getText().toString());
+        if (!this.con.getText().toString().isEmpty())
+            con = Integer.parseInt(this.con.getText().toString());
+        if (!this.des.getText().toString().isEmpty())
+            des = Integer.parseInt(this.des.getText().toString());
+        if (!this.intel.getText().toString().isEmpty())
+            intel = Integer.parseInt(this.intel.getText().toString());
+        if (!this.sab.getText().toString().isEmpty())
+            sab = Integer.parseInt(this.sab.getText().toString());
 
         if(getIntent().getExtras().getBoolean("first_time")) {
             if (
                     !nameString.isEmpty() &&
-                    !classString.isEmpty() &&
-                    !raceString.isEmpty() &&
+                    !classString.equals(Player.classStrings[0]) &&
+                    !raceString.equals(Player.raceStrings[0]) &&
                     levelInt != 0 &&
-                    maxPgInt != 0 &&
-                    pg != 0 &&
-                    curEff != 0 &&
-                    mCurEff != 0
+                    car != 0 &&
+                    fue != 0 &&
+                    con != 0 &&
+                    des != 0 &&
+                    intel != 0 &&
+                    sab != 0
             ) {
                 //first save it all
                 ed.putString("playerName", nameString);
                 ed.putString("className", classString);
                 ed.putString("raceName", raceString);
                 ed.putInt("level", levelInt);
-                ed.putInt("maxPg", maxPgInt);
-                ed.putInt("pg", pg);
-                ed.putInt("maxCurativeEfforts", mCurEff);
-                ed.putInt("curativeEfforts", curEff);
+
+                ed.putInt("fue", fue);
+                ed.putInt("car", car);
+                ed.putInt("int", intel);
+                ed.putInt("sab", sab);
+                ed.putInt("con", con);
+                ed.putInt("des", des);
+
                 ed.putBoolean("saved", true);
             } else {
                 return false;
@@ -131,10 +144,13 @@ public class Introduction extends ActionBarActivity {
             if (!classString.isEmpty()) ed.putString("className", classString);
             if (!raceString.isEmpty()) ed.putString("raceName", raceString);
             if (levelInt != 0)  ed.putInt("level", levelInt);
-            if (maxPgInt != 0)  ed.putInt("maxPg", maxPgInt);
-            if (pg != 0)        ed.putInt("pg", pg);
-            if (mCurEff != 0)   ed.putInt("maxCurativeEfforts", mCurEff);
-            if (curEff != 0)    ed.putInt("curativeEfforts", curEff);
+
+            if (fue != 0)       ed.putInt("fue", fue);
+            if (car != 0)       ed.putInt("car", car);
+            if (intel != 0)     ed.putInt("int", intel);
+            if (sab != 0)       ed.putInt("sab", sab);
+            if (con != 0)       ed.putInt("con", con);
+            if (des != 0)       ed.putInt("des", des);
         }
         ed.apply();
         return true;

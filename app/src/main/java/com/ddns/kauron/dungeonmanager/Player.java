@@ -5,21 +5,24 @@ public class Player {
     /**
      * Names for the classes
      */
-    public static final String[] classStrings = new String[] {
-            "Selecciona una clase","Brujo", "Clérigo", "Señor de la guerra"
+    public static final String[] classStrings = {
+            "Clase", "Ardiente", "Brujo", "Buscador", "Clérigo", "Explorador",
+            "Guerrero", "Mago", "Mente de Batalla", "Monje", "Paladín", "Pícaro", "Psiónico",
+            "Sacerdote Rúnico", "Señor de la guerra"
     };
 
     /**
      * Names for the races
      */
     public static final String[] raceStrings = new String[] {
-            "Selecciona una raza", "Enano", "Elfo", "Tiflin", "Humano", "Mediano"
+            "Raza", "Dracónido", "Eladrín", "Elfo", "Enano", "Gitzherai", "Humanos", "Medianos",
+            "Mente del Fragmento", "Minotauro", "Salvaje", "Semielfo", "Tiflin"
     };
 
     /**
      * Values for attack
      */
-    public static final int FUE = 1, CON = 2, DES = 3, INT = 4, SAB = 5, CAR = 6;
+    public static final int FUE = 0, CON = 1, DES = 2, INT = 3, SAB = 4, CAR = 5;
 
     /**
      * Values for defenses
@@ -59,22 +62,58 @@ public class Player {
     private int[] atk, def, abilities;
     private Power[] powers;
 
-
-    public Player(String name, String className, String raceName, int level, int maxPg, int pg,
-                  int maxCurativeEfforts, int curativeEfforts, int[] atk, int[] def, int[] abilities, Power[] powers){
-        this.maxPg = maxPg;
-        this.pg = pg;
+    public Player(
+            String name, String className, String raceName,
+            int level, int[] atk, int[] def, int[] abilities,
+            Power[] powers
+    ) {
         setState();
         this.name = name;
         this.className = className;
+
+        if(className.equals(classStrings[1])){
+            //Ardiente
+        } else if (className.equals(classStrings[2])) {
+            //Brujo
+            //TODO: Kauron
+            maxPg = atk[CON] + 12;
+            maxCurativeEfforts = 6 + atk[CON];
+        } else if (className.equals(classStrings[3])) {
+            //Buscador
+        } else if (className.equals(classStrings[4])) {
+            //Clérigo
+            //TODO: Gárafran
+        } else if (className.equals(classStrings[5])) {
+            //Explorador
+            //TODO: Aria Saferi
+        } else if (className.equals(classStrings[6])) {
+            //Guerrero
+        } else if (className.equals(classStrings[7])) {
+            //Mago
+        } else if (className.equals(classStrings[8])) {
+            //Mente de Batalla
+        } else if (className.equals(classStrings[9])) {
+            //Monje
+        } else if (className.equals(classStrings[10])) {
+            //Paladín
+            //TODO: Ceaelynna
+        } else if (className.equals(classStrings[11])) {
+            //Pícaro
+        } else if (className.equals(classStrings[12])) {
+            //Psiónico
+        } else if (className.equals(classStrings[13])) {
+            //Sacerdote rúnico
+        } else {
+            //Señor de la Guerra
+            //TODO: Mushu
+        }
+
         this.raceName = raceName;
         this.level = level;
         this.atk = atk;
         this.def = def;
         this.abilities = abilities;
         this.powers = powers;
-        this.maxCurativeEfforts = maxCurativeEfforts;
-        this.curativeEfforts = curativeEfforts;
     }
 
 
@@ -101,10 +140,18 @@ public class Player {
             if(uses && curativeEfforts <= 0) return NOT_CURED;
             else {
                 if(uses && pg < maxPg) curativeEfforts--;
-                pg += maxPg / 4;
+                if (pg < 0) {
+
+                } else {
+                    pg += maxPg / 4;
+                }
             }
         } else {
-            pg += recovered;
+            if (pg < 0) {
+
+            } else {
+                pg += recovered;
+            }
         }
         setState();
 
@@ -138,4 +185,21 @@ public class Player {
             }
         }
     }
+
+    public void setAtk(int[] atk) {this.atk = atk;}
+    public int[] getAtk() {return atk;}
+
+    public void setFue(int fue) {atk[FUE] = fue;}
+    public void setCon(int con) {atk[CON] = con;}
+    public void setSab(int sab) {atk[SAB] = sab;}
+    public void setCar(int car) {atk[CAR] = car;}
+    public void setDes(int des) {atk[DES] = des;}
+    public void setInt(int intel) {atk[INT] = intel;}
+
+    public int getFue() {return atk[FUE];}
+    public int getCon() {return atk[CON];}
+    public int getSab() {return atk[SAB];}
+    public int getCar() {return atk[CAR];}
+    public int getDes() {return atk[DES];}
+    public int getInt() {return atk[INT];}
 }

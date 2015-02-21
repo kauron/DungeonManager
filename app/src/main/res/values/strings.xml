@@ -44,4 +44,11 @@
     <string name="maxed_curative">You have reached your maximum level of PG</string>
     <string name="suffer_damage">Input the damage suffered</string>
     <string name="suffer_damage_hint">PG lost</string>
+
+    <string name="FUE">FUE</string>
+    <string name="CON">CON</string>
+    <string name="DES">DES</string>
+    <string name="INT">INT</string>
+    <string name="CAR">CAR</string>
+    <string name="SAB">SAB</string>
 </resources>

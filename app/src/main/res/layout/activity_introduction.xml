@@ -6,114 +6,129 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.ddns.kauron.dungeonmanager.Introduction">
 
-    <EditText
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/editNameIntro"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:hint="@string/adventurer_name"/>
+        android:id="@+id/firstLayout"
+        android:orientation="horizontal">
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/editRaceIntro"
-        android:hint="@string/race_name"
-        android:layout_below="@+id/editNameIntro"
-        android:layout_toRightOf="@+id/editClassIntro"
-        android:layout_toEndOf="@+id/editClassIntro" />
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:layout_weight="0.5"
+            android:id="@+id/editNameIntro"
+            android:hint="@string/adventurer_name"/>
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/editClassIntro"
-        android:layout_below="@+id/editNameIntro"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:hint="@string/class_name" />
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:ems="10"
+            android:id="@+id/editLevelIntro"
+            android:hint="@string/level"
+            android:layout_weight="1"/>
+        </LinearLayout>
 
-    <EditText
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:id="@+id/editLevelIntro"
-        android:hint="@string/level"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/editNameIntro"
-        android:layout_alignRight="@+id/editRaceIntro"
-        android:layout_alignEnd="@+id/editRaceIntro" />
+        android:orientation="horizontal"
+        android:id="@+id/secondLayout"
+        android:layout_below="@+id/firstLayout">
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:id="@+id/editMaxPgIntro"
-        android:hint="@string/max_pg"
-        android:width="70dp"
-        android:layout_below="@+id/editClassIntro"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_toLeftOf="@+id/editMaxEffortIntro"
-        android:layout_toStartOf="@+id/editMaxEffortIntro" />
+            <Spinner
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/classSpinner"/>
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:id="@+id/editMaxEffortIntro"
-        android:hint="@string/max_curative_efforts"
-        android:layout_below="@+id/editRaceIntro"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+            <Spinner
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/raceSpinner"
+                android:layout_alignTop="@+id/classSpinner" />
+        </LinearLayout>
 
-    <EditText
-        android:layout_width="wrap_content"
+    <GridLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:id="@+id/editPgIntro"
-        android:width="70dp"
-        android:hint="@string/pg"
-        android:layout_below="@+id/editMaxPgIntro"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_toLeftOf="@+id/editEffortIntro"
-        android:layout_toStartOf="@+id/editEffortIntro" />
+        android:layout_below="@+id/secondLayout"
+        android:id="@+id/thirdLayout"
+        android:columnCount="3">
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:ems="3"
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:id="@+id/editEffortIntro"
-        android:layout_below="@+id/editMaxEffortIntro"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:hint="@string/curative_efforts" />
+                android:layout_row="0"
+                android:layout_column="0"
 
-    <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/classSpinner"
-        android:layout_below="@+id/editPgIntro"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+                android:id="@+id/FUE"
+                android:hint="@string/FUE" />
 
-    <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/raceSpinner"
-        android:layout_below="@+id/classSpinner"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:ems="3"
+
+                android:layout_row="1"
+                android:layout_column="0"
+
+                android:id="@+id/CON"
+                android:hint="@string/CON" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:ems="3"
+
+                android:layout_row="0"
+                android:layout_column="1"
+
+                android:id="@+id/DES"
+                android:hint="@string/DES" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:ems="3"
+
+                android:layout_row="1"
+                android:layout_column="1"
+
+                android:id="@+id/INT"
+                android:hint="@string/INT" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:ems="3"
+
+                android:layout_row="0"
+                android:layout_column="2"
+
+                android:id="@+id/SAB"
+                android:hint="@string/SAB" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:ems="3"
+
+                android:layout_row="1"
+                android:layout_column="2"
+
+                android:id="@+id/CAR"
+                android:hint="@string/CAR" />
+        </GridLayout>
+
 </RelativeLayout>
