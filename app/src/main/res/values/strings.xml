@@ -5,6 +5,7 @@
     <string name="action_cure">Cure</string>
     <string name="action_undo">Undo</string>
     <string name="pg">PG</string>
+    <string name="die">Die</string>
     <string name="curative_efforts">Curative efforts</string>
     <string name="curative_display_text1">You have</string>
     <string name="curative_display_text2">out of</string>
@@ -12,7 +13,10 @@
     <string name="action_load">Load</string>
     <string name="dungeons_and_dragons">Dungeons and Dragons</string>
     <string name="action_save">Save</string>
-    <string name="action_calendar_activity">Create event</string>
+    <string name="action_reset">Reset</string>
+    <string name="message_reset">All the data has been cleared</string>
+    <string name="reset_confirmation_title">Are you sure?</string>
+    <string name="reset_confirmation">All data will be lost!</string>
     <string name="action_undo_current_pg">Action undone</string>
     <string name="action_edit_basics">Edit character</string>
     <string name="adventurer_name">Adventurer name</string>

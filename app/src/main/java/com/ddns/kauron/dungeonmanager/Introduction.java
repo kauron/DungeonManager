@@ -5,13 +5,16 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 
 public class Introduction extends ActionBarActivity {
 
     EditText name, className, raceName, level, maxPg, curativeEfforts, maxCurativeEfforts, pgE;
+    Spinner classSpinner, raceSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +29,24 @@ public class Introduction extends ActionBarActivity {
         curativeEfforts = (EditText) findViewById(R.id.editEffortIntro);
         maxCurativeEfforts = (EditText) findViewById(R.id.editMaxEffortIntro);
         pgE = (EditText) findViewById(R.id.editPgIntro);
+
+        classSpinner = (Spinner) findViewById(R.id.classSpinner);
+        classSpinner.setAdapter(
+                new ArrayAdapter<String>(
+                        this,
+                        android.R.layout.simple_spinner_item,
+                        Player.classStrings
+                )
+        );
+
+        raceSpinner = (Spinner) findViewById(R.id.raceSpinner);
+        raceSpinner.setAdapter(
+                new ArrayAdapter<String>(
+                        this,
+                        android.R.layout.simple_spinner_item,
+                        Player.raceStrings
+                )
+        );
     }
 
 

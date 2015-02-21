@@ -30,8 +30,8 @@
         app:showAsAction="ifRoom"
         android:icon="@drawable/ic_action_edit"/>
     <item
-        android:id="@+id/action_calendar_activity"
-        android:title="@string/action_calendar_activity"
+        android:id="@+id/action_reset"
+        android:title="@string/action_reset"
         android:orderInCategory="30"
         app:showAsAction="never" />
 

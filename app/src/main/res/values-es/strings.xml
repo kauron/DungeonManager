@@ -32,4 +32,13 @@
     <string name="action_load">Cargar</string>
     <string name="curative_efforts">Esfuerzos curativos</string>
     <string name="pg">PG</string>
+    <string name="action_reset">Borrar datos</string>
+    <string name="curative_display_text1">Tienes</string>
+    <string name="curative_display_text2">de</string>
+    <string name="curative_display_text3">esfuerzos curativos diarios</string>
+    <string name="die">Morir</string>
+    <string name="message_death">Has muerto</string>
+    <string name="message_reset">Los datos han sido borrados</string>
+    <string name="reset_confirmation">Todos los datos se perderán irrevocablemente</string>
+    <string name="reset_confirmation_title">¿Estás seguro?</string>
 </resources>

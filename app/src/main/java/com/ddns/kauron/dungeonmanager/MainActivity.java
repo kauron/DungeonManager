@@ -32,7 +32,6 @@ public class MainActivity extends ActionBarActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        restoreData();
         undo = false;
         invalidateOptionsMenu();
     }
@@ -74,25 +73,32 @@ public class MainActivity extends ActionBarActivity
             restoreData();
             return true;
         } else if (id == R.id.action_undo) {
-            String message = "";
-            if(undoObject == CURRENT_PG){
-                ((Button) findViewById(R.id.pgCurrent)).setText(String.valueOf(undoPreviousValue));
-                undoObject = NULL;
-                message = getString(R.string.action_undo_current_pg);
-            }
-            Toast.makeText(
-                    getApplicationContext(),
-                    message,
-                    Toast.LENGTH_LONG
-            ).show();
-            undo = false;
-            invalidateOptionsMenu();
+            undo();
             return true;
-        } else if (id == R.id.action_calendar_activity) {
-            Intent intent = new Intent(Intent.ACTION_EDIT);
-            intent.setType("vnd.android.cursor.item/event");
-            intent.putExtra("title", R.string.dungeons_and_dragons);
-            startActivity(intent);
+        } else if (id == R.id.action_reset) {
+
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.setTitle(getString(R.string.reset_confirmation_title));
+            alert.setMessage(getString(R.string.reset_confirmation));
+            alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    Toast.makeText(
+                            getApplicationContext(),
+                            R.string.message_reset,
+                            Toast.LENGTH_LONG
+                    ).show();
+                    getSharedPreferences("basics", MODE_PRIVATE).edit().clear().apply();
+                    restoreData();
+                }
+            });
+
+            alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    // Canceled.
+                }
+            });
+
+            alert.show();
         } else if (id == R.id.action_save) {
             saveData();
         } else if (id == R.id.action_load) {
@@ -118,6 +124,7 @@ public class MainActivity extends ActionBarActivity
         super.onResume();
         Log.e("UTIL", "resume");
         restoreData();
+        updateCurativeString();
     }
 
     @Override
@@ -129,7 +136,6 @@ public class MainActivity extends ActionBarActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        saveData();
         Log.e("UTIL", "destroy");
     }
 
@@ -150,13 +156,7 @@ public class MainActivity extends ActionBarActivity
                         Toast.LENGTH_LONG
                 ).show();
             }
-            ((TextView) findViewById(R.id.curativeEffortsText)).setText(
-                    getString(R.string.curative_display_text1) + " " +
-                    player.getCurativeEfforts() + " " +
-                    getString(R.string.curative_display_text2) + " " +
-                    player.getMaxCurativeEfforts() + " " +
-                    getString(R.string.curative_display_text3)
-            );
+            updateCurativeString();
             healthStatusCheck();
         }
     }
@@ -183,10 +183,10 @@ public class MainActivity extends ActionBarActivity
                             String.valueOf(player.getPg())
                     );
                     //finished correctly, then apply values to undo's
-                    healthStatusCheck();
                     undo = true;
                     undoPreviousValue = preValue;
                     undoObject = CURRENT_PG;
+                    healthStatusCheck();
                     invalidateOptionsMenu();
                 } catch (Exception e) {}
             }
@@ -201,23 +201,48 @@ public class MainActivity extends ActionBarActivity
         alert.show();
     }
 
-    private void healthStatusCheck(){
+    private void healthStatusCheck() {
         int status = player.getState();
         Button pg = (Button) findViewById(R.id.pgCurrent);
         pg.setText(String.valueOf(player.getPg()));
         if (status == Player.MUERTO) {
             pg.setTextColor(Color.BLACK);
             pg.setBackgroundColor(Color.RED);
-            Toast.makeText(
-                    getApplicationContext(),
-                    R.string.message_death,
-                    Toast.LENGTH_LONG
-            ).show();
-        } else if (status == Player.DEBILITADO)
+
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.setTitle(getString(R.string.reset_confirmation_title));
+            alert.setMessage(getString(R.string.reset_confirmation));
+            alert.setPositiveButton(R.string.action_undo, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    undo();
+                }
+            });
+
+            alert.setNegativeButton(R.string.die, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    Toast.makeText(
+                            getApplicationContext(),
+                            R.string.message_death,
+                            Toast.LENGTH_LONG
+                    ).show();
+                    getSharedPreferences("basics", MODE_PRIVATE).edit().clear().apply();
+                    restoreData();
+                }
+            });
+
+            alert.show();
+        } else if (status == Player.DEBILITADO) {
+            pg.setBackgroundColor(android.R.drawable.btn_default);
             pg.setTextColor(Color.RED);
-        else if (status == Player.MALHERIDO)
+        } else if (status == Player.MALHERIDO) {
+            pg.setBackgroundColor(android.R.drawable.btn_default);
             pg.setTextColor(Color.YELLOW);
-        else pg.setTextColor(getResources().getColor(R.color.abc_primary_text_material_dark));
+        } else {
+            pg.setTextColor(getResources().getColor(
+                    R.color.abc_primary_text_material_dark
+            ));
+            pg.setBackgroundColor(android.R.drawable.btn_default);
+        }
     }
 
 
@@ -239,7 +264,16 @@ public class MainActivity extends ActionBarActivity
                     new int[18],
                     new Power[4]);
         } else {
-
+            player.setName(p.getString("playerName", getString(R.string.adventurer_name)));
+            player.setClassName(p.getString("className", getString(R.string.class_name)));
+            player.setRaceName(p.getString("raceName", getString(R.string.race_name)));
+            player.setLevel(p.getInt("level", 1));
+            player.setMaxPg(p.getInt("maxPg", 15));
+            player.setPg(p.getInt("pg", 15));
+            healthStatusCheck();
+            player.setMaxCurativeEfforts(p.getInt("maxCurativeEfforts", 5));
+            player.setCurativeEffort(p.getInt("curativeEfforts", 5));
+            updateCurativeString();
         }
         //set restored values to the respective fields
         ((TextView) findViewById(R.id.nameText)).setText(player.getName());
@@ -260,5 +294,32 @@ public class MainActivity extends ActionBarActivity
                 .putInt("maxCurativeEfforts", player.getMaxCurativeEfforts())
                 .putInt("curativeEfforts", player.getCurativeEfforts())
                 .apply();
+    }
+
+    private void updateCurativeString() {
+        ((TextView) findViewById(R.id.curativeEffortsText)).setText(
+                getString(R.string.curative_display_text1) + " " +
+                        player.getCurativeEfforts() + " " +
+                        getString(R.string.curative_display_text2) + " " +
+                        player.getMaxCurativeEfforts() + " " +
+                        getString(R.string.curative_display_text3)
+        );
+    }
+
+    private void undo() {
+        String message = "";
+        if(undoObject == CURRENT_PG){
+            ((Button) findViewById(R.id.pgCurrent)).setText(String.valueOf(undoPreviousValue));
+            player.setPg(undoPreviousValue);
+            undoObject = NULL;
+            message = getString(R.string.action_undo_current_pg);
+        }
+        Toast.makeText(
+                getApplicationContext(),
+                message,
+                Toast.LENGTH_LONG
+        ).show();
+        undo = false;
+        invalidateOptionsMenu();
     }
 }

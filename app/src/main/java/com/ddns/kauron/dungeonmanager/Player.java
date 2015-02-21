@@ -1,6 +1,21 @@
 package com.ddns.kauron.dungeonmanager;
 
 public class Player {
+
+    /**
+     * Names for the classes
+     */
+    public static final String[] classStrings = new String[] {
+            "Selecciona una clase","Brujo", "Clérigo", "Señor de la guerra"
+    };
+
+    /**
+     * Names for the races
+     */
+    public static final String[] raceStrings = new String[] {
+            "Selecciona una raza", "Enano", "Elfo", "Tiflin", "Humano", "Mediano"
+    };
+
     /**
      * Values for attack
      */
@@ -36,10 +51,13 @@ public class Player {
     private int pg, maxPg;
     private int state;
     private int curativeEfforts, maxCurativeEfforts;
-    private int[] atk, def, abilities;
-    private Power[] powers;
+    //TODO: convert race and class to integer values
+    private int classInt, raceInt;
     private String name, className, raceName;
     private int level;
+
+    private int[] atk, def, abilities;
+    private Power[] powers;
 
 
     public Player(String name, String className, String raceName, int level, int maxPg, int pg,
@@ -61,17 +79,19 @@ public class Player {
 
 
     public int getMaxCurativeEfforts() {return maxCurativeEfforts;}
+    public void setMaxCurativeEfforts(int maxCurativeEfforts) {this.maxCurativeEfforts = maxCurativeEfforts;}
 
     public int getCurativeEfforts() {return curativeEfforts;}
     public void setCurativeEffort(int curativeEfforts) {this.curativeEfforts = curativeEfforts;}
 
     public int getLevel() {return level;}
+    public void setLevel(int level) {this.level = level;}
 
     public int getMaxPg() {return maxPg;}
-    public void setMaxPg(int pg) {this.pg = pg;}
+    public void setMaxPg(int maxPg) {this.maxPg = maxPg;}
 
     public int getPg() {return pg;}
-    public void setPg(int pg) {this.pg = pg;}
+    public void setPg(int pg) {this.pg = pg; setState();}
     public void losePg(int damage) {
         pg -= damage;
         setState();
@@ -102,9 +122,13 @@ public class Player {
     }
 
     public String getName() {return name;}
-    public String getClassName() {return className;}
-    public String getRaceName() {return raceName;}
+    public void setName(String name) {this.name = name;}
 
+    public String getClassName() {return className;}
+    public void setClassName(String className) {this.className = className;}
+
+    public String getRaceName() {return raceName;}
+    public void setRaceName(String raceName) {this.raceName = raceName;}
 
     public void rest(boolean length) {
         if(length) {
