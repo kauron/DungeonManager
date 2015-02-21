@@ -16,76 +16,79 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
-    <RelativeLayout
-        android:orientation="vertical"
-        android:layout_width="fill_parent"
+    <HorizontalScrollView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/pgCurrent"
-        android:layout_toStartOf="@+id/pgCurrent"
-        android:id="@+id/basicInfoContainer"
-        android:layout_alignBottom="@+id/pgCurrent">
-
-        <TextView
+        android:layout_alignBottom="@+id/pgCurrent"
+        android:id="@+id/scroll1">
+        <RelativeLayout
+            android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/adventurer_name"
-            android:id="@+id/nameText"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:id="@+id/basicInfoContainer">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/race_name"
-            android:id="@+id/raceText"
-            android:layout_alignTop="@+id/classText"
-            android:layout_toRightOf="@+id/classText"
-            android:layout_toEndOf="@+id/classText"
-            android:layout_marginLeft="10dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/adventurer_name"
+                android:id="@+id/nameText"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/class_name"
-            android:id="@+id/classText"
-            android:layout_below="@+id/nameText"
-            android:layout_alignParentStart="false"
-            android:layout_alignParentLeft="true" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/race_name"
+                android:id="@+id/raceText"
+                android:layout_alignTop="@+id/classText"
+                android:layout_toRightOf="@+id/classText"
+                android:layout_toEndOf="@+id/classText"
+                android:layout_marginLeft="10dp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/level"
-            android:id="@+id/lvlText"
-            android:layout_alignParentBottom="false"
-            android:layout_toRightOf="@+id/raceText"
-            android:layout_toEndOf="@+id/raceText"
-            android:layout_alignTop="@+id/raceText"
-            android:layout_marginLeft="10dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/class_name"
+                android:id="@+id/classText"
+                android:layout_below="@+id/nameText"
+                android:layout_alignParentStart="false"
+                android:layout_alignParentLeft="true" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:id="@+id/lvl"
-            android:layout_alignParentBottom="false"
-            android:layout_toRightOf="@+id/lvlText"
-            android:layout_toEndOf="@+id/lvlText"
-            android:layout_alignTop="@+id/lvlText"
-            android:layout_marginLeft="10dp" />
-    </RelativeLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/level"
+                android:id="@+id/lvlText"
+                android:layout_alignParentBottom="false"
+                android:layout_toRightOf="@+id/raceText"
+                android:layout_toEndOf="@+id/raceText"
+                android:layout_alignTop="@+id/raceText"
+                android:layout_marginLeft="10dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:id="@+id/lvl"
+                android:layout_alignParentBottom="false"
+                android:layout_toRightOf="@+id/lvlText"
+                android:layout_toEndOf="@+id/lvlText"
+                android:layout_alignTop="@+id/lvlText"
+                android:layout_marginLeft="10dp" />
+        </RelativeLayout>
+    </HorizontalScrollView>
+
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/basicInfoContainer"
+        android:layout_below="@+id/scroll1"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:id="@+id/curativeEffortsContainer">
@@ -109,6 +112,7 @@
             android:id="@+id/titleAttack"
             android:text="@string/attack"
             android:textAllCaps="true"
+            android:drawableBottom="?android:attr/listChoiceBackgroundIndicator"
             android:layout_marginBottom="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -118,80 +122,83 @@
             android:gravity="center_vertical"
             android:paddingLeft="8dip"
             android:paddingRight="8dip"/>
-
-        <GridLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/attackGrid"
-            android:columnCount="3"
-            android:rowCount="2">
-
-            <TextView
+        <HorizontalScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <GridLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:typeface="monospace"
-                android:ems="4"
-                android:layout_row="0"
-                android:layout_column="0"
-                android:id="@+id/FUE"
-                android:hint="@string/FUE" />
+                android:id="@+id/attackGrid"
+                android:columnCount="3"
+                android:rowCount="2">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:typeface="monospace"
-                android:ems="4"
-                android:layout_row="1"
-                android:layout_column="0"
-                android:id="@+id/CON"
-                android:hint="@string/CON" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:typeface="monospace"
+                    android:ems="4"
+                    android:layout_row="0"
+                    android:layout_column="0"
+                    android:id="@+id/FUE"
+                    android:hint="@string/FUE" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:typeface="monospace"
-                android:ems="4"
-                android:layout_row="0"
-                android:layout_column="1"
-                android:id="@+id/DES"
-                android:hint="@string/DES" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:typeface="monospace"
+                    android:ems="4"
+                    android:layout_row="1"
+                    android:layout_column="0"
+                    android:id="@+id/CON"
+                    android:hint="@string/CON" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:typeface="monospace"
-                android:ems="4"
-                android:layout_row="1"
-                android:layout_column="1"
-                android:id="@+id/INT"
-                android:hint="@string/INT" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:typeface="monospace"
+                    android:ems="4"
+                    android:layout_row="0"
+                    android:layout_column="1"
+                    android:id="@+id/DES"
+                    android:hint="@string/DES" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:typeface="monospace"
-                android:ems="4"
-                android:layout_row="0"
-                android:layout_column="2"
-                android:id="@+id/SAB"
-                android:hint="@string/SAB" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:typeface="monospace"
+                    android:ems="4"
+                    android:layout_row="1"
+                    android:layout_column="1"
+                    android:id="@+id/INT"
+                    android:hint="@string/INT" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:typeface="monospace"
-                android:ems="4"
-                android:layout_row="1"
-                android:layout_column="2"
-                android:id="@+id/CAR"
-                android:hint="@string/CAR" />
-        </GridLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:typeface="monospace"
+                    android:ems="4"
+                    android:layout_row="0"
+                    android:layout_column="2"
+                    android:id="@+id/SAB"
+                    android:hint="@string/SAB" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:typeface="monospace"
+                    android:ems="4"
+                    android:layout_row="1"
+                    android:layout_column="2"
+                    android:id="@+id/CAR"
+                    android:hint="@string/CAR" />
+            </GridLayout>
+        </HorizontalScrollView>
     </LinearLayout>
 
     <LinearLayout
@@ -228,7 +235,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:typeface="monospace"
-                android:ems="4"
+                android:ems="5"
                 android:layout_row="0"
                 android:layout_column="0"
                 android:id="@+id/CA"
@@ -239,7 +246,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:typeface="monospace"
-                android:ems="4"
+                android:ems="5"
                 android:layout_row="0"
                 android:layout_column="1"
                 android:id="@+id/FORT"
@@ -250,7 +257,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:typeface="monospace"
-                android:ems="4"
+                android:ems="5"
                 android:layout_row="1"
                 android:layout_column="0"
                 android:id="@+id/REF"
@@ -261,7 +268,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:typeface="monospace"
-                android:ems="4"
+                android:ems="5"
                 android:layout_row="1"
                 android:layout_column="1"
                 android:id="@+id/VOL"

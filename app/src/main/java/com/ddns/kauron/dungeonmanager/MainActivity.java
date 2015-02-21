@@ -321,22 +321,22 @@ public class MainActivity extends ActionBarActivity
 
         //attacks
         ((TextView) findViewById(R.id.FUE)).setText(
-                getString(R.string.FUE) + ": " + player.getFue()
+                getString(R.string.FUE) + ":" + player.getFue()
         );
         ((TextView) findViewById(R.id.CON)).setText(
-                getString(R.string.CON) + ": " + player.getCon()
+                getString(R.string.CON) + ":" + player.getCon()
         );
         ((TextView) findViewById(R.id.DES)).setText(
-                getString(R.string.DES) + ": " + player.getDes()
+                getString(R.string.DES) + ":" + player.getDes()
         );
         ((TextView) findViewById(R.id.INT)).setText(
-                getString(R.string.INT) + ": " + player.getInt()
+                getString(R.string.INT) + ":" + player.getInt()
         );
         ((TextView) findViewById(R.id.SAB)).setText(
-                getString(R.string.SAB) + ": " + player.getSab()
+                getString(R.string.SAB) + ":" + player.getSab()
         );
         ((TextView) findViewById(R.id.CAR)).setText(
-                getString(R.string.CAR) + ": " + player.getCar()
+                getString(R.string.CAR) + ":" + player.getCar()
         );
 
         //defenses
