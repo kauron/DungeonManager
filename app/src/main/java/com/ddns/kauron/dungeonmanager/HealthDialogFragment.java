@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 
 public class HealthDialogFragment extends DialogFragment {
+    //TODO: convert to method and dialog, without class
 
     static HealthDialogFragment newInstance(int curativeEfforts) {
         HealthDialogFragment f = new HealthDialogFragment();
@@ -20,7 +21,7 @@ public class HealthDialogFragment extends DialogFragment {
     }
 
     public interface HealthDialogListener {
-        public void curativeEffort(DialogFragment dialog, boolean uses);
+        public void heal(DialogFragment dialog, boolean uses);
     }
 
 
@@ -46,13 +47,13 @@ public class HealthDialogFragment extends DialogFragment {
                 .setTitle(R.string.new_energies_title)
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        mListener.curativeEffort(HealthDialogFragment.this, true);
+                        mListener.heal(HealthDialogFragment.this, true);
                     }
                 })
                 .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        mListener.curativeEffort(HealthDialogFragment.this, false);
+                        mListener.heal(HealthDialogFragment.this, false);
                     }
                 })
                 .setNeutralButton(R.string.cancel, new DialogInterface.OnClickListener() {

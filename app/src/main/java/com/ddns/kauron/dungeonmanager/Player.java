@@ -66,51 +66,14 @@ public class Player {
             String name, String className, String raceName,
             int level, int[] atk, int[] def, int[] abilities,
             Power[] powers
-    ) {
-        setState();
+    ){
         this.name = name;
         this.className = className;
-
-        if(className.equals(classStrings[1])){
-            //Ardiente
-        } else if (className.equals(classStrings[2])) {
-            //Brujo
-            //TODO: Kauron
-            maxPg = atk[CON] + 12;
-            maxCurativeEfforts = 6 + atk[CON];
-        } else if (className.equals(classStrings[3])) {
-            //Buscador
-        } else if (className.equals(classStrings[4])) {
-            //Clérigo
-            //TODO: Gárafran
-        } else if (className.equals(classStrings[5])) {
-            //Explorador
-            //TODO: Aria Saferi
-        } else if (className.equals(classStrings[6])) {
-            //Guerrero
-        } else if (className.equals(classStrings[7])) {
-            //Mago
-        } else if (className.equals(classStrings[8])) {
-            //Mente de Batalla
-        } else if (className.equals(classStrings[9])) {
-            //Monje
-        } else if (className.equals(classStrings[10])) {
-            //Paladín
-            //TODO: Ceaelynna
-        } else if (className.equals(classStrings[11])) {
-            //Pícaro
-        } else if (className.equals(classStrings[12])) {
-            //Psiónico
-        } else if (className.equals(classStrings[13])) {
-            //Sacerdote rúnico
-        } else {
-            //Señor de la Guerra
-            //TODO: Mushu
-        }
+        setAtk(atk);
+        setState();
 
         this.raceName = raceName;
         this.level = level;
-        this.atk = atk;
         this.def = def;
         this.abilities = abilities;
         this.powers = powers;
@@ -172,7 +135,10 @@ public class Player {
     public void setName(String name) {this.name = name;}
 
     public String getClassName() {return className;}
-    public void setClassName(String className) {this.className = className;}
+    public void setClassName(String className) {
+        this.className = className;
+        if(atk!=null) setClass();
+    }
 
     public String getRaceName() {return raceName;}
     public void setRaceName(String raceName) {this.raceName = raceName;}
@@ -186,15 +152,7 @@ public class Player {
         }
     }
 
-    public void setAtk(int[] atk) {this.atk = atk;}
-    public int[] getAtk() {return atk;}
-
-    public void setFue(int fue) {atk[FUE] = fue;}
-    public void setCon(int con) {atk[CON] = con;}
-    public void setSab(int sab) {atk[SAB] = sab;}
-    public void setCar(int car) {atk[CAR] = car;}
-    public void setDes(int des) {atk[DES] = des;}
-    public void setInt(int intel) {atk[INT] = intel;}
+    public void setAtk(int[] atk) {this.atk = atk; if(className!=null) setClass();}
 
     public int getFue() {return atk[FUE];}
     public int getCon() {return atk[CON];}
@@ -202,4 +160,58 @@ public class Player {
     public int getCar() {return atk[CAR];}
     public int getDes() {return atk[DES];}
     public int getInt() {return atk[INT];}
+
+    public void setClass() {
+        if(className.equals(classStrings[1])){
+            //Ardiente
+        } else if (className.equals(classStrings[2])) {
+            //Brujo
+            //TODO: Kauron
+            pg = maxPg = 12 + atk[CON];
+            curativeEfforts = maxCurativeEfforts = 6 + Player.getModifier(atk[CON]);
+            return; //TODO: temporal
+        } else if (className.equals(classStrings[3])) {
+            //Buscador
+        } else if (className.equals(classStrings[4])) {
+            //Clérigo
+            //TODO: Gárafran
+        } else if (className.equals(classStrings[5])) {
+            //Explorador
+            //TODO: Aria Saferi
+        } else if (className.equals(classStrings[6])) {
+            //Guerrero
+        } else if (className.equals(classStrings[7])) {
+            //Mago
+        } else if (className.equals(classStrings[8])) {
+            //Mente de Batalla
+        } else if (className.equals(classStrings[9])) {
+            //Monje
+        } else if (className.equals(classStrings[10])) {
+            //Paladín
+            //TODO: Ceaelynna
+        } else if (className.equals(classStrings[11])) {
+            //Pícaro
+        } else if (className.equals(classStrings[12])) {
+            //Psiónico
+        } else if (className.equals(classStrings[13])) {
+            //Sacerdote rúnico
+        } else {
+            //Señor de la Guerra
+            //TODO: Mushu
+        }
+        pg = maxPg = 15;
+        curativeEfforts = maxCurativeEfforts = 15;
+    }
+
+    public static int getModifier(int i) {
+        return i / 2 - 5;
+    }
+
+    public int getTotalModifier(int i) {
+        return getModifier(i) + level / 2;
+    }
+
+    public static int getLevel (int px) {
+        return 0; //TODO: substitute level by px and autoconvert
+    }
 }

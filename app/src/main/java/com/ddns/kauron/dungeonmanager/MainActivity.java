@@ -99,10 +99,10 @@ public class MainActivity extends ActionBarActivity
             });
 
             alert.show();
-        } else if (id == R.id.action_save) {
-            saveData();
-        } else if (id == R.id.action_load) {
-            restoreData();
+//        } else if (id == R.id.action_save) {
+//            saveData();
+//        } else if (id == R.id.action_load) {
+//            restoreData();
         }
 
         return super.onOptionsItemSelected(item);
@@ -141,7 +141,7 @@ public class MainActivity extends ActionBarActivity
     }
 
     @Override
-    public void curativeEffort(DialogFragment dialog, boolean uses) {
+    public void heal(DialogFragment dialog, boolean uses) {
         int hasCured = player.recoverPg(Player.USE_CURATIVE_EFFORT, uses);
         if (hasCured == Player.NOT_CURED) {
             Toast.makeText(
@@ -157,12 +157,16 @@ public class MainActivity extends ActionBarActivity
                         Toast.LENGTH_LONG
                 ).show();
             }
+            getSharedPreferences("basics", MODE_PRIVATE).edit()
+                    .putInt("pg", player.getPg())
+                    .putInt("curativeEfforts", player.getCurativeEfforts())
+                    .apply();
             updateCurativeString();
             healthStatusCheck();
         }
     }
 
-    public void onCurrentPgClick(final View view){
+    public void damage(final View view){
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle(getString(R.string.suffer_damage));
 
@@ -187,6 +191,9 @@ public class MainActivity extends ActionBarActivity
                     undo = true;
                     undoPreviousValue = preValue;
                     undoObject = CURRENT_PG;
+                    getSharedPreferences("basics", MODE_PRIVATE).edit()
+                            .putInt("pg", player.getPg())
+                            .apply();
                     healthStatusCheck();
                     invalidateOptionsMenu();
                 } catch (Exception e) {}
@@ -279,11 +286,15 @@ public class MainActivity extends ActionBarActivity
             player.setClassName(p.getString("className", getString(R.string.class_name)));
             player.setRaceName(p.getString("raceName", getString(R.string.race_name)));
             player.setLevel(p.getInt("level", 1));
-            player.setMaxPg(p.getInt("maxPg", 15));
-            player.setPg(p.getInt("pg", 15));
+            player.setAtk(new int[]{
+                    p.getInt("fue", 10),
+                    p.getInt("con", 10),
+                    p.getInt("des", 10),
+                    p.getInt("int", 10),
+                    p.getInt("sab", 10),
+                    p.getInt("car", 10),
+            });
             healthStatusCheck();
-            player.setMaxCurativeEfforts(p.getInt("maxCurativeEfforts", 5));
-            player.setCurativeEffort(p.getInt("curativeEfforts", 5));
             updateCurativeString();
         }
         //set restored values to the respective fields
@@ -316,15 +327,15 @@ public class MainActivity extends ActionBarActivity
 
     }
 
-    private void saveData() {
-        getSharedPreferences("basics", MODE_PRIVATE).edit()
-                .putInt("level", player.getLevel())
-                .putInt("maxPg", player.getMaxPg())
-                .putInt("pg", player.getPg())
-                .putInt("maxCurativeEfforts", player.getMaxCurativeEfforts())
-                .putInt("curativeEfforts", player.getCurativeEfforts())
-                .apply();
-    }
+//    private void saveData() {
+//        getSharedPreferences("basics", MODE_PRIVATE).edit()
+//                .putInt("level", player.getLevel())
+//                .putInt("maxPg", player.getMaxPg())
+//                .putInt("pg", player.getPg())
+//                .putInt("maxCurativeEfforts", player.getMaxCurativeEfforts())
+//                .putInt("curativeEfforts", player.getCurativeEfforts())
+//                .apply();
+//    }
 
     private void updateCurativeString() {
         ((TextView) findViewById(R.id.curativeEffortsText)).setText(
