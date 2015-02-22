@@ -1,4 +1,4 @@
-package com.ddns.kauron.dungeonmanager;
+package com.kauron.dungeonmanager;
 
 public class Power {
     public static final int DIARIO = 1, A_VOLUNTAD = 2, ENCUENTRO = 3, OPORTUNIDAD = 4;

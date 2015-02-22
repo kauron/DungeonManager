@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.ddns.kauron.dungeonmanager.Introduction">
+    tools:context="com.kauron.dungeonmanager.Introduction">
     <item android:id="@+id/action_finish"
         android:title="@string/action_finish"
         android:orderInCategory="100"

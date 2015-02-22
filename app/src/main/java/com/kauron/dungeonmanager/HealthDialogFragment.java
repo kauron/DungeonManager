@@ -1,4 +1,4 @@
-package com.ddns.kauron.dungeonmanager;
+package com.kauron.dungeonmanager;
 
 
 import android.app.Activity;
@@ -40,20 +40,20 @@ public class HealthDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage(R.string.new_energies_message)
-                .setTitle(R.string.new_energies)
-                .setPositiveButton(R.string.me, new DialogInterface.OnClickListener() {
+        builder.setMessage(com.ddns.kauron.dungeonmanager.R.string.new_energies_message)
+                .setTitle(com.ddns.kauron.dungeonmanager.R.string.new_energies)
+                .setPositiveButton(com.ddns.kauron.dungeonmanager.R.string.me, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         mListener.heal(HealthDialogFragment.this, true);
                     }
                 })
-                .setNegativeButton(R.string.other, new DialogInterface.OnClickListener() {
+                .setNegativeButton(com.ddns.kauron.dungeonmanager.R.string.other, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         mListener.heal(HealthDialogFragment.this, false);
                     }
                 })
-                .setNeutralButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                .setNeutralButton(com.ddns.kauron.dungeonmanager.R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();

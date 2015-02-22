@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.ddns.kauron.dungeonmanager" >
+    package="com.kauron.dungeonmanager" >
 
     <application
         android:allowBackup="true"
@@ -22,7 +22,7 @@
             android:label="@string/title_activity_introduction" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.ddns.kauron.dungeonmanager.MainActivity" />
+                android:value=".MainActivity" />
         </activity>
     </application>
 
