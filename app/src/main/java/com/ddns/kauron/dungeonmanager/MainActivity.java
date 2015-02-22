@@ -300,6 +300,7 @@ public class MainActivity extends ActionBarActivity
             player.setClassName(p.getString("className", getString(R.string.class_name)));
             player.setRaceName(p.getString("raceName", getString(R.string.race_name)));
             player.setLevel(p.getInt("level", 1));
+            //TODO: restore pg
             player.setAtk(new int[]{
                     p.getInt("fue", 10),
                     p.getInt("con", 10),

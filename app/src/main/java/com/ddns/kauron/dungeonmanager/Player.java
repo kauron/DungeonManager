@@ -170,6 +170,7 @@ public class Player {
     public int getVol() {return def[VOL];}
 
     //TODO: set the pg level dependant
+    //TODO: only setPg if the
     public void setClass() {
         int pgExtra = 0, curativeEffortsExtra = 0, defCA = 0, defFORT = 0, defVOL = 0, defREF = 0;
         if(className.equals(classStrings[1])){
