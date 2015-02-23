@@ -1,4 +1,4 @@
-package com.ddns.kauron.dungeonmanager;
+package com.kauron.dungeonmanager;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
