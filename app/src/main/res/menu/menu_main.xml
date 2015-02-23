@@ -11,23 +11,13 @@
         android:id="@+id/action_cure"
         android:title="@string/action_cure"
         android:orderInCategory="2"
-        app:showAsAction="always"
-        android:icon="@drawable/ic_action_heal"/>
-    <!--<item-->
-        <!--android:id="@+id/action_load"-->
-        <!--android:title="@string/action_load"-->
-        <!--android:orderInCategory="10"-->
-        <!--app:showAsAction="never"/>-->
-    <!--<item-->
-        <!--android:id="@+id/action_save"-->
-        <!--android:title="@string/action_save"-->
-        <!--android:orderInCategory="11"-->
-        <!--app:showAsAction="never"/>-->
+        app:showAsAction="always"/>
+
     <item
         android:id="@+id/action_edit_basics"
         android:title="@string/action_edit_basics"
         android:orderInCategory="20"
-        app:showAsAction="ifRoom"
+        app:showAsAction="never"
         android:icon="@drawable/ic_action_edit"/>
     <item
         android:id="@+id/action_reset"

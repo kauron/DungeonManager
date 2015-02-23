@@ -300,7 +300,6 @@ public class MainActivity extends ActionBarActivity
             player.setClassName(p.getString("className", getString(com.kauron.dungeonmanager.R.string.class_name)));
             player.setRaceName(p.getString("raceName", getString(com.kauron.dungeonmanager.R.string.race_name)));
             player.setLevel(p.getInt("level", 1));
-            //TODO: restore pg
             player.setAtk(new int[]{
                     p.getInt("fue", 10),
                     p.getInt("con", 10),
@@ -348,10 +347,10 @@ public class MainActivity extends ActionBarActivity
                 getString(com.kauron.dungeonmanager.R.string.CA) + ": " + player.getCa()
         );
         ((TextView) findViewById(com.kauron.dungeonmanager.R.id.FORT)).setText(
-                getString(com.kauron.dungeonmanager.R.string.FORT) + ": " + player.getFort()
+                getString(com.kauron.dungeonmanager.R.string.FORT) + ":" + player.getFort()
         );
         ((TextView) findViewById(com.kauron.dungeonmanager.R.id.REF)).setText(
-                getString(com.kauron.dungeonmanager.R.string.REF) + ": " + player.getRef()
+                getString(com.kauron.dungeonmanager.R.string.REF) + ":" + player.getRef()
         );
         ((TextView) findViewById(com.kauron.dungeonmanager.R.id.VOL)).setText(
                 getString(com.kauron.dungeonmanager.R.string.VOL) + ": " + player.getVol()
@@ -378,6 +377,10 @@ public class MainActivity extends ActionBarActivity
                         player.getMaxCurativeEfforts() + " " +
                         getString(com.kauron.dungeonmanager.R.string.curative_display_text3)
         );
+    }
+
+    public void selectPlayer(View view) {
+        //TODO: implement players and switch between them
     }
 
     private void undo() {
