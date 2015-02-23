@@ -67,7 +67,7 @@ public class Introduction extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == com.kauron.dungeonmanager.R.id.action_finish) {
+        if (id == com.kauron.dungeonmanager.R.id.action_save) {
             if(finished()) {
                 this.finish();
             } else {

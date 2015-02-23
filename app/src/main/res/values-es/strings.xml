@@ -2,7 +2,7 @@
 <resources>
     <string name="action_cure">Curar</string>
     <string name="action_edit_basics">Editar personaje</string>
-    <string name="action_finish">Hecho</string>
+    <string name="action_finish">PG Máx.</string>
     <string name="adventurer_name">Nombre</string>
     <string name="cancel">Cancelar</string>
     <string name="class_name">Clase</string>
@@ -17,6 +17,7 @@
     <string name="no">No</string>
     <string name="no_curative_efforts_error">No te quedan esfuerzos curativos</string>
     <string name="ok">Ok</string>
+    <string name="action_save">Guardar</string>
     <string name="race_name">Raza</string>
     <string name="suffer_damage">Indica el daño sufrido</string>
     <string name="title_activity_introduction">Editar personaje</string>
@@ -24,16 +25,10 @@
     <string name="max_curative_efforts">Máx. esfuerzos curativos</string>
     <string name="suffer_damage_hint">PG perdidos</string>
     <string name="action_undo">Deshacer</string>
-    <string name="action_save">Guardar</string>
     <string name="action_undo_current_pg">Acción deshecha</string>
-    <string name="dungeons_and_dragons">Dragones y Mazmorras</string>
-    <string name="action_load">Cargar</string>
     <string name="curative_efforts">Esfuerzos curativos</string>
     <string name="pg">PG</string>
     <string name="action_reset">Borrar datos</string>
-    <string name="curative_display_text1">Te quedan</string>
-    <string name="curative_display_text2">de</string>
-    <string name="curative_display_text3">esfuerzos curativos diarios</string>
     <string name="die">Morir</string>
     <string name="message_death">Has muerto</string>
     <string name="message_reset">Los datos han sido borrados</string>
@@ -45,8 +40,8 @@
     <string name="FUE">FUE</string>
     <string name="INT">INT</string>
     <string name="SAB">SAB</string>
-    <string name="state_changed_debilitado">Te has caído al suelo debilitado, no puedes moverte ni hacer nada.</string>
-    <string name="state_changed_malherido">¡Sólo tienes la mitad de la vida!</string>
+    <string name="state_changed_debilitado">Te has caído al suelo inconsciente, no puedes hacer nada.</string>
+    <string name="state_changed_malherido">Estás maltrecho</string>
     <string name="new_energies_message">¿Quién va a usar un esfuerzo curativo?</string>
     <string name="me">Yo</string>
     <string name="other">Otro</string>
@@ -56,4 +51,11 @@
     <string name="FORT">FORT</string>
     <string name="REF">REF</string>
     <string name="VOL">VOL</string>
+    <string name="action_time">Avanzar tiempo</string>
+    <string name="action_time_day">Día</string>
+    <string name="action_time_encounter_end">Fin de encuentro</string>
+    <string name="action_time_long_rest">Descanso largo</string>
+    <string name="action_time_rest">Descanso corto</string>
+    <string name="action_time_turn">Turno siguiente</string>
+    <string name="curative_display_text">Tienes %1$d de %2$d esfuerzos curativos</string>
 </resources>

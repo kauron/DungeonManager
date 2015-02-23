@@ -19,8 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-public class MainActivity extends ActionBarActivity
-                        implements HealthDialogFragment.HealthDialogListener{
+public class MainActivity extends ActionBarActivity{
 
     public static final int CURRENT_PG = 1, NULL = 0;
 
@@ -49,8 +48,6 @@ public class MainActivity extends ActionBarActivity
         return true;
     }
 
-
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -60,7 +57,15 @@ public class MainActivity extends ActionBarActivity
 
         //noinspection SimplifiableIfStatement
         if (id == com.kauron.dungeonmanager.R.id.action_cure) {
-            showHealthDialog();
+            if(player.getMaxPg() <= player.getPg()){
+                Toast.makeText(
+                        getApplicationContext(),
+                        R.string.maxed_curative,
+                        Toast.LENGTH_LONG
+                ).show();
+            } else {
+                healDialog();
+            }
             return true;
         } else if (id == com.kauron.dungeonmanager.R.id.action_edit_basics) {
             //TODO: try this startChildActivity()
@@ -76,7 +81,6 @@ public class MainActivity extends ActionBarActivity
             undo();
             return true;
         } else if (id == com.kauron.dungeonmanager.R.id.action_reset) {
-
             AlertDialog.Builder alert = new AlertDialog.Builder(this);
             alert.setTitle(getString(com.kauron.dungeonmanager.R.string.reset_confirmation_title));
             alert.setMessage(getString(com.kauron.dungeonmanager.R.string.reset_confirmation));
@@ -99,50 +103,22 @@ public class MainActivity extends ActionBarActivity
             });
 
             alert.show();
-//        } else if (id == R.id.action_save) {
-//            saveData();
-//        } else if (id == R.id.action_load) {
-//            restoreData();
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    public void showHealthDialog(){
-        DialogFragment dialog = HealthDialogFragment.newInstance(player.getCurativeEfforts());
-        dialog.show(getFragmentManager(), "HealthDialogFragment");
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.e("UTIL", "pause");
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
-        Log.e("UTIL", "resume");
         restoreData();
         healthStatusCheck();
         updateCurativeString();
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.e("UTIL", "stop");
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.e("UTIL", "destroy");
-    }
-
-    @Override
-    public void heal(DialogFragment dialog, boolean uses) {
-        int hasCured = player.recoverPg(Player.USE_CURATIVE_EFFORT, uses);
+    public void heal(boolean usesEffort
+    ) {
+        int hasCured = player.recoverPg(Player.USE_CURATIVE_EFFORT, usesEffort);
         if (hasCured == Player.NOT_CURED) {
             Toast.makeText(
                     getApplicationContext(),
@@ -164,6 +140,30 @@ public class MainActivity extends ActionBarActivity
             updateCurativeString();
             healthStatusCheck();
         }
+    }
+
+    public void healDialog() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setMessage(com.kauron.dungeonmanager.R.string.new_energies_message)
+                .setTitle(com.kauron.dungeonmanager.R.string.new_energies)
+                .setPositiveButton(com.kauron.dungeonmanager.R.string.me, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        heal(true);
+                    }
+                })
+                .setNegativeButton(com.kauron.dungeonmanager.R.string.other, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        heal(false);
+                    }
+                })
+                .setNeutralButton(com.kauron.dungeonmanager.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        alert.show();
     }
 
     public void damage(final View view){
@@ -310,8 +310,8 @@ public class MainActivity extends ActionBarActivity
             });
 
         }
-
-        player.setPg(p.getInt("pg", player.getMaxPg()));
+        player.setCurativeEffort(p.getInt("curativeEfforts", player.getCurativeEfforts()));
+        player.setPg(p.getInt("pg", player.getPg()));
         healthStatusCheck();
         updateCurativeString();
         //set restored values to the respective fields
@@ -371,11 +371,11 @@ public class MainActivity extends ActionBarActivity
 
     private void updateCurativeString() {
         ((TextView) findViewById(com.kauron.dungeonmanager.R.id.curativeEffortsText)).setText(
-                getString(com.kauron.dungeonmanager.R.string.curative_display_text1) + " " +
-                        player.getCurativeEfforts() + " " +
-                        getString(com.kauron.dungeonmanager.R.string.curative_display_text2) + " " +
-                        player.getMaxCurativeEfforts() + " " +
-                        getString(com.kauron.dungeonmanager.R.string.curative_display_text3)
+                getString(
+                        R.string.curative_display_text,
+                        player.getCurativeEfforts(),
+                        player.getMaxCurativeEfforts()
+                )
         );
     }
 
