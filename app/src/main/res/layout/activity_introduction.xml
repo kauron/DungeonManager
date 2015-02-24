@@ -26,8 +26,8 @@
             android:layout_height="wrap_content"
             android:inputType="number"
             android:ems="10"
-            android:id="@+id/editLevelIntro"
-            android:hint="@string/level"
+            android:id="@+id/editPxIntro"
+            android:hint="@string/px"
             android:layout_weight="1"/>
         </LinearLayout>
 

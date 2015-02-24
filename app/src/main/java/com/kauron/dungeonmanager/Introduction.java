@@ -23,7 +23,7 @@ public class Introduction extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(com.kauron.dungeonmanager.R.layout.activity_introduction);
         name = (EditText) findViewById(com.kauron.dungeonmanager.R.id.editNameIntro);
-        level = (EditText) findViewById(com.kauron.dungeonmanager.R.id.editLevelIntro);
+        level = (EditText) findViewById(com.kauron.dungeonmanager.R.id.editPxIntro);
 
         fue = (EditText) findViewById(com.kauron.dungeonmanager.R.id.FUE);
         con = (EditText) findViewById(com.kauron.dungeonmanager.R.id.CON);
@@ -37,7 +37,7 @@ public class Introduction extends ActionBarActivity {
                 new ArrayAdapter<>(
                         this,
                         android.R.layout.simple_spinner_dropdown_item,
-                        Player.classStrings
+                        Player.CLASS_STRINGS
                 )
         );
 
@@ -46,7 +46,7 @@ public class Introduction extends ActionBarActivity {
                 new ArrayAdapter<>(
                         this,
                         android.R.layout.simple_spinner_dropdown_item,
-                        Player.raceStrings
+                        Player.RACE_STRINGS
                 )
         );
     }
@@ -88,12 +88,12 @@ public class Introduction extends ActionBarActivity {
         SharedPreferences p = getSharedPreferences("basics", MODE_PRIVATE);
         SharedPreferences.Editor ed = p.edit();
         String nameString = name.getText().toString();
-        String classString = Player.classStrings[classSpinner.getSelectedItemPosition()];
-        String raceString = Player.raceStrings[raceSpinner.getSelectedItemPosition()];
+        int classInt = classSpinner.getSelectedItemPosition();
+        int raceInt = raceSpinner.getSelectedItemPosition();
 
-        int levelInt = 0;
+        int pxInt = 0;
         if (!level.getText().toString().isEmpty())
-            levelInt = Integer.parseInt(level.getText().toString());
+            pxInt = Integer.parseInt(level.getText().toString());
 
         int fue = 0, con = 0, des = 0, intel = 0, sab = 0, car = 0;
         if (!this.car.getText().toString().isEmpty())
@@ -112,9 +112,9 @@ public class Introduction extends ActionBarActivity {
         if(getIntent().getExtras().getBoolean("first_time")) {
             if (
                     !nameString.isEmpty() &&
-                    !classString.equals(Player.classStrings[0]) &&
-                    !raceString.equals(Player.raceStrings[0]) &&
-                    levelInt != 0 &&
+                    classInt != Player.NULL &&
+                    raceInt != Player.NULL &&
+                    pxInt != 0 &&
                     car != 0 &&
                     fue != 0 &&
                     con != 0 &&
@@ -124,9 +124,9 @@ public class Introduction extends ActionBarActivity {
             ) {
                 //first save it all
                 ed.putString("playerName", nameString);
-                ed.putString("className", classString);
-                ed.putString("raceName", raceString);
-                ed.putInt("level", levelInt);
+                ed.putInt("classInt", classInt);
+                ed.putInt("raceInt", raceInt);
+                ed.putInt("px", pxInt);
 
                 ed.putInt("fue", fue);
                 ed.putInt("car", car);
@@ -141,9 +141,9 @@ public class Introduction extends ActionBarActivity {
             }
         } else {
             if (!nameString.isEmpty()) ed.putString("playerName", nameString);
-            if (!classString.isEmpty()) ed.putString("className", classString);
-            if (!raceString.isEmpty()) ed.putString("raceName", raceString);
-            if (levelInt != 0)  ed.putInt("level", levelInt);
+            if (classInt != Player.NULL) ed.putInt("classInt", classInt);
+            if (raceInt != Player.NULL) ed.putInt("raceInt", raceInt);
+            if (pxInt != 0)  ed.putInt("px", pxInt);
 
             if (fue != 0)       ed.putInt("fue", fue);
             if (car != 0)       ed.putInt("car", car);

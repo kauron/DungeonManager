@@ -54,7 +54,11 @@
     <string name="suffer_damage">Input the damage suffered</string>
     <string name="suffer_damage_hint">PG lost</string>
     <string name="me">Me</string>
+    <string name="px_awarded_title">Input XP awarded</string>
+    <string name="px_awarded_hint">XP from the encounter</string>
+    <string name="message_no_px">You haven\'t won any XP</string>
     <string name="other">Otro</string>
+    <string name="px">XP</string>
 
     <string name="FUE">FUE</string>
     <string name="CON">CON</string>
@@ -63,4 +67,8 @@
     <string name="CAR">CAR</string>
     <string name="SAB">SAB</string>
     <string name="action_save">Save</string>
+    <string name="dialog_resolve_max_pg_hint">Max PG</string>
+    <string name="empty_field">Please input something</string>
+    <string name="dialog_resolve_max_pg_title">Alert</string>
+    <string name="dialog_resolve_max_pg_message">Couldn\'t compute your max PG based on your level</string>
 </resources>

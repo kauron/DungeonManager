@@ -1,7 +1,6 @@
 package com.kauron.dungeonmanager;
 
 import android.app.AlertDialog;
-import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,10 +8,11 @@ import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.InputType;
-import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -30,7 +30,7 @@ public class MainActivity extends ActionBarActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(com.kauron.dungeonmanager.R.layout.activity_main);
+        setContentView(R.layout.activity_main);
         undo = false;
         invalidateOptionsMenu();
     }
@@ -38,13 +38,13 @@ public class MainActivity extends ActionBarActivity{
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(com.kauron.dungeonmanager.R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
     public boolean onPrepareOptionsMenu (Menu menu) {
-        menu.findItem(com.kauron.dungeonmanager.R.id.action_undo).setVisible(undo);
+        menu.findItem(R.id.action_undo).setVisible(undo);
         return true;
     }
 
@@ -56,7 +56,7 @@ public class MainActivity extends ActionBarActivity{
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == com.kauron.dungeonmanager.R.id.action_cure) {
+        if (id == R.id.action_cure) {
             if(player.getMaxPg() <= player.getPg()){
                 Toast.makeText(
                         getApplicationContext(),
@@ -67,7 +67,7 @@ public class MainActivity extends ActionBarActivity{
                 healDialog();
             }
             return true;
-        } else if (id == com.kauron.dungeonmanager.R.id.action_edit_basics) {
+        } else if (id == R.id.action_edit_basics) {
             //TODO: try this startChildActivity()
             SharedPreferences p = getSharedPreferences("basics", MODE_PRIVATE);
             Intent intent = new Intent(this, Introduction.class);
@@ -77,32 +77,62 @@ public class MainActivity extends ActionBarActivity{
             ));
             restoreData();
             return true;
-        } else if (id == com.kauron.dungeonmanager.R.id.action_undo) {
+        } else if (id == R.id.action_undo) {
             undo();
             return true;
-        } else if (id == com.kauron.dungeonmanager.R.id.action_reset) {
+        } else if (id == R.id.action_reset) {
             AlertDialog.Builder alert = new AlertDialog.Builder(this);
-            alert.setTitle(getString(com.kauron.dungeonmanager.R.string.reset_confirmation_title));
-            alert.setMessage(getString(com.kauron.dungeonmanager.R.string.reset_confirmation));
-            alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            alert.setTitle(R.string.reset_confirmation_title);
+            alert.setMessage(R.string.reset_confirmation);
+            alert.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                     Toast.makeText(
                             getApplicationContext(),
-                            com.kauron.dungeonmanager.R.string.message_reset,
+                            R.string.message_reset,
                             Toast.LENGTH_LONG
                     ).show();
                     getSharedPreferences("basics", MODE_PRIVATE).edit().clear().apply();
                     restoreData();
                 }
             });
-
-            alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            alert.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                     // Canceled.
                 }
             });
 
             alert.show();
+            return true;
+        } else if (id == R.id.action_time_encounter_end) {
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.setTitle(R.string.px_awarded_title);
+            final EditText input = new EditText(this);
+            input.setInputType(InputType.TYPE_CLASS_NUMBER);
+            input.setHint(R.string.px_awarded_hint);
+            alert.setCancelable(false);
+            alert.setView(input);
+            alert.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    try {
+                        if (player.addPx(Integer.parseInt(input.getText().toString()))) {
+                            //levelUp
+                            player.setMaxPgOnLevelUp();
+                            ((TextView) findViewById(R.id.lvl)).setText(
+                                    String.valueOf(player.getLevel())
+                            );
+                        }
+                    } catch(Exception e) {
+                        Toast.makeText(
+                                getApplicationContext(),
+                                R.string.message_no_px,
+                                Toast.LENGTH_LONG
+                        ).show();
+                    }
+                }
+            });
+            alert.show();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -116,20 +146,19 @@ public class MainActivity extends ActionBarActivity{
         updateCurativeString();
     }
 
-    public void heal(boolean usesEffort
-    ) {
+    public void heal(boolean usesEffort) {
         int hasCured = player.recoverPg(Player.USE_CURATIVE_EFFORT, usesEffort);
         if (hasCured == Player.NOT_CURED) {
             Toast.makeText(
                     getApplicationContext(),
-                    com.kauron.dungeonmanager.R.string.no_curative_efforts_error,
+                    R.string.no_curative_efforts_error,
                     Toast.LENGTH_LONG
             ).show();
         } else {
             if(hasCured == Player.MAXED){
                 Toast.makeText(
                         getApplicationContext(),
-                        com.kauron.dungeonmanager.R.string.maxed_curative,
+                        R.string.maxed_curative,
                         Toast.LENGTH_LONG
                 ).show();
             }
@@ -144,20 +173,20 @@ public class MainActivity extends ActionBarActivity{
 
     public void healDialog() {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setMessage(com.kauron.dungeonmanager.R.string.new_energies_message)
-                .setTitle(com.kauron.dungeonmanager.R.string.new_energies)
-                .setPositiveButton(com.kauron.dungeonmanager.R.string.me, new DialogInterface.OnClickListener() {
+        alert.setMessage(R.string.new_energies_message)
+                .setTitle(R.string.new_energies)
+                .setPositiveButton(R.string.me, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         heal(true);
                     }
                 })
-                .setNegativeButton(com.kauron.dungeonmanager.R.string.other, new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.other, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         heal(false);
                     }
                 })
-                .setNeutralButton(com.kauron.dungeonmanager.R.string.cancel, new DialogInterface.OnClickListener() {
+                .setNeutralButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
@@ -168,18 +197,18 @@ public class MainActivity extends ActionBarActivity{
 
     public void damage(final View view){
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle(getString(com.kauron.dungeonmanager.R.string.suffer_damage));
+        alert.setTitle(R.string.suffer_damage);
 
         // Set an EditText view to get user input
         final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_NUMBER);
-        input.setHint(com.kauron.dungeonmanager.R.string.suffer_damage_hint);
+        input.setHint(R.string.suffer_damage_hint);
 
         alert.setView(input);
 
-        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+        alert.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                Button pg = (Button) findViewById(com.kauron.dungeonmanager.R.id.pgCurrent);
+                Button pg = (Button) findViewById(R.id.pgCurrent);
                 try {
                     int preValue = Integer.parseInt(pg.getText().toString());
                     int damage = Integer.parseInt(input.getText().toString());
@@ -200,7 +229,7 @@ public class MainActivity extends ActionBarActivity{
             }
         });
 
-        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        alert.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 // Canceled.
             }
@@ -212,26 +241,26 @@ public class MainActivity extends ActionBarActivity{
     private void healthStatusCheck() {
         int status = player.getState();
         int lastState = player.getLastState();
-        Button pg = (Button) findViewById(com.kauron.dungeonmanager.R.id.pgCurrent);
+        Button pg = (Button) findViewById(R.id.pgCurrent);
         pg.setText(String.valueOf(player.getPg()));
         if (status == Player.MUERTO) {
             pg.setTextColor(Color.BLACK);
             pg.setBackgroundColor(Color.RED);
 
             AlertDialog.Builder alert = new AlertDialog.Builder(this);
-            alert.setTitle(getString(com.kauron.dungeonmanager.R.string.reset_confirmation_title));
-            alert.setMessage(getString(com.kauron.dungeonmanager.R.string.reset_confirmation));
-            alert.setPositiveButton(com.kauron.dungeonmanager.R.string.action_undo, new DialogInterface.OnClickListener() {
+            alert.setTitle(getString(R.string.reset_confirmation_title));
+            alert.setMessage(getString(R.string.reset_confirmation));
+            alert.setPositiveButton(R.string.action_undo, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                     undo();
                 }
             });
 
-            alert.setNegativeButton(com.kauron.dungeonmanager.R.string.die, new DialogInterface.OnClickListener() {
+            alert.setNegativeButton(R.string.die, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                     Toast.makeText(
                             getApplicationContext(),
-                            com.kauron.dungeonmanager.R.string.message_death,
+                            R.string.message_death,
                             Toast.LENGTH_LONG
                     ).show();
                     getSharedPreferences("basics", MODE_PRIVATE).edit().clear().apply();
@@ -246,7 +275,7 @@ public class MainActivity extends ActionBarActivity{
             if(lastState != Player.SAME) {
                 Toast.makeText(
                         getApplicationContext(),
-                        com.kauron.dungeonmanager.R.string.state_changed_debilitado,
+                        R.string.state_changed_debilitado,
                         Toast.LENGTH_LONG
                 ).show();
             }
@@ -256,18 +285,20 @@ public class MainActivity extends ActionBarActivity{
             if(lastState != Player.SAME) {
                 Toast.makeText(
                         getApplicationContext(),
-                        com.kauron.dungeonmanager.R.string.state_changed_malherido,
+                        R.string.state_changed_malherido,
                         Toast.LENGTH_LONG
                 ).show();
             }
         } else {
-            pg.setTextColor(getResources().getColor(
-                    com.kauron.dungeonmanager.R.color.abc_primary_text_material_dark
-            ));
+            if(player.getPg() >= player.getMaxPg())
+                pg.setTextColor(Color.GREEN);
+            else
+                pg.setTextColor(getResources().getColor(
+                        R.color.abc_primary_text_material_dark
+                ));
             pg.setBackgroundColor(android.R.drawable.btn_default);
         }
     }
-
 
     private void restoreData(){
         SharedPreferences p = getSharedPreferences("basics", MODE_PRIVATE);
@@ -281,10 +312,10 @@ public class MainActivity extends ActionBarActivity{
         }
         if(player == null) {
             player = new Player(
-                    p.getString("playerName", getString(com.kauron.dungeonmanager.R.string.adventurer_name)),
-                    p.getString("className", getString(com.kauron.dungeonmanager.R.string.class_name)),
-                    p.getString("raceName", getString(com.kauron.dungeonmanager.R.string.race_name)),
-                    p.getInt("level", 1),
+                    p.getString("playerName", getString(R.string.adventurer_name)),
+                    p.getInt("classInt", Player.NULL),
+                    p.getInt("raceInt", Player.NULL),
+                    p.getInt("px", 0),
                     new int[] {
                             p.getInt("fue", 10),
                             p.getInt("con", 10),
@@ -296,10 +327,10 @@ public class MainActivity extends ActionBarActivity{
                     new int[18],
                     new Power[4]);
         } else {
-            player.setName(p.getString("playerName", getString(com.kauron.dungeonmanager.R.string.adventurer_name)));
-            player.setClassName(p.getString("className", getString(com.kauron.dungeonmanager.R.string.class_name)));
-            player.setRaceName(p.getString("raceName", getString(com.kauron.dungeonmanager.R.string.race_name)));
-            player.setLevel(p.getInt("level", 1));
+            player.setName(p.getString("playerName", getString(R.string.adventurer_name)));
+            player.setClassInt(p.getInt("classInt", Player.NULL));
+            player.setRaceInt(p.getInt("raceInt", Player.NULL));
+            player.setPx(p.getInt("px", 0));
             player.setAtk(new int[]{
                     p.getInt("fue", 10),
                     p.getInt("con", 10),
@@ -310,67 +341,60 @@ public class MainActivity extends ActionBarActivity{
             });
 
         }
+        if(player.getLevel() != 1 && player.getMaxPg() == 0) {
+            pgDialog();
+        }
         player.setCurativeEffort(p.getInt("curativeEfforts", player.getCurativeEfforts()));
         player.setPg(p.getInt("pg", player.getPg()));
         healthStatusCheck();
         updateCurativeString();
         //set restored values to the respective fields
-        ((TextView) findViewById(com.kauron.dungeonmanager.R.id.nameText)).setText(player.getName());
-        ((TextView) findViewById(com.kauron.dungeonmanager.R.id.raceText)).setText(player.getRaceName());
-        ((TextView) findViewById(com.kauron.dungeonmanager.R.id.classText)).setText(player.getClassName());
-        ((TextView) findViewById(com.kauron.dungeonmanager.R.id.lvl)).setText(String.valueOf(player.getLevel()));
+        ((TextView) findViewById(R.id.nameText)).setText(player.getName());
+        ((TextView) findViewById(R.id.raceText)).setText(player.getRaceName());
+        ((TextView) findViewById(R.id.classText)).setText(player.getClassName());
+        ((TextView) findViewById(R.id.lvl)).setText(String.valueOf(player.getLevel()));
 
-        ((Button) findViewById(com.kauron.dungeonmanager.R.id.pgCurrent)).setText(String.valueOf(player.getPg()));
+        ((Button) findViewById(R.id.pgCurrent)).setText(String.valueOf(player.getPg()));
 
         //attacks
-        ((TextView) findViewById(com.kauron.dungeonmanager.R.id.FUE)).setText(
-                getString(com.kauron.dungeonmanager.R.string.FUE) + ":" + player.getFue()
+        ((TextView) findViewById(R.id.FUE)).setText(
+                getString(R.string.FUE) + ":" + player.getFue()
         );
-        ((TextView) findViewById(com.kauron.dungeonmanager.R.id.CON)).setText(
-                getString(com.kauron.dungeonmanager.R.string.CON) + ":" + player.getCon()
+        ((TextView) findViewById(R.id.CON)).setText(
+                getString(R.string.CON) + ":" + player.getCon()
         );
-        ((TextView) findViewById(com.kauron.dungeonmanager.R.id.DES)).setText(
-                getString(com.kauron.dungeonmanager.R.string.DES) + ":" + player.getDes()
+        ((TextView) findViewById(R.id.DES)).setText(
+                getString(R.string.DES) + ":" + player.getDes()
         );
-        ((TextView) findViewById(com.kauron.dungeonmanager.R.id.INT)).setText(
-                getString(com.kauron.dungeonmanager.R.string.INT) + ":" + player.getInt()
+        ((TextView) findViewById(R.id.INT)).setText(
+                getString(R.string.INT) + ":" + player.getInt()
         );
-        ((TextView) findViewById(com.kauron.dungeonmanager.R.id.SAB)).setText(
-                getString(com.kauron.dungeonmanager.R.string.SAB) + ":" + player.getSab()
+        ((TextView) findViewById(R.id.SAB)).setText(
+                getString(R.string.SAB) + ":" + player.getSab()
         );
-        ((TextView) findViewById(com.kauron.dungeonmanager.R.id.CAR)).setText(
-                getString(com.kauron.dungeonmanager.R.string.CAR) + ":" + player.getCar()
+        ((TextView) findViewById(R.id.CAR)).setText(
+                getString(R.string.CAR) + ":" + player.getCar()
         );
 
         //defenses
-        ((TextView) findViewById(com.kauron.dungeonmanager.R.id.CA)).setText(
-                getString(com.kauron.dungeonmanager.R.string.CA) + ": " + player.getCa()
+        ((TextView) findViewById(R.id.CA)).setText(
+                getString(R.string.CA) + ": " + player.getCa()
         );
-        ((TextView) findViewById(com.kauron.dungeonmanager.R.id.FORT)).setText(
-                getString(com.kauron.dungeonmanager.R.string.FORT) + ":" + player.getFort()
+        ((TextView) findViewById(R.id.FORT)).setText(
+                getString(R.string.FORT) + ":" + player.getFort()
         );
-        ((TextView) findViewById(com.kauron.dungeonmanager.R.id.REF)).setText(
-                getString(com.kauron.dungeonmanager.R.string.REF) + ":" + player.getRef()
+        ((TextView) findViewById(R.id.REF)).setText(
+                getString(R.string.REF) + ":" + player.getRef()
         );
-        ((TextView) findViewById(com.kauron.dungeonmanager.R.id.VOL)).setText(
-                getString(com.kauron.dungeonmanager.R.string.VOL) + ": " + player.getVol()
+        ((TextView) findViewById(R.id.VOL)).setText(
+                getString(R.string.VOL) + ": " + player.getVol()
         );
 
 
     }
 
-//    private void saveData() {
-//        getSharedPreferences("basics", MODE_PRIVATE).edit()
-//                .putInt("level", player.getLevel())
-//                .putInt("maxPg", player.getMaxPg())
-//                .putInt("pg", player.getPg())
-//                .putInt("maxCurativeEfforts", player.getMaxCurativeEfforts())
-//                .putInt("curativeEfforts", player.getCurativeEfforts())
-//                .apply();
-//    }
-
     private void updateCurativeString() {
-        ((TextView) findViewById(com.kauron.dungeonmanager.R.id.curativeEffortsText)).setText(
+        ((TextView) findViewById(R.id.curativeEffortsText)).setText(
                 getString(
                         R.string.curative_display_text,
                         player.getCurativeEfforts(),
@@ -386,10 +410,10 @@ public class MainActivity extends ActionBarActivity{
     private void undo() {
         String message = "";
         if(undoObject == CURRENT_PG){
-            ((Button) findViewById(com.kauron.dungeonmanager.R.id.pgCurrent)).setText(String.valueOf(undoPreviousValue));
+            ((Button) findViewById(R.id.pgCurrent)).setText(String.valueOf(undoPreviousValue));
             player.setPg(undoPreviousValue);
             undoObject = NULL;
-            message = getString(com.kauron.dungeonmanager.R.string.action_undo_current_pg);
+            message = getString(R.string.action_undo_current_pg);
         }
         Toast.makeText(
                 getApplicationContext(),
@@ -398,5 +422,53 @@ public class MainActivity extends ActionBarActivity{
         ).show();
         undo = false;
         invalidateOptionsMenu();
+    }
+
+    private void pgDialog() {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        final EditText input = new EditText(this);
+        final AlertDialog d;
+        input.setHint(R.string.dialog_resolve_max_pg_hint);
+        input.setInputType(InputType.TYPE_CLASS_NUMBER);
+        input.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        input.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if(keyCode == KeyEvent.FLAG_EDITOR_ACTION) {
+                    if (input.getText().toString().isEmpty()){
+                        Toast.makeText(
+                                getApplicationContext(),
+                                R.string.empty_field,
+                                Toast.LENGTH_LONG
+                        ).show();
+                        pgDialog();
+                    } else {
+                        player.setMaxPg(Integer.parseInt(input.getText().toString()));
+                    }
+                }
+                return false;
+            }
+        });
+        dialog
+                .setView(input)
+                .setCancelable(false)
+                .setTitle(R.string.dialog_resolve_max_pg_title)
+                .setMessage(R.string.dialog_resolve_max_pg_message)
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (input.getText().toString().isEmpty()){
+                            Toast.makeText(
+                                    getApplicationContext(),
+                                    R.string.empty_field,
+                                    Toast.LENGTH_LONG
+                            ).show();
+                            pgDialog();
+                        } else {
+                            player.setMaxPg(Integer.parseInt(input.getText().toString()));
+                        }
+                    }
+                });
+        dialog.show();
     }
 }

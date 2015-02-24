@@ -29,22 +29,22 @@
                 <item
                     android:title="@string/action_time_rest"
                     android:id="@+id/action_time_rest"
-                    android:orderInCategory="2"
+                    android:orderInCategory="4"
                     app:showAsAction="never"/>
                 <item
                     android:title="@string/action_time_day"
                     android:id="@+id/action_time_day"
-                    android:orderInCategory="5"
+                    android:orderInCategory="3"
                     app:showAsAction="never"/>
                 <item
                     android:title="@string/action_time_long_rest"
                     android:id="@+id/action_time_long_rest"
-                    android:orderInCategory="4"
+                    android:orderInCategory="5"
                     app:showAsAction="never"/>
                 <item
                     android:title="@string/action_time_encounter_end"
                     android:id="@+id/action_time_encounter_end"
-                    android:orderInCategory="5"
+                    android:orderInCategory="2"
                     app:showAsAction="never"/>
             </menu>
 

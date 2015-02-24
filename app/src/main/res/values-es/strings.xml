@@ -52,10 +52,18 @@
     <string name="REF">REF</string>
     <string name="VOL">VOL</string>
     <string name="action_time">Avanzar tiempo</string>
-    <string name="action_time_day">Día</string>
+    <string name="action_time_day">Día siguiente</string>
     <string name="action_time_encounter_end">Fin de encuentro</string>
     <string name="action_time_long_rest">Descanso largo</string>
     <string name="action_time_rest">Descanso corto</string>
     <string name="action_time_turn">Turno siguiente</string>
     <string name="curative_display_text">Tienes %1$d de %2$d esfuerzos curativos</string>
+    <string name="px">PX</string>
+    <string name="px_awarded_hint">PX del encuentro</string>
+    <string name="px_awarded_title">Introduce los PX ganados</string>
+    <string name="message_no_px">No has ganado ningún PX</string>
+    <string name="dialog_resolve_max_pg_hint">Máx PG</string>
+    <string name="dialog_resolve_max_pg_message">No se han podido calcular tus PG a partir de tu nivel</string>
+    <string name="dialog_resolve_max_pg_title">Atención</string>
+    <string name="empty_field">Por favor, escribe algo</string>
 </resources>
