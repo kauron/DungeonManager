@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.InputType;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +33,12 @@ public class MainActivity extends ActionBarActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ((ProgressBar) findViewById(R.id.xpBar))
+                .getProgressDrawable()
+                        .setColorFilter(Color.parseColor("#62BACE"), PorterDuff.Mode.SRC_IN);
+        ((ProgressBar) findViewById(R.id.curativeEffortsBar))
+                .getProgressDrawable()
+                        .setColorFilter(Color.parseColor("#FFD700"), PorterDuff.Mode.SRC_IN);
         undo = false;
         invalidateOptionsMenu();
     }
@@ -120,11 +128,23 @@ public class MainActivity extends ActionBarActivity{
                             //TODO: update defenses
                             //TODO: add attack points when necessary
                             //TODO: update currentPg button
+                            //TODO: improve leveling up
                             player.setMaxPgOnLevelUp();
                             ((TextView) findViewById(R.id.lvl)).setText(
                                     String.valueOf(player.getLevel())
                             );
+                            ((ProgressBar) findViewById(R.id.xpBar))
+                                    .setMax(
+                                            Player.LEVEL_PX[player.getLevel()] -
+                                            Player.LEVEL_PX[player.getLevel() - 1]
+                                    );
+                            healthStatusCheck();
+                            updateCurativeString();
                         }
+                        getSharedPreferences("basics", MODE_PRIVATE)
+                                .edit().putInt("px", player.getPx()).apply();
+                        ((ProgressBar) findViewById(R.id.xpBar))
+                                .setProgress(player.getPx() - Player.LEVEL_PX[player.getLevel() - 1]);
                     } catch(Exception e) {
                         Toast.makeText(
                                 getApplicationContext(),
@@ -173,10 +193,14 @@ public class MainActivity extends ActionBarActivity{
                         Toast.LENGTH_LONG
                 ).show();
             }
-            getSharedPreferences("basics", MODE_PRIVATE).edit()
-                    .putInt("pg", player.getPg())
-                    .putInt("curativeEfforts", player.getCurativeEfforts())
-                    .apply();
+            SharedPreferences.Editor e = getSharedPreferences("basics", MODE_PRIVATE).edit();
+            e.putInt("pg", player.getPg());
+            if(usesEffort) {
+                e.putInt("curativeEfforts", player.getCurativeEfforts());
+                ((ProgressBar) findViewById(R.id.curativeEffortsBar))
+                        .setProgress(player.getCurativeEfforts());
+            }
+            e.apply();
             updateCurativeString();
             healthStatusCheck();
         }
@@ -252,6 +276,8 @@ public class MainActivity extends ActionBarActivity{
     private void healthStatusCheck() {
         int status = player.getState();
         int lastState = player.getLastState();
+        ProgressBar pgBar = (ProgressBar) findViewById(R.id.pgBar);
+        pgBar.setProgress(Math.abs(player.getPg()));
         Button pg = (Button) findViewById(R.id.pgCurrent);
         pg.setText(String.valueOf(player.getPg()));
         if (status == Player.MUERTO) {
@@ -283,6 +309,7 @@ public class MainActivity extends ActionBarActivity{
         } else if (status == Player.DEBILITADO) {
             pg.setBackgroundColor(android.R.drawable.btn_default);
             pg.setTextColor(Color.RED);
+            pgBar.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
             if(lastState != Player.SAME) {
                 Toast.makeText(
                         getApplicationContext(),
@@ -293,6 +320,7 @@ public class MainActivity extends ActionBarActivity{
         } else if (status == Player.MALHERIDO) {
             pg.setBackgroundColor(android.R.drawable.btn_default);
             pg.setTextColor(Color.YELLOW);
+            pgBar.getProgressDrawable().setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_IN);
             if(lastState != Player.SAME) {
                 Toast.makeText(
                         getApplicationContext(),
@@ -308,6 +336,7 @@ public class MainActivity extends ActionBarActivity{
                         R.color.abc_primary_text_material_dark
                 ));
             pg.setBackgroundColor(android.R.drawable.btn_default);
+            pgBar.getProgressDrawable().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
         }
     }
 
@@ -337,6 +366,11 @@ public class MainActivity extends ActionBarActivity{
                     },
                     new int[18],
                     new Power[4]);
+            ((ProgressBar) findViewById(R.id.xpBar))
+                    .setMax(
+                            Player.LEVEL_PX[player.getLevel()] -
+                            Player.LEVEL_PX[player.getLevel() - 1]
+                    );
         } else {
             player.setName(p.getString("playerName", getString(R.string.adventurer_name)));
             player.setClassInt(p.getInt("classInt", Player.NULL));
@@ -357,6 +391,12 @@ public class MainActivity extends ActionBarActivity{
         }
         player.setCurativeEffort(p.getInt("curativeEfforts", player.getCurativeEfforts()));
         player.setPg(p.getInt("pg", player.getPg()));
+        ((ProgressBar) findViewById(R.id.pgBar)).setMax(player.getMaxPg());
+        ((ProgressBar) findViewById(R.id.xpBar))
+                .setProgress(player.getPx() - Player.LEVEL_PX[player.getLevel() - 1]);
+        ProgressBar curativeEffortsBar = (ProgressBar) findViewById(R.id.curativeEffortsBar);
+        curativeEffortsBar.setProgress(player.getCurativeEfforts());
+        curativeEffortsBar.setMax(player.getMaxCurativeEfforts());
         healthStatusCheck();
         updateCurativeString();
         //set restored values to the respective fields
@@ -364,8 +404,6 @@ public class MainActivity extends ActionBarActivity{
         ((TextView) findViewById(R.id.raceText)).setText(player.getRaceName());
         ((TextView) findViewById(R.id.classText)).setText(player.getClassName());
         ((TextView) findViewById(R.id.lvl)).setText(String.valueOf(player.getLevel()));
-
-        ((Button) findViewById(R.id.pgCurrent)).setText(String.valueOf(player.getPg()));
 
         //attacks
         ((TextView) findViewById(R.id.FUE)).setText(
@@ -484,6 +522,7 @@ public class MainActivity extends ActionBarActivity{
     }
 
     //TODO: show on screen the max pg's
-
+    //TODO: show in the bars the max and current values
+    //TODO: create secondary thread to move slower the value of the
     //TODO: show the current px and progress bar
 }

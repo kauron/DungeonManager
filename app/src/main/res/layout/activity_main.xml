@@ -93,18 +93,74 @@
             </HorizontalScrollView>
         </LinearLayout>
 
-        <LinearLayout
-            android:orientation="horizontal"
+        <TextView
+            android:id="@+id/titlePgBar"
+            android:text="@string/pg"
+            android:textAllCaps="true"
+            android:drawableBottom="?android:attr/listChoiceBackgroundIndicator"
+            android:layout_marginBottom="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="?android:textColorSecondary"
+            android:textSize="14sp"
+            android:gravity="center_vertical"
+            android:paddingLeft="8dip"
+            android:paddingRight="8dip"/>
+
+        <ProgressBar
+            style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/curativeEffortsContainer">
+            android:id="@+id/pgBar"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:id="@+id/curativeEffortsText"/>
-        </LinearLayout>
+        <TextView
+            android:id="@+id/titleCurativeEffortsBar"
+            android:text="@string/curative_efforts"
+            android:textAllCaps="true"
+            android:drawableBottom="?android:attr/listChoiceBackgroundIndicator"
+            android:layout_marginBottom="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="?android:textColorSecondary"
+            android:textSize="14sp"
+            android:gravity="center_vertical"
+            android:paddingLeft="8dip"
+            android:paddingRight="8dip"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/curativeEffortsText"/>
+
+        <ProgressBar
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/curativeEffortsBar"/>
+
+        <TextView
+            android:id="@+id/titleXpBar"
+            android:text="@string/px"
+            android:textAllCaps="true"
+            android:drawableBottom="?android:attr/listChoiceBackgroundIndicator"
+            android:layout_marginBottom="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="?android:textColorSecondary"
+            android:textSize="14sp"
+            android:gravity="center_vertical"
+            android:paddingLeft="8dip"
+            android:paddingRight="8dip"/>
+
+        <ProgressBar
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/xpBar"/>
 
         <LinearLayout
             android:id="@+id/attackContainer"
@@ -279,5 +335,6 @@
                     android:hint="@string/VOL" />
             </GridLayout>
         </LinearLayout>
+
     </LinearLayout>
 </ScrollView>
