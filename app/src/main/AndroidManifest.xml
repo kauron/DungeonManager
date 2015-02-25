@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.kauron.dungeonmanager" >
+    package="com.kauron.dungeonmanager">
 
     <application
         android:allowBackup="true"

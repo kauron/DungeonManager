@@ -117,6 +117,9 @@ public class MainActivity extends ActionBarActivity{
                     try {
                         if (player.addPx(Integer.parseInt(input.getText().toString()))) {
                             //levelUp
+                            //TODO: update defenses
+                            //TODO: add attack points when necessary
+                            //TODO: update currentPg button
                             player.setMaxPgOnLevelUp();
                             ((TextView) findViewById(R.id.lvl)).setText(
                                     String.valueOf(player.getLevel())
@@ -132,6 +135,14 @@ public class MainActivity extends ActionBarActivity{
                 }
             });
             alert.show();
+            return true;
+        } else if (id == R.id.action_download) {
+            //TODO: create self-updater
+            Toast.makeText(
+                    getApplicationContext(),
+                    "This function is not ready yet",
+                    Toast.LENGTH_LONG
+            ).show();
             return true;
         }
 
@@ -457,7 +468,7 @@ public class MainActivity extends ActionBarActivity{
                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if (input.getText().toString().isEmpty()){
+                        if (input.getText().toString().isEmpty()) {
                             Toast.makeText(
                                     getApplicationContext(),
                                     R.string.empty_field,
@@ -471,4 +482,8 @@ public class MainActivity extends ActionBarActivity{
                 });
         dialog.show();
     }
+
+    //TODO: show on screen the max pg's
+
+    //TODO: show the current px and progress bar
 }

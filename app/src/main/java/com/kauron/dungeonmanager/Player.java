@@ -11,12 +11,14 @@ public class Player {
             "Sacerdote Rúnico", "Señor de la guerra"
     };
 
-    /**
-     * Values for classes
-     */
-    public static final int NULL = 0, ARDIENTE = 1, BRUJO = 2, BUSCADOR = 3, CLÉRIGO = 4,
-            EXPLORADOR = 5, GUERRERO = 6, MAGO = 7, MENTE_DE_BATALLA = 8, MONJE = 9, PALADÍN = 10,
-            PÍCARO = 11, PSIÓNICO = 12, SACERDOTE_RÚNICO = 13, SEÑOR_DE_LA_GUERRA = 14;
+    public static final int NULL = 0;
+
+//    /**
+//     * Values for classes
+//     */
+//    public static final int ARDIENTE = 1, BRUJO = 2, BUSCADOR = 3, CLÉRIGO = 4,
+//            EXPLORADOR = 5, GUERRERO = 6, MAGO = 7, MENTE_DE_BATALLA = 8, MONJE = 9, PALADÍN = 10,
+//            PÍCARO = 11, PSIÓNICO = 12, SACERDOTE_RÚNICO = 13, SEÑOR_DE_LA_GUERRA = 14;
 
     /**
      * Values for level - px computation
@@ -68,12 +70,12 @@ public class Player {
     public static final int CA = 0, FORT = 1, REF = 2, VOL = 3;
 
     //TODO: develop abilities
-    /**
-     * Values for abilities
-     */
-    public static final int ACROBACIAS = 1, AGUANTE = 2, ARCANOS = 3, ATLETISMO = 4, DIPLOMACIA = 5,
-        DUNGEONS = 6, ENGAÑAR = 7, HISTORIA  = 8, HURTO = 9, INTIMIDAR = 10, NATURALEZA = 11,
-        PERCEPCIÓN = 12, PERSPICACIA = 13, RECURSOS = 14, RELIGIÓN = 15, SANAR = 16, SIGILO = 17;
+//    /**
+//     * Values for abilities
+//     */
+//    public static final int ACROBACIAS = 1, AGUANTE = 2, ARCANOS = 3, ATLETISMO = 4, DIPLOMACIA = 5,
+//        DUNGEONS = 6, ENGAÑAR = 7, HISTORIA  = 8, HURTO = 9, INTIMIDAR = 10, NATURALEZA = 11,
+//        PERCEPCIÓN = 12, PERSPICACIA = 13, RECURSOS = 14, RELIGIÓN = 15, SANAR = 16, SIGILO = 17;
 
     /**
      * Names for the abilities
@@ -96,8 +98,9 @@ public class Player {
     private int classInt, raceInt;
     private String name;
     private int level;
-
+    //TODO: use dice class
     private int[] atk, def, abilities;
+    //TODO: implement fully operational powers displayed as cards
     private Power[] powers;
 
     public Player(

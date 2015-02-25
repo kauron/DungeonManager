@@ -6,6 +6,7 @@ public class Power {
     private boolean used;
     private int type;
     private String name;
+    private int atk, def, damage;
 
 
     public Power(String name, int type){

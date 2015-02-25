@@ -91,7 +91,7 @@ public class Introduction extends ActionBarActivity {
         int classInt = classSpinner.getSelectedItemPosition();
         int raceInt = raceSpinner.getSelectedItemPosition();
 
-        int pxInt = 0;
+        int pxInt = -1;
         if (!level.getText().toString().isEmpty())
             pxInt = Integer.parseInt(level.getText().toString());
 
@@ -114,7 +114,7 @@ public class Introduction extends ActionBarActivity {
                     !nameString.isEmpty() &&
                     classInt != Player.NULL &&
                     raceInt != Player.NULL &&
-                    pxInt != 0 &&
+                    pxInt != -1 &&
                     car != 0 &&
                     fue != 0 &&
                     con != 0 &&

@@ -71,4 +71,5 @@
     <string name="empty_field">Please input something</string>
     <string name="dialog_resolve_max_pg_title">Alert</string>
     <string name="dialog_resolve_max_pg_message">Couldn\'t compute your max PG based on your level</string>
+    <string name="action_download">Update app</string>
 </resources>
