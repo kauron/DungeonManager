@@ -93,20 +93,36 @@
             </HorizontalScrollView>
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/titlePgBar"
-            android:text="@string/pg"
-            android:textAllCaps="true"
-            android:drawableBottom="?android:attr/listChoiceBackgroundIndicator"
-            android:layout_marginBottom="5dp"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textColor="?android:textColorSecondary"
-            android:textSize="14sp"
-            android:gravity="center_vertical"
-            android:paddingLeft="8dip"
-            android:paddingRight="8dip"/>
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/titlePgBar"
+                android:text="@string/pg"
+                android:textAllCaps="true"
+                android:drawableBottom="?android:attr/listChoiceBackgroundIndicator"
+                android:layout_marginBottom="5dp"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textColor="?android:textColorSecondary"
+                android:textSize="14sp"
+                android:paddingLeft="8dip"
+                android:paddingRight="8dip"
+                android:layout_weight="1"/>
+            <!--TODO: USE this-->
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:id="@+id/currentPg"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textAllCaps="true"
+                android:layout_weight="1"/>
+        </LinearLayout>
 
         <ProgressBar
             style="?android:attr/progressBarStyleHorizontal"
@@ -114,26 +130,33 @@
             android:layout_height="wrap_content"
             android:id="@+id/pgBar"/>
 
-        <TextView
-            android:id="@+id/titleCurativeEffortsBar"
-            android:text="@string/curative_efforts"
-            android:textAllCaps="true"
-            android:drawableBottom="?android:attr/listChoiceBackgroundIndicator"
-            android:layout_marginBottom="5dp"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textColor="?android:textColorSecondary"
-            android:textSize="14sp"
-            android:gravity="center_vertical"
-            android:paddingLeft="8dip"
-            android:paddingRight="8dip"/>
+            android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:id="@+id/curativeEffortsText"/>
+            <TextView
+                android:id="@+id/titleCurativeEffortsBar"
+                android:text="@string/curative_efforts"
+                android:textAllCaps="true"
+                android:drawableBottom="?android:attr/listChoiceBackgroundIndicator"
+                android:layout_marginBottom="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textColor="?android:textColorSecondary"
+                android:textSize="14sp"
+                android:paddingLeft="8dip"
+                android:paddingRight="8dip"/>
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:gravity="right"
+                android:id="@+id/currentCurativeEfforts"
+                android:textAllCaps="true"/>
+        </LinearLayout>
 
         <ProgressBar
             style="?android:attr/progressBarStyleHorizontal"
@@ -141,20 +164,36 @@
             android:layout_height="wrap_content"
             android:id="@+id/curativeEffortsBar"/>
 
-        <TextView
-            android:id="@+id/titleXpBar"
-            android:text="@string/px"
-            android:textAllCaps="true"
-            android:drawableBottom="?android:attr/listChoiceBackgroundIndicator"
-            android:layout_marginBottom="5dp"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textColor="?android:textColorSecondary"
-            android:textSize="14sp"
-            android:gravity="center_vertical"
-            android:paddingLeft="8dip"
-            android:paddingRight="8dip"/>
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/titleXpBar"
+                android:text="@string/px"
+                android:textAllCaps="true"
+                android:drawableBottom="?android:attr/listChoiceBackgroundIndicator"
+                android:layout_marginBottom="5dp"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textColor="?android:textColorSecondary"
+                android:textSize="14sp"
+                android:paddingLeft="8dip"
+                android:paddingRight="8dip"
+                android:layout_weight="1"/>
+            <!--TODO: USE this-->
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:id="@+id/currentXp"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textAllCaps="true"
+                android:layout_weight="1"/>
+        </LinearLayout>
 
         <ProgressBar
             style="?android:attr/progressBarStyleHorizontal"

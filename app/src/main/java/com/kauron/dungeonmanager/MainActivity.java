@@ -9,7 +9,6 @@ import android.graphics.PorterDuff;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.InputType;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -100,6 +99,7 @@ public class MainActivity extends ActionBarActivity{
                             Toast.LENGTH_LONG
                     ).show();
                     getSharedPreferences("basics", MODE_PRIVATE).edit().clear().apply();
+                    player = null;
                     restoreData();
                 }
             });
@@ -155,6 +155,7 @@ public class MainActivity extends ActionBarActivity{
                 }
             });
             alert.show();
+            input.requestFocus();
             return true;
         } else if (id == R.id.action_download) {
             //TODO: create self-updater
@@ -395,8 +396,8 @@ public class MainActivity extends ActionBarActivity{
         ((ProgressBar) findViewById(R.id.xpBar))
                 .setProgress(player.getPx() - Player.LEVEL_PX[player.getLevel() - 1]);
         ProgressBar curativeEffortsBar = (ProgressBar) findViewById(R.id.curativeEffortsBar);
-        curativeEffortsBar.setProgress(player.getCurativeEfforts());
         curativeEffortsBar.setMax(player.getMaxCurativeEfforts());
+        curativeEffortsBar.setProgress(player.getCurativeEfforts());
         healthStatusCheck();
         updateCurativeString();
         //set restored values to the respective fields
@@ -443,12 +444,9 @@ public class MainActivity extends ActionBarActivity{
     }
 
     private void updateCurativeString() {
-        ((TextView) findViewById(R.id.curativeEffortsText)).setText(
-                getString(
-                        R.string.curative_display_text,
-                        player.getCurativeEfforts(),
-                        player.getMaxCurativeEfforts()
-                )
+        ((TextView) findViewById(R.id.currentCurativeEfforts)).setText(
+                player.getCurativeEfforts() + " / " +
+                player.getMaxCurativeEfforts()
         );
     }
 
@@ -480,24 +478,6 @@ public class MainActivity extends ActionBarActivity{
         input.setHint(R.string.dialog_resolve_max_pg_hint);
         input.setInputType(InputType.TYPE_CLASS_NUMBER);
         input.setImeOptions(EditorInfo.IME_ACTION_DONE);
-        input.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if(keyCode == KeyEvent.FLAG_EDITOR_ACTION) {
-                    if (input.getText().toString().isEmpty()){
-                        Toast.makeText(
-                                getApplicationContext(),
-                                R.string.empty_field,
-                                Toast.LENGTH_LONG
-                        ).show();
-                        pgDialog();
-                    } else {
-                        player.setMaxPg(Integer.parseInt(input.getText().toString()));
-                    }
-                }
-                return false;
-            }
-        });
         dialog
                 .setView(input)
                 .setCancelable(false)
@@ -519,10 +499,11 @@ public class MainActivity extends ActionBarActivity{
                     }
                 });
         dialog.show();
+        input.requestFocus();
     }
+
 
     //TODO: show on screen the max pg's
     //TODO: show in the bars the max and current values
-    //TODO: create secondary thread to move slower the value of the
-    //TODO: show the current px and progress bar
+    //TODO: create secondary thread to move slower the value of the progressBar
 }

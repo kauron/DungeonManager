@@ -20,19 +20,19 @@ public class Introduction extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setContentView(com.kauron.dungeonmanager.R.layout.activity_introduction);
-        name = (EditText) findViewById(com.kauron.dungeonmanager.R.id.editNameIntro);
-        level = (EditText) findViewById(com.kauron.dungeonmanager.R.id.editPxIntro);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setContentView(R.layout.activity_introduction);
+        name = (EditText) findViewById(R.id.editNameIntro);
+        name.requestFocus();
+        level = (EditText) findViewById(R.id.editPxIntro);
+        fue = (EditText) findViewById(R.id.FUE);
+        con = (EditText) findViewById(R.id.CON);
+        des = (EditText) findViewById(R.id.DES);
+        sab = (EditText) findViewById(R.id.SAB);
+        intel = (EditText) findViewById(R.id.INT);
+        car = (EditText) findViewById(R.id.CAR);
 
-        fue = (EditText) findViewById(com.kauron.dungeonmanager.R.id.FUE);
-        con = (EditText) findViewById(com.kauron.dungeonmanager.R.id.CON);
-        des = (EditText) findViewById(com.kauron.dungeonmanager.R.id.DES);
-        sab = (EditText) findViewById(com.kauron.dungeonmanager.R.id.SAB);
-        intel = (EditText) findViewById(com.kauron.dungeonmanager.R.id.INT);
-        car = (EditText) findViewById(com.kauron.dungeonmanager.R.id.CAR);
-
-        classSpinner = (Spinner) findViewById(com.kauron.dungeonmanager.R.id.classSpinner);
+        classSpinner = (Spinner) findViewById(R.id.classSpinner);
         classSpinner.setAdapter(
                 new ArrayAdapter<>(
                         this,
@@ -41,7 +41,7 @@ public class Introduction extends ActionBarActivity {
                 )
         );
 
-        raceSpinner = (Spinner) findViewById(com.kauron.dungeonmanager.R.id.raceSpinner);
+        raceSpinner = (Spinner) findViewById(R.id.raceSpinner);
         raceSpinner.setAdapter(
                 new ArrayAdapter<>(
                         this,
@@ -55,8 +55,17 @@ public class Introduction extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(com.kauron.dungeonmanager.R.menu.menu_introduction, menu);
+        getMenuInflater().inflate(R.menu.menu_introduction, menu);
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(
+                getApplicationContext(),
+                R.string.message_no_back_button_intro,
+                Toast.LENGTH_LONG
+        ).show();
     }
 
     @Override
@@ -67,13 +76,13 @@ public class Introduction extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == com.kauron.dungeonmanager.R.id.action_save) {
+        if (id == R.id.action_save) {
             if(finished()) {
                 this.finish();
             } else {
                 Toast.makeText(
                         getApplicationContext(),
-                        com.kauron.dungeonmanager.R.string.missing_info_error,
+                        R.string.missing_info_error,
                         Toast.LENGTH_LONG
                 ).show();
             }

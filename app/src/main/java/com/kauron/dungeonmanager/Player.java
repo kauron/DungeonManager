@@ -252,8 +252,4 @@ public class Player {
     public static int getModifier(int i) {
         return i / 2 - 5;
     }
-
-    public int getTotalModifier(int i) {
-        return getModifier(i) + level / 2;
-    }
 }
