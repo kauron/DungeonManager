@@ -96,7 +96,7 @@ public class Introduction extends ActionBarActivity {
     private boolean finished() {
         SharedPreferences p = getSharedPreferences("basics", MODE_PRIVATE);
         SharedPreferences.Editor ed = p.edit();
-        String nameString = name.getText().toString();
+        String nameString = name.getText().toString().trim();
         int classInt = classSpinner.getSelectedItemPosition();
         int raceInt = raceSpinner.getSelectedItemPosition();
 

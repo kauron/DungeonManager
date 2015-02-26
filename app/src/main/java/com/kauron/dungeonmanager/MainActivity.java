@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,7 +19,6 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 
 public class MainActivity extends ActionBarActivity{
 
@@ -143,8 +143,12 @@ public class MainActivity extends ActionBarActivity{
                         }
                         getSharedPreferences("basics", MODE_PRIVATE)
                                 .edit().putInt("px", player.getPx()).apply();
-                        ((ProgressBar) findViewById(R.id.xpBar))
-                                .setProgress(player.getPx() - Player.LEVEL_PX[player.getLevel() - 1]);
+                        incrementProgressBar(
+                                (ProgressBar) findViewById(R.id.xpBar),
+                                (TextView) findViewById(R.id.currentXp),
+                                player.getPx() - Player.LEVEL_PX[player.getLevel() - 1],
+                                1
+                        );
                     } catch(Exception e) {
                         Toast.makeText(
                                 getApplicationContext(),
@@ -198,8 +202,12 @@ public class MainActivity extends ActionBarActivity{
             e.putInt("pg", player.getPg());
             if(usesEffort) {
                 e.putInt("curativeEfforts", player.getCurativeEfforts());
-                ((ProgressBar) findViewById(R.id.curativeEffortsBar))
-                        .setProgress(player.getCurativeEfforts());
+                incrementProgressBar(
+                        (ProgressBar) findViewById(R.id.curativeEffortsBar),
+                        (TextView) findViewById(R.id.currentCurativeEfforts),
+                        player.getCurativeEfforts(),
+                        100
+                );
             }
             e.apply();
             updateCurativeString();
@@ -278,6 +286,12 @@ public class MainActivity extends ActionBarActivity{
         int status = player.getState();
         int lastState = player.getLastState();
         ProgressBar pgBar = (ProgressBar) findViewById(R.id.pgBar);
+        incrementProgressBar(
+                pgBar,
+                (TextView) findViewById(R.id.currentPg),
+                Math.abs(player.getPg()),
+                100
+        );
         pgBar.setProgress(Math.abs(player.getPg()));
         Button pg = (Button) findViewById(R.id.pgCurrent);
         pg.setText(String.valueOf(player.getPg()));
@@ -376,7 +390,7 @@ public class MainActivity extends ActionBarActivity{
             player.setName(p.getString("playerName", getString(R.string.adventurer_name)));
             player.setClassInt(p.getInt("classInt", Player.NULL));
             player.setRaceInt(p.getInt("raceInt", Player.NULL));
-            player.setPx(p.getInt("px", 0));
+            player.setPx(p.getInt("px", player.getPx()));
             player.setAtk(new int[]{
                     p.getInt("fue", 10),
                     p.getInt("con", 10),
@@ -392,11 +406,11 @@ public class MainActivity extends ActionBarActivity{
         }
         player.setCurativeEffort(p.getInt("curativeEfforts", player.getCurativeEfforts()));
         player.setPg(p.getInt("pg", player.getPg()));
-        ((ProgressBar) findViewById(R.id.pgBar)).setMax(player.getMaxPg());
+        ((ProgressBar) findViewById(R.id.pgBar)).setMax(player.getMaxPg()*100);
         ((ProgressBar) findViewById(R.id.xpBar))
                 .setProgress(player.getPx() - Player.LEVEL_PX[player.getLevel() - 1]);
         ProgressBar curativeEffortsBar = (ProgressBar) findViewById(R.id.curativeEffortsBar);
-        curativeEffortsBar.setMax(player.getMaxCurativeEfforts());
+        curativeEffortsBar.setMax(player.getMaxCurativeEfforts()*100);
         curativeEffortsBar.setProgress(player.getCurativeEfforts());
         healthStatusCheck();
         updateCurativeString();
@@ -500,6 +514,39 @@ public class MainActivity extends ActionBarActivity{
                 });
         dialog.show();
         input.requestFocus();
+    }
+
+    //TODO: implement level-up animation and expand the max dynamically
+    private void incrementProgressBar(final ProgressBar progressBar, final TextView textView, final int end, final int factor) {
+        if(progressBar.getProgress() - end == 0) return;
+        final Handler handler = new Handler();
+        final int time = 3000 / Math.abs(progressBar.getProgress() - end);
+        new Thread(new Runnable() {
+            public void run() {
+                int current = progressBar.getProgress()*factor;
+                boolean bigger = current < end;
+                while ((bigger && current <= end) || (!bigger && current >= end)) {
+                    current += bigger ? 1 : -1;
+                    // Update the progress bar and display the
+                    //current value in the text view
+                    final int finalCurrent = current;
+                    handler.post(new Runnable() {
+                        public void run() {
+                            progressBar.setProgress(finalCurrent);
+                            textView.setText((finalCurrent/factor) +" / "+(progressBar.getMax()/factor));
+                        }
+                    });
+                    try {
+                        // Sleep for 200 milliseconds.
+                        //Just to display the progress slowly
+                        Thread.sleep(time);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
+
     }
 
 
