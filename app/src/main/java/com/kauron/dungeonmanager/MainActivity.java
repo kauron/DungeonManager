@@ -123,7 +123,8 @@ public class MainActivity extends ActionBarActivity{
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     try {
-                        if (player.addPx(Integer.parseInt(input.getText().toString()))) {
+                        boolean levelUp = player.addPx(Integer.parseInt(input.getText().toString()));
+                        if (levelUp) {
                             //levelUp
                             //TODO: update defenses
                             //TODO: add attack points when necessary
@@ -133,11 +134,6 @@ public class MainActivity extends ActionBarActivity{
                             ((TextView) findViewById(R.id.lvl)).setText(
                                     String.valueOf(player.getLevel())
                             );
-                            ((ProgressBar) findViewById(R.id.xpBar))
-                                    .setMax(
-                                            Player.LEVEL_PX[player.getLevel()] -
-                                            Player.LEVEL_PX[player.getLevel() - 1]
-                                    );
                             healthStatusCheck();
                             updateCurativeString();
                         }
@@ -146,8 +142,9 @@ public class MainActivity extends ActionBarActivity{
                         incrementProgressBar(
                                 (ProgressBar) findViewById(R.id.xpBar),
                                 (TextView) findViewById(R.id.currentXp),
-                                player.getPx() - Player.LEVEL_PX[player.getLevel() - 1],
-                                1
+                                1, levelUp, Player.LEVEL_PX[player.getLevel()] -
+                                            Player.LEVEL_PX[player.getLevel() - 1],
+                                true, player.getPx() - Player.LEVEL_PX[player.getLevel() - 1]
                         );
                     } catch(Exception e) {
                         Toast.makeText(
@@ -205,8 +202,8 @@ public class MainActivity extends ActionBarActivity{
                 incrementProgressBar(
                         (ProgressBar) findViewById(R.id.curativeEffortsBar),
                         (TextView) findViewById(R.id.currentCurativeEfforts),
-                        player.getCurativeEfforts(),
-                        100
+                        100, false, 0,
+                        true, player.getCurativeEfforts()
                 );
             }
             e.apply();
@@ -285,14 +282,15 @@ public class MainActivity extends ActionBarActivity{
     private void healthStatusCheck() {
         int status = player.getState();
         int lastState = player.getLastState();
-        ProgressBar pgBar = (ProgressBar) findViewById(R.id.pgBar);
-        incrementProgressBar(
-                pgBar,
-                (TextView) findViewById(R.id.currentPg),
-                Math.abs(player.getPg()),
-                100
-        );
-        pgBar.setProgress(Math.abs(player.getPg()));
+//        ProgressBar pgBar = (ProgressBar) findViewById(R.id.pgBar);
+//        incrementProgressBar(
+//                pgBar,
+//                (TextView) findViewById(R.id.currentPg),
+//                Math.abs(player.getPg()),
+//                100,
+//                false,
+//                CURRENT_PG
+//        );
         Button pg = (Button) findViewById(R.id.pgCurrent);
         pg.setText(String.valueOf(player.getPg()));
         if (status == Player.MUERTO) {
@@ -324,7 +322,7 @@ public class MainActivity extends ActionBarActivity{
         } else if (status == Player.DEBILITADO) {
             pg.setBackgroundColor(android.R.drawable.btn_default);
             pg.setTextColor(Color.RED);
-            pgBar.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
+//            pgBar.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
             if(lastState != Player.SAME) {
                 Toast.makeText(
                         getApplicationContext(),
@@ -335,7 +333,7 @@ public class MainActivity extends ActionBarActivity{
         } else if (status == Player.MALHERIDO) {
             pg.setBackgroundColor(android.R.drawable.btn_default);
             pg.setTextColor(Color.YELLOW);
-            pgBar.getProgressDrawable().setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_IN);
+//            pgBar.getProgressDrawable().setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_IN);
             if(lastState != Player.SAME) {
                 Toast.makeText(
                         getApplicationContext(),
@@ -351,7 +349,7 @@ public class MainActivity extends ActionBarActivity{
                         R.color.abc_primary_text_material_dark
                 ));
             pg.setBackgroundColor(android.R.drawable.btn_default);
-            pgBar.getProgressDrawable().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
+//            pgBar.getProgressDrawable().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
         }
     }
 
@@ -401,17 +399,24 @@ public class MainActivity extends ActionBarActivity{
             });
 
         }
-        if(player.getLevel() != 1 && player.getMaxPg() == 0) {
+        if(player.getMaxPg() == 0) {
             pgDialog();
         }
-        player.setCurativeEffort(p.getInt("curativeEfforts", player.getCurativeEfforts()));
-        player.setPg(p.getInt("pg", player.getPg()));
-        ((ProgressBar) findViewById(R.id.pgBar)).setMax(player.getMaxPg()*100);
-        ((ProgressBar) findViewById(R.id.xpBar))
-                .setProgress(player.getPx() - Player.LEVEL_PX[player.getLevel() - 1]);
+        player.setCurativeEffort(p.getInt("curativeEfforts", player.getMaxCurativeEfforts()));
+        player.setPg(p.getInt("pg", player.getMaxPg()));
+        incrementProgressBar(
+                (ProgressBar) findViewById(R.id.pgBar),
+                (TextView) findViewById(R.id.currentPg),
+                100, true, player.getMaxPg(),
+                true, player.getPg()
+        );
         ProgressBar curativeEffortsBar = (ProgressBar) findViewById(R.id.curativeEffortsBar);
-        curativeEffortsBar.setMax(player.getMaxCurativeEfforts()*100);
-        curativeEffortsBar.setProgress(player.getCurativeEfforts());
+        incrementProgressBar(
+                curativeEffortsBar,
+                (TextView) findViewById(R.id.currentCurativeEfforts),
+                100, true, player.getMaxCurativeEfforts(),
+                true, player.getCurativeEfforts()
+        );
         healthStatusCheck();
         updateCurativeString();
         //set restored values to the respective fields
@@ -517,23 +522,38 @@ public class MainActivity extends ActionBarActivity{
     }
 
     //TODO: implement level-up animation and expand the max dynamically
-    private void incrementProgressBar(final ProgressBar progressBar, final TextView textView, final int end, final int factor) {
-        if(progressBar.getProgress() - end == 0) return;
+    private void incrementProgressBar(final ProgressBar progressBar, final TextView textView,
+                                      final int factor,
+                                      final boolean setMax, int max,
+                                      final boolean setVal, int end) {
+        if(setMax) progressBar.setMax(factor*max);
+        if(!setVal) return;
+        if(progressBar.getProgress() - end*factor == 0) return;
         final Handler handler = new Handler();
-        final int time = 3000 / Math.abs(progressBar.getProgress() - end);
+        final int finalEnd = end * factor;
+        final int time = 2000 / Math.abs(progressBar.getProgress() - finalEnd);
         new Thread(new Runnable() {
             public void run() {
-                int current = progressBar.getProgress()*factor;
-                boolean bigger = current < end;
-                while ((bigger && current <= end) || (!bigger && current >= end)) {
-                    current += bigger ? 1 : -1;
+                int current = progressBar.getProgress();
+                boolean bigger = current < finalEnd;
+                while ((bigger && current < finalEnd) || (!bigger && current > finalEnd)) {
+                    if(bigger) current++;
+                    else current--;
                     // Update the progress bar and display the
                     //current value in the text view
                     final int finalCurrent = current;
                     handler.post(new Runnable() {
                         public void run() {
                             progressBar.setProgress(finalCurrent);
-                            textView.setText((finalCurrent/factor) +" / "+(progressBar.getMax()/factor));
+                            if(factor == 1){
+                                textView.setText(
+                                        (finalCurrent + Player.LEVEL_PX[player.getLevel() - 1])
+                                        + " / " +
+                                        (progressBar.getMax() + Player.LEVEL_PX[player.getLevel()])
+                                );
+                            } else {
+                                textView.setText((finalCurrent/factor) +" / "+(progressBar.getMax()/factor));
+                            }
                         }
                     });
                     try {
