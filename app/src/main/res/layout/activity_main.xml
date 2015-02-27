@@ -112,7 +112,6 @@
                 android:paddingLeft="8dip"
                 android:paddingRight="8dip"
                 android:layout_weight="1"/>
-            <!--TODO: USE this-->
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -124,11 +123,27 @@
                 android:layout_weight="1"/>
         </LinearLayout>
 
-        <ProgressBar
-            style="?android:attr/progressBarStyleHorizontal"
+        <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/pgBar"/>
+            android:orientation="horizontal">
+            <ProgressBar
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/negCurativeEffortsBar"
+                android:layout_weight="2"
+                android:rotation="180"
+                android:progress="25"/>
+            <ProgressBar
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/pgBar"
+                android:layout_weight="1"/>
+        </LinearLayout>
+
+
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -183,7 +198,6 @@
                 android:paddingLeft="8dip"
                 android:paddingRight="8dip"
                 android:layout_weight="1"/>
-            <!--TODO: USE this-->
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"

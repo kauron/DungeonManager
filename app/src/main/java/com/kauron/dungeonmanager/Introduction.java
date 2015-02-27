@@ -92,7 +92,6 @@ public class Introduction extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    //TODO: fix this
     private boolean finished() {
         SharedPreferences p = getSharedPreferences("basics", MODE_PRIVATE);
         SharedPreferences.Editor ed = p.edit();

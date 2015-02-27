@@ -38,6 +38,8 @@ public class MainActivity extends ActionBarActivity{
         ((ProgressBar) findViewById(R.id.curativeEffortsBar))
                 .getProgressDrawable()
                         .setColorFilter(Color.parseColor("#FFD700"), PorterDuff.Mode.SRC_IN);
+        //TODO: use the negative PG bar, not curativeEfforts one
+//        findViewById(R.id.negCurativeEffortsBar).setRotation(180);
         undo = false;
         invalidateOptionsMenu();
     }
@@ -75,7 +77,6 @@ public class MainActivity extends ActionBarActivity{
             }
             return true;
         } else if (id == R.id.action_edit_basics) {
-            //TODO: try this startChildActivity()
             SharedPreferences p = getSharedPreferences("basics", MODE_PRIVATE);
             Intent intent = new Intent(this, Introduction.class);
             startActivity(intent.putExtra(
@@ -257,6 +258,12 @@ public class MainActivity extends ActionBarActivity{
                     pg.setText(
                             String.valueOf(player.getPg())
                     );
+                    incrementProgressBar(
+                            (ProgressBar) findViewById(R.id.pgBar),
+                            (TextView) findViewById(R.id.currentPg),
+                            100, false, 0,
+                            true, player.getPg()
+                    );
                     //finished correctly, then apply values to undo's
                     undo = true;
                     undoPreviousValue = preValue;
@@ -362,6 +369,7 @@ public class MainActivity extends ActionBarActivity{
                     "first_time",
                     !p.getBoolean("saved", false)
             ));
+            while(!p.getBoolean("saved", false));
         }
         if(player == null) {
             player = new Player(
@@ -521,7 +529,10 @@ public class MainActivity extends ActionBarActivity{
         input.requestFocus();
     }
 
-    //TODO: implement level-up animation and expand the max dynamically
+    //TODO: fix the display of maxPg and levelUp
+    //TODO: use this for px and curativeEfforts
+    //TODO: set up a partial barCommand to raise only between the ratios, then a manager, then another
+    //TODO: if pgBar, change color accordingly with the pg
     private void incrementProgressBar(final ProgressBar progressBar, final TextView textView,
                                       final int factor,
                                       final boolean setMax, int max,
@@ -531,6 +542,7 @@ public class MainActivity extends ActionBarActivity{
         if(progressBar.getProgress() - end*factor == 0) return;
         final Handler handler = new Handler();
         final int finalEnd = end * factor;
+        final boolean negative = finalEnd < 0;
         final int time = 2000 / Math.abs(progressBar.getProgress() - finalEnd);
         new Thread(new Runnable() {
             public void run() {
@@ -539,9 +551,32 @@ public class MainActivity extends ActionBarActivity{
                 while ((bigger && current < finalEnd) || (!bigger && current > finalEnd)) {
                     if(bigger) current++;
                     else current--;
+
+//                    if(progressBar.getId() == R.id.pgBar) {
+//                        double rate = (double)current / progressBar.getMax() * (negative ? -1:1);
+//                        if (rate <= 0) {
+//                            progressBar.getProgressDrawable()
+//                                    .setColorFilter(
+//                                            Color.RED,
+//                                            PorterDuff.Mode.SRC_IN
+//                                    );
+//                        } else if (rate <= 0.5) {
+//                            progressBar.getProgressDrawable()
+//                                    .setColorFilter(
+//                                            Color.YELLOW,
+//                                            PorterDuff.Mode.SRC_IN
+//                                    );
+//                        } else {
+//                            progressBar.getProgressDrawable()
+//                                    .setColorFilter(
+//                                            Color.GREEN,
+//                                            PorterDuff.Mode.SRC_IN
+//                                    );
+//                        }
+//                    }
                     // Update the progress bar and display the
                     //current value in the text view
-                    final int finalCurrent = current;
+                    final int finalCurrent = Math.abs(current);
                     handler.post(new Runnable() {
                         public void run() {
                             progressBar.setProgress(finalCurrent);
@@ -549,7 +584,7 @@ public class MainActivity extends ActionBarActivity{
                                 textView.setText(
                                         (finalCurrent + Player.LEVEL_PX[player.getLevel() - 1])
                                         + " / " +
-                                        (progressBar.getMax() + Player.LEVEL_PX[player.getLevel()])
+                                        (progressBar.getMax() + Player.LEVEL_PX[player.getLevel() - 1])
                                 );
                             } else {
                                 textView.setText((finalCurrent/factor) +" / "+(progressBar.getMax()/factor));
