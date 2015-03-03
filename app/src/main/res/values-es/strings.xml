@@ -57,7 +57,6 @@
     <string name="action_time_long_rest">Descanso largo</string>
     <string name="action_time_rest">Descanso corto</string>
     <string name="action_time_turn">Turno siguiente</string>
-    <string name="curative_display_text">Tienes %1$d de %2$d esfuerzos curativos</string>
     <string name="px">PX</string>
     <string name="px_awarded_hint">PX del encuentro</string>
     <string name="px_awarded_title">Introduce los PX ganados</string>
@@ -66,4 +65,8 @@
     <string name="dialog_resolve_max_pg_message">No se han podido calcular tus PG a partir de tu nivel</string>
     <string name="dialog_resolve_max_pg_title">Atención</string>
     <string name="empty_field">Por favor, escribe algo</string>
+    <string name="action_download">Actualizar app</string>
+    <string name="message_no_back_button_intro">No puedes volver atrás. Para crear tu personaje pulsa el botón de guardar</string>
+    <string name="long_rest_done">Has descansado y restaurado todos tus poderes</string>
+    <string name="rest_done">Tus poderes de encuentro han sido restaurados</string>
 </resources>

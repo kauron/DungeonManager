@@ -13,9 +13,10 @@ import android.widget.Toast;
 
 public class Introduction extends ActionBarActivity {
 
-    EditText name, level;
-    EditText fue, con, des, sab, intel, car;
-    Spinner classSpinner, raceSpinner;
+    private EditText name, level;
+    private EditText fue, con, des, sab, intel, car;
+    private Spinner classSpinner, raceSpinner;
+    private boolean first;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +50,8 @@ public class Introduction extends ActionBarActivity {
                         Player.RACE_STRINGS
                 )
         );
+
+        first = getIntent().getExtras() == null || getIntent().getExtras().getBoolean("first_time");
     }
 
 
@@ -78,7 +81,7 @@ public class Introduction extends ActionBarActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_save) {
             if(finished()) {
-                this.finish();
+                finish();
             } else {
                 Toast.makeText(
                         getApplicationContext(),
@@ -117,7 +120,7 @@ public class Introduction extends ActionBarActivity {
         if (!this.sab.getText().toString().isEmpty())
             sab = Integer.parseInt(this.sab.getText().toString());
 
-        if(getIntent().getExtras().getBoolean("first_time")) {
+        if(first) {
             if (
                     !nameString.isEmpty() &&
                     classInt != Player.NULL &&
@@ -151,7 +154,7 @@ public class Introduction extends ActionBarActivity {
             if (!nameString.isEmpty()) ed.putString("playerName", nameString);
             if (classInt != Player.NULL) ed.putInt("classInt", classInt);
             if (raceInt != Player.NULL) ed.putInt("raceInt", raceInt);
-            if (pxInt != 0)  ed.putInt("px", pxInt);
+            if (pxInt != -1)  ed.putInt("px", pxInt);
 
             if (fue != 0)       ed.putInt("fue", fue);
             if (car != 0)       ed.putInt("car", car);

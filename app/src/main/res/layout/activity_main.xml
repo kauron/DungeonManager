@@ -131,10 +131,17 @@
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/negCurativeEffortsBar"
+                android:id="@+id/negPgBar"
                 android:layout_weight="2"
-                android:rotation="180"
-                android:progress="25"/>
+                android:rotation="180"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
+                android:text="0"/>
             <ProgressBar
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="fill_parent"

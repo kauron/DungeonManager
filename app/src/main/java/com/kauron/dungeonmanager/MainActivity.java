@@ -27,20 +27,44 @@ public class MainActivity extends ActionBarActivity{
     public Player player;
     private boolean undo;
     private int undoObject, undoPreviousValue;
+    //TODO: change curativeEffortsBar() color
+
+    private ProgressBar pgBar, negPgBar, xpBar, curativeEffortsBar;
+    private Button pgCurrent;
+    private TextView currentPg, currentXp, currentCurativeEfforts, lvl;
+    private SharedPreferences p;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ((ProgressBar) findViewById(R.id.xpBar))
-                .getProgressDrawable()
+
+        p = getSharedPreferences("basics", MODE_PRIVATE);
+        xpBar = (ProgressBar) findViewById(R.id.xpBar);
+        curativeEffortsBar = (ProgressBar) findViewById(R.id.curativeEffortsBar);
+        pgBar = (ProgressBar) findViewById(R.id.pgBar);
+        negPgBar = (ProgressBar) findViewById(R.id.negPgBar);
+
+        pgCurrent = (Button) findViewById(R.id.pgCurrent);
+
+        lvl = (TextView) findViewById(R.id.lvl);
+        currentPg = (TextView) findViewById(R.id.currentPg);
+        currentXp = (TextView) findViewById(R.id.currentXp);
+        currentCurativeEfforts = (TextView) findViewById(R.id.currentCurativeEfforts);
+
+        xpBar.getProgressDrawable()
                         .setColorFilter(Color.parseColor("#62BACE"), PorterDuff.Mode.SRC_IN);
-        ((ProgressBar) findViewById(R.id.curativeEffortsBar))
-                .getProgressDrawable()
+        curativeEffortsBar.getProgressDrawable()
                         .setColorFilter(Color.parseColor("#FFD700"), PorterDuff.Mode.SRC_IN);
         //TODO: use the negative PG bar, not curativeEfforts one
-//        findViewById(R.id.negCurativeEffortsBar).setRotation(180);
         undo = false;
+        //begin
+        restoreData();
+        pgUpdate();
+        ceUpdate();
+        pxUpdate();
+        //end
         invalidateOptionsMenu();
     }
 
@@ -77,7 +101,6 @@ public class MainActivity extends ActionBarActivity{
             }
             return true;
         } else if (id == R.id.action_edit_basics) {
-            SharedPreferences p = getSharedPreferences("basics", MODE_PRIVATE);
             Intent intent = new Intent(this, Introduction.class);
             startActivity(intent.putExtra(
                     "first_time",
@@ -99,7 +122,7 @@ public class MainActivity extends ActionBarActivity{
                             R.string.message_reset,
                             Toast.LENGTH_LONG
                     ).show();
-                    getSharedPreferences("basics", MODE_PRIVATE).edit().clear().apply();
+                    p.edit().clear().apply();
                     player = null;
                     restoreData();
                 }
@@ -132,21 +155,23 @@ public class MainActivity extends ActionBarActivity{
                             //TODO: update currentPg button
                             //TODO: improve leveling up
                             player.setMaxPgOnLevelUp();
-                            ((TextView) findViewById(R.id.lvl)).setText(
+                            lvl.setText(
                                     String.valueOf(player.getLevel())
                             );
-                            healthStatusCheck();
-                            updateCurativeString();
                         }
-                        getSharedPreferences("basics", MODE_PRIVATE)
-                                .edit().putInt("px", player.getPx()).apply();
-                        incrementProgressBar(
-                                (ProgressBar) findViewById(R.id.xpBar),
-                                (TextView) findViewById(R.id.currentXp),
-                                1, levelUp, Player.LEVEL_PX[player.getLevel()] -
-                                            Player.LEVEL_PX[player.getLevel() - 1],
-                                true, player.getPx() - Player.LEVEL_PX[player.getLevel() - 1]
-                        );
+                        p.edit().putInt("px", player.getPx()).apply();
+                        if(levelUp)
+                            xpBar.setMax(Player.LEVEL_PX[player.getLevel()] -
+                                            Player.LEVEL_PX[player.getLevel() - 1]);
+                        pxUpdate();
+                        ceUpdate();
+                        pgUpdate();
+//                        incrementProgressBar(
+//                                xpBar, currentXp,
+//                                1, levelUp, Player.LEVEL_PX[player.getLevel()] -
+//                                            Player.LEVEL_PX[player.getLevel() - 1],
+//                                true, player.getPx() - Player.LEVEL_PX[player.getLevel() - 1]
+//                        );
                     } catch(Exception e) {
                         Toast.makeText(
                                 getApplicationContext(),
@@ -167,6 +192,24 @@ public class MainActivity extends ActionBarActivity{
                     Toast.LENGTH_LONG
             ).show();
             return true;
+        } else if (id == R.id.action_time_long_rest) {
+            player.rest(true);
+            Toast.makeText(
+                    getApplicationContext(), R.string.long_rest_done, Toast.LENGTH_LONG
+            ).show();
+            p.edit()
+                    .putInt("pg", player.getPg())
+                    .putInt("curativeEfforts", player.getCurativeEfforts())
+                    .apply();
+            pgUpdate();
+            ceUpdate();
+        } else if (id == R.id.action_time_rest) {
+            player.rest(false);
+            Toast.makeText(
+                    getApplicationContext(), R.string.rest_done, Toast.LENGTH_LONG
+            ).show();
+            pgUpdate();
+            ceUpdate();
         }
 
         return super.onOptionsItemSelected(item);
@@ -176,8 +219,9 @@ public class MainActivity extends ActionBarActivity{
     protected void onResume() {
         super.onResume();
         restoreData();
-        healthStatusCheck();
-        updateCurativeString();
+        pgUpdate();
+        ceUpdate();
+        pxUpdate();
     }
 
     public void heal(boolean usesEffort) {
@@ -196,20 +240,19 @@ public class MainActivity extends ActionBarActivity{
                         Toast.LENGTH_LONG
                 ).show();
             }
-            SharedPreferences.Editor e = getSharedPreferences("basics", MODE_PRIVATE).edit();
+            SharedPreferences.Editor e = p.edit();
             e.putInt("pg", player.getPg());
             if(usesEffort) {
                 e.putInt("curativeEfforts", player.getCurativeEfforts());
-                incrementProgressBar(
-                        (ProgressBar) findViewById(R.id.curativeEffortsBar),
-                        (TextView) findViewById(R.id.currentCurativeEfforts),
-                        100, false, 0,
-                        true, player.getCurativeEfforts()
-                );
+//                incrementProgressBar(
+//                        curativeEffortsBar, currentCurativeEfforts,
+//                        100, false, 0,
+//                        true, player.getCurativeEfforts()
+//                );
+                ceUpdate();
             }
             e.apply();
-            updateCurativeString();
-            healthStatusCheck();
+            pgUpdate();
         }
     }
 
@@ -250,28 +293,22 @@ public class MainActivity extends ActionBarActivity{
 
         alert.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                Button pg = (Button) findViewById(R.id.pgCurrent);
                 try {
-                    int preValue = Integer.parseInt(pg.getText().toString());
+                    int preValue = Integer.parseInt(pgCurrent.getText().toString());
                     int damage = Integer.parseInt(input.getText().toString());
                     player.losePg(damage);
-                    pg.setText(
-                            String.valueOf(player.getPg())
-                    );
-                    incrementProgressBar(
-                            (ProgressBar) findViewById(R.id.pgBar),
-                            (TextView) findViewById(R.id.currentPg),
-                            100, false, 0,
-                            true, player.getPg()
-                    );
+                    pgCurrent.setText(String.valueOf(player.getPg()));
+//                    incrementProgressBar(
+//                            pgBar, currentPg,
+//                            100, false, 0,
+//                            true, player.getPg()
+//                    );
                     //finished correctly, then apply values to undo's
                     undo = true;
                     undoPreviousValue = preValue;
                     undoObject = CURRENT_PG;
-                    getSharedPreferences("basics", MODE_PRIVATE).edit()
-                            .putInt("pg", player.getPg())
-                            .apply();
-                    healthStatusCheck();
+                    p.edit().putInt("pg", player.getPg()).apply();
+                    pgUpdate();
                     invalidateOptionsMenu();
                 } catch (Exception e) {}
             }
@@ -286,23 +323,30 @@ public class MainActivity extends ActionBarActivity{
         alert.show();
     }
 
-    private void healthStatusCheck() {
+    private void pgUpdate() {
         int status = player.getState();
         int lastState = player.getLastState();
-//        ProgressBar pgBar = (ProgressBar) findViewById(R.id.pgBar);
+        int pg = player.getPg();
+        if (pg < 0) {
+            pgBar.setProgress(0);
+            negPgBar.setProgress(-pg);
+        } else if (pg > 0) {
+            pgBar.setProgress(pg);
+            negPgBar.setProgress(0);
+        } else {
+            pgBar.setProgress(0);
+            negPgBar.setProgress(0);
+        }
+        currentPg.setText(player.getPg() + " / " + player.getMaxPg());
 //        incrementProgressBar(
-//                pgBar,
-//                (TextView) findViewById(R.id.currentPg),
-//                Math.abs(player.getPg()),
-//                100,
-//                false,
-//                CURRENT_PG
+//                pgBar, currentPg,
+//                100, false, 0,
+//                true, Math.abs(player.getPg())
 //        );
-        Button pg = (Button) findViewById(R.id.pgCurrent);
-        pg.setText(String.valueOf(player.getPg()));
+        pgCurrent.setText(String.valueOf(player.getPg()));
         if (status == Player.MUERTO) {
-            pg.setTextColor(Color.BLACK);
-            pg.setBackgroundColor(Color.RED);
+            pgCurrent.setTextColor(Color.BLACK);
+            pgCurrent.setBackgroundColor(Color.RED);
 
             AlertDialog.Builder alert = new AlertDialog.Builder(this);
             alert.setTitle(getString(R.string.reset_confirmation_title));
@@ -320,16 +364,17 @@ public class MainActivity extends ActionBarActivity{
                             R.string.message_death,
                             Toast.LENGTH_LONG
                     ).show();
-                    getSharedPreferences("basics", MODE_PRIVATE).edit().clear().apply();
+                    p.edit().clear().apply();
                     restoreData();
                 }
             });
 
             alert.show();
         } else if (status == Player.DEBILITADO) {
-            pg.setBackgroundColor(android.R.drawable.btn_default);
-            pg.setTextColor(Color.RED);
-//            pgBar.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
+            pgCurrent.setBackgroundColor(android.R.drawable.btn_default);
+            pgCurrent.setTextColor(Color.RED);
+            pgBar.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
+            negPgBar.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
             if(lastState != Player.SAME) {
                 Toast.makeText(
                         getApplicationContext(),
@@ -338,9 +383,10 @@ public class MainActivity extends ActionBarActivity{
                 ).show();
             }
         } else if (status == Player.MALHERIDO) {
-            pg.setBackgroundColor(android.R.drawable.btn_default);
-            pg.setTextColor(Color.YELLOW);
-//            pgBar.getProgressDrawable().setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_IN);
+            pgCurrent.setBackgroundColor(android.R.drawable.btn_default);
+            pgCurrent.setTextColor(Color.YELLOW);
+            pgBar.getProgressDrawable().setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_IN);
+            negPgBar.getProgressDrawable().setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_IN);
             if(lastState != Player.SAME) {
                 Toast.makeText(
                         getApplicationContext(),
@@ -349,49 +395,37 @@ public class MainActivity extends ActionBarActivity{
                 ).show();
             }
         } else {
-            if(player.getPg() >= player.getMaxPg())
-                pg.setTextColor(Color.GREEN);
-            else
-                pg.setTextColor(getResources().getColor(
-                        R.color.abc_primary_text_material_dark
-                ));
-            pg.setBackgroundColor(android.R.drawable.btn_default);
-//            pgBar.getProgressDrawable().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
+            pgCurrent.setTextColor(Color.GREEN);
+            pgCurrent.setBackgroundColor(android.R.drawable.btn_default);
+            pgBar.getProgressDrawable().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
+            negPgBar.getProgressDrawable().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
         }
     }
 
     private void restoreData(){
-        SharedPreferences p = getSharedPreferences("basics", MODE_PRIVATE);
-        //restore state
         if (!p.getBoolean("saved", false)) {
             Intent intent = new Intent(this, Introduction.class);
             startActivity(intent.putExtra(
                     "first_time",
                     !p.getBoolean("saved", false)
             ));
-            while(!p.getBoolean("saved", false));
         }
-        if(player == null) {
+        if (player == null) {
             player = new Player(
                     p.getString("playerName", getString(R.string.adventurer_name)),
                     p.getInt("classInt", Player.NULL),
                     p.getInt("raceInt", Player.NULL),
                     p.getInt("px", 0),
-                    new int[] {
+                    new int[]{
                             p.getInt("fue", 10),
                             p.getInt("con", 10),
                             p.getInt("des", 10),
                             p.getInt("int", 10),
                             p.getInt("sab", 10),
-                            p.getInt("car", 10),
+                            p.getInt("car", 10)
                     },
                     new int[18],
                     new Power[4]);
-            ((ProgressBar) findViewById(R.id.xpBar))
-                    .setMax(
-                            Player.LEVEL_PX[player.getLevel()] -
-                            Player.LEVEL_PX[player.getLevel() - 1]
-                    );
         } else {
             player.setName(p.getString("playerName", getString(R.string.adventurer_name)));
             player.setClassInt(p.getInt("classInt", Player.NULL));
@@ -403,35 +437,40 @@ public class MainActivity extends ActionBarActivity{
                     p.getInt("des", 10),
                     p.getInt("int", 10),
                     p.getInt("sab", 10),
-                    p.getInt("car", 10),
+                    p.getInt("car", 10)
             });
-
         }
-        if(player.getMaxPg() == 0) {
+        pxUpdate();
+        xpBar.setMax(
+                Player.LEVEL_PX[player.getLevel()] -
+                Player.LEVEL_PX[player.getLevel() - 1]
+        );
+
+        if (player.getMaxPg() == 0) {
             pgDialog();
         }
         player.setCurativeEffort(p.getInt("curativeEfforts", player.getMaxCurativeEfforts()));
         player.setPg(p.getInt("pg", player.getMaxPg()));
-        incrementProgressBar(
-                (ProgressBar) findViewById(R.id.pgBar),
-                (TextView) findViewById(R.id.currentPg),
-                100, true, player.getMaxPg(),
-                true, player.getPg()
-        );
-        ProgressBar curativeEffortsBar = (ProgressBar) findViewById(R.id.curativeEffortsBar);
-        incrementProgressBar(
-                curativeEffortsBar,
-                (TextView) findViewById(R.id.currentCurativeEfforts),
-                100, true, player.getMaxCurativeEfforts(),
-                true, player.getCurativeEfforts()
-        );
-        healthStatusCheck();
-        updateCurativeString();
+        pgBar.setMax(player.getMaxPg());
+        negPgBar.setMax(player.getMaxPg() / 2);
+//        incrementProgressBar(
+//                pgBar, currentPg,
+//                100, true, player.getMaxPg(),
+//                true, player.getPg()
+//        );
+        curativeEffortsBar.setMax(player.getMaxCurativeEfforts());
+//        incrementProgressBar(
+//                curativeEffortsBar, currentCurativeEfforts,
+//                100, true, player.getMaxCurativeEfforts(),
+//                true, player.getCurativeEfforts()
+//        );
+        pgUpdate();
+        ceUpdate();
         //set restored values to the respective fields
         ((TextView) findViewById(R.id.nameText)).setText(player.getName());
         ((TextView) findViewById(R.id.raceText)).setText(player.getRaceName());
         ((TextView) findViewById(R.id.classText)).setText(player.getClassName());
-        ((TextView) findViewById(R.id.lvl)).setText(String.valueOf(player.getLevel()));
+        lvl.setText(String.valueOf(player.getLevel()));
 
         //attacks
         ((TextView) findViewById(R.id.FUE)).setText(
@@ -466,15 +505,23 @@ public class MainActivity extends ActionBarActivity{
         ((TextView) findViewById(R.id.VOL)).setText(
                 getString(R.string.VOL) + ": " + player.getVol()
         );
-
-
     }
 
-    private void updateCurativeString() {
-        ((TextView) findViewById(R.id.currentCurativeEfforts)).setText(
+    private void ceUpdate() {
+        curativeEffortsBar.setProgress(player.getCurativeEfforts());
+        currentCurativeEfforts.setText(
                 player.getCurativeEfforts() + " / " +
                 player.getMaxCurativeEfforts()
         );
+    }
+
+    private void pxUpdate() {
+        xpBar.setProgress(player.getPx());
+        currentXp.setText(
+                player.getPx() + " / " +
+                        Player.LEVEL_PX[player.getLevel()]
+        );
+
     }
 
     public void selectPlayer(View view) {
@@ -484,7 +531,7 @@ public class MainActivity extends ActionBarActivity{
     private void undo() {
         String message = "";
         if(undoObject == CURRENT_PG){
-            ((Button) findViewById(R.id.pgCurrent)).setText(String.valueOf(undoPreviousValue));
+            pgCurrent.setText(String.valueOf(undoPreviousValue));
             player.setPg(undoPreviousValue);
             undoObject = NULL;
             message = getString(R.string.action_undo_current_pg);
@@ -494,6 +541,7 @@ public class MainActivity extends ActionBarActivity{
                 message,
                 Toast.LENGTH_LONG
         ).show();
+        pgUpdate();
         undo = false;
         invalidateOptionsMenu();
     }
@@ -501,7 +549,6 @@ public class MainActivity extends ActionBarActivity{
     private void pgDialog() {
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         final EditText input = new EditText(this);
-        final AlertDialog d;
         input.setHint(R.string.dialog_resolve_max_pg_hint);
         input.setInputType(InputType.TYPE_CLASS_NUMBER);
         input.setImeOptions(EditorInfo.IME_ACTION_DONE);
@@ -530,50 +577,38 @@ public class MainActivity extends ActionBarActivity{
     }
 
     //TODO: fix the display of maxPg and levelUp
-    //TODO: use this for px and curativeEfforts
     //TODO: set up a partial barCommand to raise only between the ratios, then a manager, then another
     //TODO: if pgBar, change color accordingly with the pg
     private void incrementProgressBar(final ProgressBar progressBar, final TextView textView,
                                       final int factor,
                                       final boolean setMax, int max,
                                       final boolean setVal, int end) {
+        if(factor == 1){
+            textView.setText(
+                    (progressBar.getProgress() + Player.LEVEL_PX[player.getLevel() - 1])
+                    + " / " +
+                    (progressBar.getMax() + Player.LEVEL_PX[player.getLevel() - 1])
+            );
+        } else {
+            textView.setText(
+                    (progressBar.getProgress()/factor) + " / " +
+                    (progressBar.getMax()/factor)
+            );
+        }
+
         if(setMax) progressBar.setMax(factor*max);
         if(!setVal) return;
         if(progressBar.getProgress() - end*factor == 0) return;
         final Handler handler = new Handler();
-        final int finalEnd = end * factor;
-        final boolean negative = finalEnd < 0;
-        final int time = 2000 / Math.abs(progressBar.getProgress() - finalEnd);
+        final int finalEnd = (end < 0 ? 0 : -1) * end * factor;
+        final int time = Math.max(2000 / Math.abs(progressBar.getProgress() - finalEnd), 1);
         new Thread(new Runnable() {
             public void run() {
                 int current = progressBar.getProgress();
                 boolean bigger = current < finalEnd;
                 while ((bigger && current < finalEnd) || (!bigger && current > finalEnd)) {
-                    if(bigger) current++;
-                    else current--;
-
-//                    if(progressBar.getId() == R.id.pgBar) {
-//                        double rate = (double)current / progressBar.getMax() * (negative ? -1:1);
-//                        if (rate <= 0) {
-//                            progressBar.getProgressDrawable()
-//                                    .setColorFilter(
-//                                            Color.RED,
-//                                            PorterDuff.Mode.SRC_IN
-//                                    );
-//                        } else if (rate <= 0.5) {
-//                            progressBar.getProgressDrawable()
-//                                    .setColorFilter(
-//                                            Color.YELLOW,
-//                                            PorterDuff.Mode.SRC_IN
-//                                    );
-//                        } else {
-//                            progressBar.getProgressDrawable()
-//                                    .setColorFilter(
-//                                            Color.GREEN,
-//                                            PorterDuff.Mode.SRC_IN
-//                                    );
-//                        }
-//                    }
+                    if(bigger) current += 2;
+                    else current -= 2;
                     // Update the progress bar and display the
                     //current value in the text view
                     final int finalCurrent = Math.abs(current);
@@ -601,11 +636,30 @@ public class MainActivity extends ActionBarActivity{
                 }
             }
         }).start();
-
     }
 
 
     //TODO: show on screen the max pg's
-    //TODO: show in the bars the max and current values
-    //TODO: create secondary thread to move slower the value of the progressBar
+//                    if(progressBar.getId() == R.id.pgBar) {
+//                        double rate = (double)current / progressBar.getMax() * (negative ? -1:1);
+//                        if (rate <= 0) {
+//                            progressBar.getProgressDrawable()
+//                                    .setColorFilter(
+//                                            Color.RED,
+//                                            PorterDuff.Mode.SRC_IN
+//                                    );
+//                        } else if (rate <= 0.5) {
+//                            progressBar.getProgressDrawable()
+//                                    .setColorFilter(
+//                                            Color.YELLOW,
+//                                            PorterDuff.Mode.SRC_IN
+//                                    );
+//                        } else {
+//                            progressBar.getProgressDrawable()
+//                                    .setColorFilter(
+//                                            Color.GREEN,
+//                                            PorterDuff.Mode.SRC_IN
+//                                    );
+//                        }
+//                    }
 }

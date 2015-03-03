@@ -86,6 +86,10 @@ public class Player {
             "Religión", "Sanar", "Sigilo"
     };
 
+    public static final int[] ABILITY_BOOST = new int[] {
+            -1, DES, CON, INT, FUE, CAR, SAB, CAR, INT, CAR, DES, SAB, SAB, SAB, CAR, INT, SAB, DES
+    };
+
     /**
      * Values for the current living state
      */
@@ -214,13 +218,18 @@ public class Player {
     public int getRaceInt() {return raceInt;}
 
     //TODO: implement time in the app
-    public void rest(boolean length) {
-        if(length) {
+    public void rest(boolean isLong) {
+        if(isLong) {
+            pg = maxPg;
             curativeEfforts = maxCurativeEfforts;
-            for(Power p : powers){
-                if(p != null) p.recover();
-            }
+            for (Power p : powers)
+                if (p != null && p.getType() == Power.DIARIO)
+                    p.recover();
+            setState();
         }
+        for (Power p : powers)
+            if (p != null && p.getType() == Power.ENCUENTRO)
+                p.recover();
     }
 
     public void setAtk(int[] atk) {this.atk = atk; if(classInt != NULL) setClass();}

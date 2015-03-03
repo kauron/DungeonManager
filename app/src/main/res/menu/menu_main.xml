@@ -22,19 +22,9 @@
         android:icon="@drawable/ic_action_time">
             <menu>
                 <item
-                    android:title="@string/action_time_turn"
-                    android:id="@+id/action_time_turn"
-                    android:orderInCategory="1"
-                    app:showAsAction="never"/>
-                <item
                     android:title="@string/action_time_rest"
                     android:id="@+id/action_time_rest"
                     android:orderInCategory="4"
-                    app:showAsAction="never"/>
-                <item
-                    android:title="@string/action_time_day"
-                    android:id="@+id/action_time_day"
-                    android:orderInCategory="3"
                     app:showAsAction="never"/>
                 <item
                     android:title="@string/action_time_long_rest"

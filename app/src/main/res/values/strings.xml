@@ -13,6 +13,8 @@
     <string name="VOL">VOL</string>
     <string name="defense">Defense</string>
     <string name="curative_efforts">Curative efforts</string>
+    <string name="rest_done">Your encounter powers have been restored</string>
+    <string name="long_rest_done">All your stats have been restored</string>
     <string name="action_reset">Reset</string>
     <string name="message_reset">All the data has been cleared</string>
     <string name="reset_confirmation_title">Are you sure?</string>
@@ -72,4 +74,9 @@
     <string name="dialog_resolve_max_pg_message">Couldn\'t compute your max PG based on your level</string>
     <string name="action_download">Update app</string>
     <string name="message_no_back_button_intro">You can\'t go back. Fill the information and press the save button.</string>
+    <string name="title_activity_welcome">Welcome</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="new_character">New character</string>
 </resources>
