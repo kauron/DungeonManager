@@ -57,7 +57,6 @@ public class MainActivity extends ActionBarActivity{
                         .setColorFilter(Color.parseColor("#62BACE"), PorterDuff.Mode.SRC_IN);
         curativeEffortsBar.getProgressDrawable()
                         .setColorFilter(Color.parseColor("#FFD700"), PorterDuff.Mode.SRC_IN);
-        //TODO: use the negative PG bar, not curativeEfforts one
         undo = false;
         //begin
         restoreData();
@@ -77,7 +76,11 @@ public class MainActivity extends ActionBarActivity{
 
     @Override
     public boolean onPrepareOptionsMenu (Menu menu) {
-        menu.findItem(R.id.action_undo).setVisible(undo);
+        menu.findItem(R.id.action_undo).setEnabled(undo);
+        if (undo)
+            menu.findItem(R.id.action_undo).getIcon().setAlpha(255);
+        else
+            menu.findItem(R.id.action_undo).getIcon().setAlpha(128);
         return true;
     }
 
@@ -120,7 +123,6 @@ public class MainActivity extends ActionBarActivity{
                             //levelUp
                             //TODO: update defenses
                             //TODO: add attack points when necessary
-                            //TODO: update currentPg button
                             //TODO: improve leveling up
                             player.setMaxPgOnLevelUp();
                             lvl.setText(
@@ -496,11 +498,13 @@ public class MainActivity extends ActionBarActivity{
             undoObject = NULL;
             message = getString(R.string.action_undo_current_pg);
         }
-        Toast.makeText(
-                getApplicationContext(),
-                message,
-                Toast.LENGTH_LONG
-        ).show();
+        if (!message.isEmpty()) {
+            Toast.makeText(
+                    getApplicationContext(),
+                    message,
+                    Toast.LENGTH_LONG
+            ).show();
+        }
         pgUpdate();
         undo = false;
         invalidateOptionsMenu();
@@ -599,7 +603,6 @@ public class MainActivity extends ActionBarActivity{
     }
 
 
-    //TODO: show on screen the max pg's
 //                    if(progressBar.getId() == R.id.pgBar) {
 //                        double rate = (double)current / progressBar.getMax() * (negative ? -1:1);
 //                        if (rate <= 0) {

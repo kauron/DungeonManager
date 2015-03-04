@@ -217,7 +217,7 @@ public class Player {
     public void setRaceInt(int raceInt) {this.raceInt= raceInt;}
     public int getRaceInt() {return raceInt;}
 
-    //TODO: implement time in the app
+    //TODO: implement turns (for bonuses and continuous damage in the app
     public void rest(boolean isLong) {
         if(isLong) {
             pg = maxPg;

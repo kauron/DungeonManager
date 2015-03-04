@@ -64,6 +64,7 @@ public class Introduction extends ActionBarActivity {
 
     @Override
     public void onBackPressed() {
+        super.onBackPressed();
         Toast.makeText(
                 getApplicationContext(),
                 R.string.message_no_back_button_intro,
