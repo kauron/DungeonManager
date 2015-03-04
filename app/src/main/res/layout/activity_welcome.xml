@@ -7,12 +7,12 @@
     tools:context="com.kauron.dungeonmanager.Welcome"
     android:orientation="vertical">
 
-    <Button
-        android:layout_width="match_parent"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Load character"
-        android:id="@+id/loadCharacter"
-        android:onClick="onLoadClick" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/new_character_warning"
+        android:id="@+id/newText" />
 
     <Button
         android:layout_width="fill_parent"
@@ -20,5 +20,13 @@
         android:text="@string/new_character"
         android:id="@+id/newCharacter"
         android:onClick="onNewClick" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/load_character"
+        android:id="@+id/loadCharacter"
+        android:onClick="onLoadClick"
+        android:layout_marginTop="10dp" />
 
 </LinearLayout>

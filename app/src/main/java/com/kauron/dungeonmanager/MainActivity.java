@@ -100,40 +100,8 @@ public class MainActivity extends ActionBarActivity{
                 healDialog();
             }
             return true;
-        } else if (id == R.id.action_edit_basics) {
-            Intent intent = new Intent(this, Introduction.class);
-            startActivity(intent.putExtra(
-                    "first_time",
-                    !p.getBoolean("saved", false)
-            ));
-            restoreData();
-            return true;
         } else if (id == R.id.action_undo) {
             undo();
-            return true;
-        } else if (id == R.id.action_reset) {
-            AlertDialog.Builder alert = new AlertDialog.Builder(this);
-            alert.setTitle(R.string.reset_confirmation_title);
-            alert.setMessage(R.string.reset_confirmation);
-            alert.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
-                    Toast.makeText(
-                            getApplicationContext(),
-                            R.string.message_reset,
-                            Toast.LENGTH_LONG
-                    ).show();
-                    p.edit().clear().apply();
-                    player = null;
-                    restoreData();
-                }
-            });
-            alert.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
-                    // Canceled.
-                }
-            });
-
-            alert.show();
             return true;
         } else if (id == R.id.action_time_encounter_end) {
             AlertDialog.Builder alert = new AlertDialog.Builder(this);
@@ -183,14 +151,6 @@ public class MainActivity extends ActionBarActivity{
             });
             alert.show();
             input.requestFocus();
-            return true;
-        } else if (id == R.id.action_download) {
-            //TODO: create self-updater
-            Toast.makeText(
-                    getApplicationContext(),
-                    "This function is not ready yet",
-                    Toast.LENGTH_LONG
-            ).show();
             return true;
         } else if (id == R.id.action_time_long_rest) {
             player.rest(true);

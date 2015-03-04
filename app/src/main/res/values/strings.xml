@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name" translatable="false">DungeonManager</string>
+    <string name="app_name" translatable="false">Dungeon Manager</string>
     <string name="attack">Attack</string>
     <string name="action_cure">Cure</string>
     <string name="action_undo">Undo</string>
@@ -13,6 +13,7 @@
     <string name="VOL">VOL</string>
     <string name="defense">Defense</string>
     <string name="curative_efforts">Curative efforts</string>
+    <string name="load_text">Load %1$s</string>
     <string name="rest_done">Your encounter powers have been restored</string>
     <string name="long_rest_done">All your stats have been restored</string>
     <string name="action_reset">Reset</string>
@@ -73,10 +74,11 @@
     <string name="dialog_resolve_max_pg_title">Alert</string>
     <string name="dialog_resolve_max_pg_message">Couldn\'t compute your max PG based on your level</string>
     <string name="action_download">Update app</string>
-    <string name="message_no_back_button_intro">You can\'t go back. Fill the information and press the save button.</string>
+    <string name="message_no_back_button_intro">Your information hasn\'t been saved</string>
     <string name="title_activity_welcome">Welcome</string>
 
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="new_character">New character</string>
+    <string name="load_character">Load character</string>
+    <string name="new_character_warning">This will erase any previously existing data saved</string>
 </resources>

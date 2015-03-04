@@ -66,7 +66,13 @@
     <string name="dialog_resolve_max_pg_title">Atención</string>
     <string name="empty_field">Por favor, escribe algo</string>
     <string name="action_download">Actualizar app</string>
-    <string name="message_no_back_button_intro">No puedes volver atrás. Para crear tu personaje pulsa el botón de guardar</string>
+    <string name="message_no_back_button_intro">Tu personaje no se ha guardado</string>
     <string name="long_rest_done">Has descansado y restaurado todos tus poderes</string>
     <string name="rest_done">Tus poderes de encuentro han sido restaurados</string>
+    <string name="action_settings">Ajustes</string>
+    <string name="load_text">Cargar %1$s</string>
+    <string name="new_character">Nuevo personaje</string>
+    <string name="title_activity_welcome">Bienvenido</string>
+    <string name="load_character">Cargar personaje</string>
+    <string name="new_character_warning">Esto borrará al personaje anterior</string>
 </resources>

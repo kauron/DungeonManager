@@ -1,35 +1,44 @@
 package com.kauron.dungeonmanager;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 
 public class Welcome extends ActionBarActivity {
 
-    private Button load, newChar;
+    private Button load;
+    private SharedPreferences p;
+    private TextView newText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
-        newChar = (Button) findViewById(R.id.newCharacter);
+        p = getSharedPreferences("basics", MODE_PRIVATE);
         load = (Button) findViewById(R.id.loadCharacter);
-        load.setEnabled(
-                getSharedPreferences("basics", MODE_PRIVATE).getBoolean("basics", false)
-        );
+        newText = (TextView) findViewById(R.id.newText);
+        if (p.getBoolean("saved", false)) {
+            load.setEnabled(true);
+            load.setText(String.format(getString(R.string.load_text), p.getString("playerName", "")));
+            newText.setVisibility(View.VISIBLE);
+        } else {
+            load.setEnabled(false);
+            load.setText(R.string.load_character);
+            newText.setVisibility(View.GONE);
+        }
     }
 
-    //TODO: putBoolean in the intent correctly
     public void onNewClick(View view) {
         startActivity(new Intent(this, Introduction.class).putExtra("first_time", true));
     }
 
-    //TODO: get correctly the state of the saved game
     public void onLoadClick(View view) {
         startActivity(new Intent(this, MainActivity.class));
     }
@@ -54,5 +63,19 @@ public class Welcome extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (p.getBoolean("saved", false)) {
+            load.setEnabled(true);
+            load.setText(String.format(getString(R.string.load_text), p.getString("playerName", "")));
+            newText.setVisibility(View.VISIBLE);
+        } else {
+            load.setEnabled(false);
+            load.setText(R.string.load_character);
+            newText.setVisibility(View.GONE);
+        }
     }
 }
