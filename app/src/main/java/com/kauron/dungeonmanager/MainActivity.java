@@ -98,7 +98,7 @@ public class MainActivity extends ActionBarActivity{
             if(player.getMaxPg() <= player.getPg()){
                 SnackbarManager.show(
                         Snackbar
-                                .with(getApplicationContext())
+                                .with(this)
                                 .text(R.string.maxed_curative)
                 );
             } else {
@@ -144,13 +144,7 @@ public class MainActivity extends ActionBarActivity{
 //                                            Player.LEVEL_PX[player.getLevel() - 1],
 //                                true, player.getPx() - Player.LEVEL_PX[player.getLevel() - 1]
 //                        );
-                    } catch(Exception e) {
-                        SnackbarManager.show(
-                                Snackbar
-                                        .with(getApplicationContext())
-                                        .text(R.string.message_no_px)
-                        );
-                    }
+                    } catch(Exception e) {}
                 }
             });
             alert.show();
@@ -160,7 +154,7 @@ public class MainActivity extends ActionBarActivity{
             player.rest(true);
             SnackbarManager.show(
                     Snackbar
-                            .with(getApplicationContext())
+                            .with(this)
                             .text(R.string.long_rest_done)
             );
             p.edit()
@@ -173,7 +167,7 @@ public class MainActivity extends ActionBarActivity{
             player.rest(false);
             SnackbarManager.show(
                     Snackbar
-                            .with(getApplicationContext())
+                            .with(this)
                             .text(R.string.rest_done)
             );
             pgUpdate();
@@ -197,14 +191,14 @@ public class MainActivity extends ActionBarActivity{
         if (hasCured == Player.NOT_CURED) {
             SnackbarManager.show(
                     Snackbar
-                            .with(getApplicationContext())
+                            .with(this)
                             .text(R.string.no_curative_efforts_error)
             );
         } else {
             if(hasCured == Player.MAXED){
                 SnackbarManager.show(
                         Snackbar
-                                .with(getApplicationContext())
+                                .with(this)
                                 .text(R.string.maxed_curative)
                 );
             }
@@ -327,11 +321,12 @@ public class MainActivity extends ActionBarActivity{
 
             alert.setNegativeButton(R.string.die, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
-                    SnackbarManager.show(
-                            Snackbar
-                                    .with(getApplicationContext())
-                                    .text(R.string.message_death)
-                    );
+                    //TODO: fix
+//                    SnackbarManager.show(
+//                            Snackbar
+//                                    .with(this)
+//                                    .text(R.string.message_death)
+//                    );
                     p.edit().clear().apply();
                     restoreData();
                 }
@@ -346,7 +341,7 @@ public class MainActivity extends ActionBarActivity{
             if(lastState != Player.SAME) {
                 SnackbarManager.show(
                         Snackbar
-                                .with(getApplicationContext())
+                                .with(this)
                                 .text(R.string.state_changed_debilitado)
                 );
             }
@@ -358,7 +353,7 @@ public class MainActivity extends ActionBarActivity{
             if(lastState != Player.SAME) {
                 SnackbarManager.show(
                         Snackbar
-                                .with(getApplicationContext())
+                                .with(this)
                                 .text(R.string.state_changed_malherido)
                 );
             }
@@ -507,7 +502,7 @@ public class MainActivity extends ActionBarActivity{
         if (!message.isEmpty()) {
             SnackbarManager.show(
                     Snackbar
-                            .with(getApplicationContext())
+                            .with(this)
                             .text(message)
             );
         }
@@ -530,14 +525,7 @@ public class MainActivity extends ActionBarActivity{
                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if (input.getText().toString().isEmpty()) {
-                            SnackbarManager.show(
-                                    Snackbar
-                                            .with(getApplicationContext())
-                                            .text(R.string.empty_field)
-                            );
-                            pgDialog();
-                        } else {
+                        if (!input.getText().toString().isEmpty()) {
                             player.setMaxPg(Integer.parseInt(input.getText().toString()));
                         }
                     }

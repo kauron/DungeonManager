@@ -8,14 +8,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
+
+import com.nispok.snackbar.Snackbar;
+import com.nispok.snackbar.SnackbarManager;
 
 
 public class Welcome extends ActionBarActivity {
 
     private Button load;
     private SharedPreferences p;
-    private TextView newText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,15 +24,12 @@ public class Welcome extends ActionBarActivity {
         setContentView(R.layout.activity_welcome);
         p = getSharedPreferences("basics", MODE_PRIVATE);
         load = (Button) findViewById(R.id.loadCharacter);
-        newText = (TextView) findViewById(R.id.newText);
         if (p.getBoolean("saved", false)) {
             load.setEnabled(true);
             load.setText(String.format(getString(R.string.load_text), p.getString("playerName", "")));
-            newText.setVisibility(View.VISIBLE);
         } else {
             load.setEnabled(false);
             load.setText(R.string.load_character);
-            newText.setVisibility(View.GONE);
         }
     }
 
@@ -71,11 +69,9 @@ public class Welcome extends ActionBarActivity {
         if (p.getBoolean("saved", false)) {
             load.setEnabled(true);
             load.setText(String.format(getString(R.string.load_text), p.getString("playerName", "")));
-            newText.setVisibility(View.VISIBLE);
         } else {
             load.setEnabled(false);
             load.setText(R.string.load_character);
-            newText.setVisibility(View.GONE);
         }
     }
 }
