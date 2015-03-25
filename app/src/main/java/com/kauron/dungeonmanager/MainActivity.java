@@ -18,7 +18,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.nispok.snackbar.Snackbar;
+import com.nispok.snackbar.SnackbarManager;
 
 public class MainActivity extends ActionBarActivity{
 
@@ -94,11 +96,11 @@ public class MainActivity extends ActionBarActivity{
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_cure) {
             if(player.getMaxPg() <= player.getPg()){
-                Toast.makeText(
-                        getApplicationContext(),
-                        R.string.maxed_curative,
-                        Toast.LENGTH_LONG
-                ).show();
+                SnackbarManager.show(
+                        Snackbar
+                                .with(getApplicationContext())
+                                .text(R.string.maxed_curative)
+                );
             } else {
                 healDialog();
             }
@@ -143,11 +145,11 @@ public class MainActivity extends ActionBarActivity{
 //                                true, player.getPx() - Player.LEVEL_PX[player.getLevel() - 1]
 //                        );
                     } catch(Exception e) {
-                        Toast.makeText(
-                                getApplicationContext(),
-                                R.string.message_no_px,
-                                Toast.LENGTH_LONG
-                        ).show();
+                        SnackbarManager.show(
+                                Snackbar
+                                        .with(getApplicationContext())
+                                        .text(R.string.message_no_px)
+                        );
                     }
                 }
             });
@@ -156,9 +158,11 @@ public class MainActivity extends ActionBarActivity{
             return true;
         } else if (id == R.id.action_time_long_rest) {
             player.rest(true);
-            Toast.makeText(
-                    getApplicationContext(), R.string.long_rest_done, Toast.LENGTH_LONG
-            ).show();
+            SnackbarManager.show(
+                    Snackbar
+                            .with(getApplicationContext())
+                            .text(R.string.long_rest_done)
+            );
             p.edit()
                     .putInt("pg", player.getPg())
                     .putInt("curativeEfforts", player.getCurativeEfforts())
@@ -167,9 +171,11 @@ public class MainActivity extends ActionBarActivity{
             ceUpdate();
         } else if (id == R.id.action_time_rest) {
             player.rest(false);
-            Toast.makeText(
-                    getApplicationContext(), R.string.rest_done, Toast.LENGTH_LONG
-            ).show();
+            SnackbarManager.show(
+                    Snackbar
+                            .with(getApplicationContext())
+                            .text(R.string.rest_done)
+            );
             pgUpdate();
             ceUpdate();
         }
@@ -189,18 +195,18 @@ public class MainActivity extends ActionBarActivity{
     public void heal(boolean usesEffort) {
         int hasCured = player.recoverPg(Player.USE_CURATIVE_EFFORT, usesEffort);
         if (hasCured == Player.NOT_CURED) {
-            Toast.makeText(
-                    getApplicationContext(),
-                    R.string.no_curative_efforts_error,
-                    Toast.LENGTH_LONG
-            ).show();
+            SnackbarManager.show(
+                    Snackbar
+                            .with(getApplicationContext())
+                            .text(R.string.no_curative_efforts_error)
+            );
         } else {
             if(hasCured == Player.MAXED){
-                Toast.makeText(
-                        getApplicationContext(),
-                        R.string.maxed_curative,
-                        Toast.LENGTH_LONG
-                ).show();
+                SnackbarManager.show(
+                        Snackbar
+                                .with(getApplicationContext())
+                                .text(R.string.maxed_curative)
+                );
             }
             SharedPreferences.Editor e = p.edit();
             e.putInt("pg", player.getPg());
@@ -321,11 +327,11 @@ public class MainActivity extends ActionBarActivity{
 
             alert.setNegativeButton(R.string.die, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
-                    Toast.makeText(
-                            getApplicationContext(),
-                            R.string.message_death,
-                            Toast.LENGTH_LONG
-                    ).show();
+                    SnackbarManager.show(
+                            Snackbar
+                                    .with(getApplicationContext())
+                                    .text(R.string.message_death)
+                    );
                     p.edit().clear().apply();
                     restoreData();
                 }
@@ -338,11 +344,11 @@ public class MainActivity extends ActionBarActivity{
             pgBar.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
             negPgBar.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
             if(lastState != Player.SAME) {
-                Toast.makeText(
-                        getApplicationContext(),
-                        R.string.state_changed_debilitado,
-                        Toast.LENGTH_LONG
-                ).show();
+                SnackbarManager.show(
+                        Snackbar
+                                .with(getApplicationContext())
+                                .text(R.string.state_changed_debilitado)
+                );
             }
         } else if (status == Player.MALHERIDO) {
             pgCurrent.setBackgroundColor(android.R.drawable.btn_default);
@@ -350,11 +356,11 @@ public class MainActivity extends ActionBarActivity{
             pgBar.getProgressDrawable().setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_IN);
             negPgBar.getProgressDrawable().setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_IN);
             if(lastState != Player.SAME) {
-                Toast.makeText(
-                        getApplicationContext(),
-                        R.string.state_changed_malherido,
-                        Toast.LENGTH_LONG
-                ).show();
+                SnackbarManager.show(
+                        Snackbar
+                                .with(getApplicationContext())
+                                .text(R.string.state_changed_malherido)
+                );
             }
         } else {
             pgCurrent.setTextColor(Color.GREEN);
@@ -499,11 +505,11 @@ public class MainActivity extends ActionBarActivity{
             message = getString(R.string.action_undo_current_pg);
         }
         if (!message.isEmpty()) {
-            Toast.makeText(
-                    getApplicationContext(),
-                    message,
-                    Toast.LENGTH_LONG
-            ).show();
+            SnackbarManager.show(
+                    Snackbar
+                            .with(getApplicationContext())
+                            .text(message)
+            );
         }
         pgUpdate();
         undo = false;
@@ -525,11 +531,11 @@ public class MainActivity extends ActionBarActivity{
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (input.getText().toString().isEmpty()) {
-                            Toast.makeText(
-                                    getApplicationContext(),
-                                    R.string.empty_field,
-                                    Toast.LENGTH_LONG
-                            ).show();
+                            SnackbarManager.show(
+                                    Snackbar
+                                            .with(getApplicationContext())
+                                            .text(R.string.empty_field)
+                            );
                             pgDialog();
                         } else {
                             player.setMaxPg(Integer.parseInt(input.getText().toString()));

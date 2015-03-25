@@ -7,10 +7,10 @@
     <string name="action_undo">Undo</string>
     <string name="pg">PG</string>
     <string name="die">Die</string>
-    <string name="CA">CA</string>
+    <string name="CA">AC</string>
     <string name="FORT">FORT</string>
     <string name="REF">REF</string>
-    <string name="VOL">VOL</string>
+    <string name="VOL">WILL</string>
     <string name="defense">Defense</string>
     <string name="curative_efforts">Curative efforts</string>
     <string name="load_text">Load %1$s</string>
@@ -30,7 +30,7 @@
     <string name="action_time_encounter_end">Encounter ended</string>
     <string name="adventurer_name">Adventurer name</string>
     <string name="state_changed_malherido">You have less than half of your maximum health</string>
-    <string name="new_energies_message">Who is using a curative effort?</string>
+    <string name="new_energies_message">Who is using a surge?</string>
     <string name="class_name">Class</string>
     <string name="race_name">Race</string>
     <string name="state_changed_debilitado">You have fainted. You can\'t do anything!</string>
@@ -42,16 +42,16 @@
     <string name="edit_PG_Title">Suffer damage</string>
     <string name="message_death">You have died</string>
     <string name="new_energies1">You have</string>
-    <string name="new_energies2">curative efforts</string>
-    <string name="new_energies">New energies</string>
+    <string name="new_energies2">surges</string>
+    <string name="new_energies">Surge</string>
     <string name="title_activity_introduction">Edit character</string>
     <string name="action_finish">Save</string>
 
     <string name="level">Level</string>
-    <string name="max_curative_efforts">Max curative efforts</string>
+    <string name="max_curative_efforts">Max surges</string>
     <string name="max_pg">Max PG</string>
     <string name="missing_info_error">You need to fill all the information</string>
-    <string name="no_curative_efforts_error">You don\'t have any curative efforts left!</string>
+    <string name="no_curative_efforts_error">You don\'t have any surges left!</string>
     <string name="maxed_curative">You have reached your maximum level of PG</string>
     <string name="suffer_damage">Input the damage suffered</string>
     <string name="suffer_damage_hint">PG lost</string>
@@ -81,4 +81,5 @@
     <string name="new_character">New character</string>
     <string name="load_character">Load character</string>
     <string name="new_character_warning">This will erase any previously existing data saved</string>
+    <string name="new_attack">New attack</string>
 </resources>

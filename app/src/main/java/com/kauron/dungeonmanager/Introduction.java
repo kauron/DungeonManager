@@ -68,7 +68,7 @@ public class Introduction extends ActionBarActivity {
         Toast.makeText(
                 getApplicationContext(),
                 R.string.message_no_back_button_intro,
-                Toast.LENGTH_LONG
+                Toast.LENGTH_SHORT
         ).show();
     }
 
