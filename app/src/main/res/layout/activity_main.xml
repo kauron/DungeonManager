@@ -11,6 +11,17 @@
         android:background="@color/primary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                tools:text="Kauron"/>
+        </RelativeLayout>
     </android.support.v7.widget.Toolbar>
 
     <ScrollView
@@ -240,6 +251,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:onClick="onAttackClick"
                 android:orientation="vertical">
 
                 <TextView
@@ -275,7 +287,7 @@
                             android:layout_row="0"
                             android:layout_column="0"
                             android:id="@+id/FUE"
-                            android:hint="@string/FUE" />
+                            tools:text="@string/FUE" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -286,7 +298,7 @@
                             android:layout_row="1"
                             android:layout_column="0"
                             android:id="@+id/CON"
-                            android:hint="@string/CON" />
+                            tools:text="@string/CON" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -297,7 +309,7 @@
                             android:layout_row="0"
                             android:layout_column="1"
                             android:id="@+id/DES"
-                            android:hint="@string/DES" />
+                            tools:text="@string/DES" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -308,7 +320,7 @@
                             android:layout_row="1"
                             android:layout_column="1"
                             android:id="@+id/INT"
-                            android:hint="@string/INT" />
+                            tools:text="@string/INT" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -319,7 +331,7 @@
                             android:layout_row="0"
                             android:layout_column="2"
                             android:id="@+id/SAB"
-                            android:hint="@string/SAB" />
+                            tools:text="@string/SAB" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -330,7 +342,7 @@
                             android:layout_row="1"
                             android:layout_column="2"
                             android:id="@+id/CAR"
-                            android:hint="@string/CAR" />
+                            tools:text="@string/CAR" />
                     </GridLayout>
                 </HorizontalScrollView>
             </LinearLayout>
@@ -372,7 +384,7 @@
                         android:layout_row="0"
                         android:layout_column="0"
                         android:id="@+id/CA"
-                        android:hint="@string/CA" />
+                        tools:text="@string/CA" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -383,7 +395,7 @@
                         android:layout_row="0"
                         android:layout_column="1"
                         android:id="@+id/FORT"
-                        android:hint="@string/FORT" />
+                        tools:text="@string/FORT" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -394,7 +406,7 @@
                         android:layout_row="1"
                         android:layout_column="0"
                         android:id="@+id/REF"
-                        android:hint="@string/REF" />
+                        tools:text="@string/REF" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -405,7 +417,7 @@
                         android:layout_row="1"
                         android:layout_column="1"
                         android:id="@+id/VOL"
-                        android:hint="@string/VOL" />
+                        tools:text="@string/VOL" />
                 </GridLayout>
             </LinearLayout>
         </LinearLayout>

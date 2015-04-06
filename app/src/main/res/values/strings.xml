@@ -82,4 +82,9 @@
     <string name="load_character">Load character</string>
     <string name="new_character_warning">This will erase any previously existing data saved</string>
     <string name="new_attack">New attack</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="title_activity_power_editor">PowerEditor</string>
+
+    <string name="hello_world">Hello world!</string>
 </resources>

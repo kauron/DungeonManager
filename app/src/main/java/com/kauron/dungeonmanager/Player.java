@@ -1,6 +1,6 @@
 package com.kauron.dungeonmanager;
 
-public class Player {
+class Player {
 
     /**
      * Names for the classes
@@ -107,7 +107,7 @@ public class Player {
     //TODO: implement fully operational powers displayed as cards
     private Power[] powers;
 
-    public Player(
+    Player(
             String name, int classInt, int raceInt,
             int px, int[] atk, int[] abilities,
             Power[] powers
@@ -128,22 +128,22 @@ public class Player {
     }
 
 
-    public int getPx() {return px;}
-    public void setPx (int px) {this.px = px; setLevel();}
-    public boolean addPx(int px) {
+    int getPx() {return px;}
+    void setPx (int px) {this.px = px; setLevel();}
+    boolean addPx(int px) {
         int lastLevel = level;
         setPx(this.px + px);
         return lastLevel < level;
     }
 
-    public int getMaxCurativeEfforts() {return maxCurativeEfforts;}
-    public void setMaxCurativeEfforts(int maxCurativeEfforts) {this.maxCurativeEfforts = maxCurativeEfforts;}
+    int getMaxCurativeEfforts() {return maxCurativeEfforts;}
+    void setMaxCurativeEfforts(int maxCurativeEfforts) {this.maxCurativeEfforts = maxCurativeEfforts;}
 
-    public int getCurativeEfforts() {return curativeEfforts;}
-    public void setCurativeEffort(int curativeEfforts) {this.curativeEfforts = curativeEfforts;}
+    int getCurativeEfforts() {return curativeEfforts;}
+    void setCurativeEffort(int curativeEfforts) {this.curativeEfforts = curativeEfforts;}
 
-    public int getLevel() {return level;}
-    public void setLevel() {
+    int getLevel() {return level;}
+    void setLevel() {
         for (int i = 0; i < LEVEL_PX.length; i++){
             if(px < LEVEL_PX[i]) {
                 level = i; return;
@@ -154,21 +154,21 @@ public class Player {
     }
 
 
-    public int getMaxPg() {return maxPg;}
-    public void setMaxPg(int maxPg) {
+    int getMaxPg() {return maxPg;}
+    void setMaxPg(int maxPg) {
         if(this.maxPg == 0)
             this.pg = maxPg;
         this.maxPg = maxPg;
     }
-    public void setMaxPgOnLevelUp() {maxPg += CLASS_STATS[PG_ON_LEVEL_UP][classInt];}
+    void setMaxPgOnLevelUp() {maxPg += CLASS_STATS[PG_ON_LEVEL_UP][classInt];}
 
-    public int getPg() {return pg;}
-    public void setPg(int pg) {this.pg = pg; setState();}
-    public void losePg(int damage) {
+    int getPg() {return pg;}
+    void setPg(int pg) {this.pg = pg; setState();}
+    void losePg(int damage) {
         pg -= damage;
         setState();
     }
-    public int recoverPg(int recovered, boolean uses) {
+    int recoverPg(int recovered, boolean uses) {
         if(recovered == USE_CURATIVE_EFFORT){
             if(uses && curativeEfforts <= 0) return NOT_CURED;
             else {
@@ -193,8 +193,8 @@ public class Player {
         return CURED;
     }
 
-    public int getLastState() {return lastState == state ? SAME : lastState;}
-    public int getState() {return state;}
+    int getLastState() {return lastState == state ? SAME : lastState;}
+    int getState() {return state;}
     private void setState() {
         lastState = state;
         if (pg <= maxPg / -2) state = MUERTO;
@@ -203,49 +203,49 @@ public class Player {
         else state = OK;
     }
 
-    public String getName() {return name;}
-    public void setName(String name) {this.name = name;}
+    String getName() {return name;}
+    void setName(String name) {this.name = name;}
 
-    public int getClassInt() {return classInt;}
-    public void setClassInt(int classInt) {
+    int getClassInt() {return classInt;}
+    void setClassInt(int classInt) {
         this.classInt = classInt;
         if (atk != null) setClass();
     }
-    public String getClassName() {return CLASS_STRINGS[classInt];}
+    String getClassName() {return CLASS_STRINGS[classInt];}
 
-    public String getRaceName() {return RACE_STRINGS[raceInt];}
-    public void setRaceInt(int raceInt) {this.raceInt= raceInt;}
-    public int getRaceInt() {return raceInt;}
+    String getRaceName() {return RACE_STRINGS[raceInt];}
+    void setRaceInt(int raceInt) {this.raceInt= raceInt;}
+    int getRaceInt() {return raceInt;}
 
     //TODO: implement turns (for bonuses and continuous damage in the app
-    public void rest(boolean isLong) {
+    void rest(boolean isLong) {
         if(isLong) {
             pg = maxPg;
             curativeEfforts = maxCurativeEfforts;
             for (Power p : powers)
-                if (p != null && p.getType() == Power.DIARIO)
+                if (p != null && p.getFrequency() == Power.DIARIO)
                     p.recover();
             setState();
         }
         for (Power p : powers)
-            if (p != null && p.getType() == Power.ENCUENTRO)
+            if (p != null && p.getFrequency() == Power.ENCUENTRO)
                 p.recover();
     }
 
-    public void setAtk(int[] atk) {this.atk = atk; if(classInt != NULL) setClass();}
+    void setAtk(int[] atk) {this.atk = atk; if(classInt != NULL) setClass();}
 
-    public int getFue() {return atk[FUE];}
-    public int getCon() {return atk[CON];}
-    public int getSab() {return atk[SAB];}
-    public int getCar() {return atk[CAR];}
-    public int getDes() {return atk[DES];}
-    public int getInt() {return atk[INT];}
-    public int getCa() {return def[CA];}
-    public int getFort() {return def[FORT];}
-    public int getRef() {return def[REF];}
-    public int getVol() {return def[VOL];}
+    int getFue() {return atk[FUE];}
+    int getCon() {return atk[CON];}
+    int getSab() {return atk[SAB];}
+    int getCar() {return atk[CAR];}
+    int getDes() {return atk[DES];}
+    int getInt() {return atk[INT];}
+    int getCa() {return def[CA];}
+    int getFort() {return def[FORT];}
+    int getRef() {return def[REF];}
+    int getVol() {return def[VOL];}
 
-    public void setClass() {
+    void setClass() {
         if(level == 1) maxPg = atk[CON] + CLASS_STATS[INITIAL_PG][classInt];
         maxCurativeEfforts = Player.getModifier(atk[CON]) + CLASS_STATS[DAILY_CURATIVE_EFFORTS][classInt];
         //TODO: fix ca bonuses!
@@ -258,7 +258,7 @@ public class Player {
                 CLASS_STATS[DEF_VOL][classInt];
     }
 
-    public static int getModifier(int i) {
+    static int getModifier(int i) {
         return i / 2 - 5;
     }
 }
