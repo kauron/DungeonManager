@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Name"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/name" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Extra info"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/extra" />
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        tools:image="@drawable/delete"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView" />
+</LinearLayout>

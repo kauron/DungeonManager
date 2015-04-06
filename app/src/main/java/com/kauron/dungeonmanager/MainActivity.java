@@ -9,6 +9,7 @@ import android.graphics.PorterDuff;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,7 +23,7 @@ import android.widget.TextView;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
 
-public class MainActivity extends ActionBarActivity{
+public class MainActivity extends ActionBarActivity {
 
     public static final int CURRENT_PG = 1, NULL = 0;
 
@@ -35,11 +36,14 @@ public class MainActivity extends ActionBarActivity{
     private Button pgCurrent;
     private TextView currentPg, currentXp, currentCurativeEfforts, lvl;
     private SharedPreferences p;
+    private Toolbar toolbar;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         setContentView(R.layout.activity_main);
 
         p = getSharedPreferences("basics", MODE_PRIVATE);
