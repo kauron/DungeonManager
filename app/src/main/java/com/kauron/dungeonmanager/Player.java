@@ -2,6 +2,8 @@ package com.kauron.dungeonmanager;
 
 class Player {
 
+    public static final String NAME = "playerName", CLASS = "classInt", RACE = "raceInt", PX = "px";
+
     /**
      * Names for the classes
      */

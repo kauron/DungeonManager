@@ -21,17 +21,18 @@ class PlayerAdapter extends ArrayAdapter<Player> {
 
         final Player player = getItem(position);
 
-        ((TextView) mView.findViewById(R.id.name)).setText(player.getName());
-        ((TextView) mView.findViewById(R.id.other)).setText(player.getClassName() + " " + player.getRaceName());
-        ((TextView) mView.findViewById(R.id.level))
-                .setText(
-                        getContext().getResources().getString(R.string.level)
-                                + " " + player.getLevel()
-                );
+        if ( player != null ) {
+            ((TextView) mView.findViewById(R.id.name)).setText(player.getName());
+            ((TextView) mView.findViewById(R.id.other)).setText(player.getClassName() + " " + player.getRaceName());
+            ((TextView) mView.findViewById(R.id.level))
+                    .setText(
+                            getContext().getResources().getString(R.string.level) + " " + player.getLevel()
+                    );
 
-        ProgressBar pg = (ProgressBar) mView.findViewById(R.id.progressBar);
-        pg.setMax(player.getMaxPg());
-        pg.setProgress(player.getPg());
+            ProgressBar pg = (ProgressBar) mView.findViewById(R.id.progressBar);
+            pg.setMax(player.getMaxPg());
+            pg.setProgress(player.getPg());
+        }
 
         return mView;
     }

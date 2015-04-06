@@ -6,9 +6,15 @@
         android:id="@+id/action_settings"
         android:title="@string/action_settings"
         android:orderInCategory="100"
-        app:showAsAction="ifRoom"
+        app:showAsAction="never"
         android:icon="@drawable/ic_action_settings"
-        android:alpha="10"
-        android:enabled="false"/>
+        android:visible="false"/>
+
+    <item
+        android:id="@+id/action_add_player"
+        android:title="@string/add_player"
+        android:orderInCategory="10"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_add_user"/>
 
 </menu>

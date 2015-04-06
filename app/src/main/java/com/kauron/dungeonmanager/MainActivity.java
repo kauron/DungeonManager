@@ -46,7 +46,7 @@ public class MainActivity extends ActionBarActivity {
         setSupportActionBar(toolbar);
         setContentView(R.layout.activity_main);
 
-        p = getSharedPreferences("basics", MODE_PRIVATE);
+        p = getSharedPreferences(Welcome.PREFERENCES, MODE_PRIVATE);
         xpBar = (ProgressBar) findViewById(R.id.xpBar);
         curativeEffortsBar = (ProgressBar) findViewById(R.id.curativeEffortsBar);
         pgBar = (ProgressBar) findViewById(R.id.pgBar);
@@ -59,6 +59,7 @@ public class MainActivity extends ActionBarActivity {
         currentXp = (TextView) findViewById(R.id.currentXp);
         currentCurativeEfforts = (TextView) findViewById(R.id.currentCurativeEfforts);
 
+        //TODO: change references to xml and do not change progressbar background
         xpBar.getProgressDrawable()
                         .setColorFilter(Color.parseColor("#62BACE"), PorterDuff.Mode.SRC_IN);
         curativeEffortsBar.getProgressDrawable()

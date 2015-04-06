@@ -87,4 +87,5 @@
     <string name="title_activity_power_editor">PowerEditor</string>
 
     <string name="hello_world">Hello world!</string>
+    <string name="add_player">Add player</string>
 </resources>
