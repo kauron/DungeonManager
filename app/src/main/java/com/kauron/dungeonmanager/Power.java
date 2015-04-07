@@ -1,6 +1,6 @@
 package com.kauron.dungeonmanager;
 
-public class Power {
+class Power {
     /**frequencies*/
     public static final int OPORTUNIDAD = 1, A_VOLUNTAD = 2, ENCUENTRO = 3, DIARIO = 4;
     public static final String[] FREQ = {"Nada", "Oportunidad", "A voluntad", "Encuentro", "Diario"};
@@ -25,29 +25,48 @@ public class Power {
     private int[] damage; //the max sizes of the different dies
 
 
-    public Power(String name, String desc, int freq, int action, int distance, String[] keywords,
+    Power(String name, String desc, int freq, int action, int distance, String[] keywords,
                  int atk, int def, int[] damage){
         used = false;
         this.name = name; this.description = desc;
         this.freq = freq; this.action = action;
         this.distance = distance;
+        this.keywords = keywords;
 
     }
 
-    public String getName(){return name;}
-    public String getDescription() {return description;}
+    String getKeywords() {
+        if ( keywords != null && keywords.length != 0 ) {
+            String r = keywords[0];
+            for (String k : keywords) r += ", " + k;
+            return r;
+        } else {
+            return "";
+        }
+    }
+
+    String getFrequencyString() {return FREQ[freq];}
+    int getFreq() {return freq;}
+
+    String getRangeString() {return DISTANCES[range];}
+    int getRange() {return range;}
+
+    int getDistance() {return distance;}
+
+    String getName(){return name;}
+    String getDescription() {return description;}
 
     boolean isUsed(){return used;}
 
-    public boolean use(){
+    boolean use(){
         if (!used) {
             if (freq >= ENCUENTRO) used = true;
             return true;
         } else {return false;}
     }
 
-    public int rollAttack() {return atk + (int)(Math.random()*20) + 1;}
-    public int rollDamage() {
+    int rollAttack() {return atk + (int)(Math.random()*20) + 1;}
+    int rollDamage() {
         int roll = 0;
         for(int i : damage) {
             roll += (int)(Math.random()*i + 1);
@@ -55,7 +74,7 @@ public class Power {
         return roll;
     }
 
-    public void recover(int type){
+    void recover(int type){
         if(this.freq <= type) used = false;
     }
 }
