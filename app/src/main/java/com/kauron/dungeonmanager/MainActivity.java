@@ -19,9 +19,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
+import com.nispok.snackbar.listeners.ActionClickListener;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -30,7 +32,6 @@ public class MainActivity extends ActionBarActivity {
     public Player player;
     private boolean undo;
     private int undoObject, undoPreviousValue;
-    //TODO: change curativeEffortsBar() color
 
     private ProgressBar pgBar, negPgBar, xpBar, curativeEffortsBar;
     private Button pgCurrent;
@@ -128,9 +129,7 @@ public class MainActivity extends ActionBarActivity {
                         boolean levelUp = player.addPx(Integer.parseInt(input.getText().toString()));
                         if (levelUp) {
                             //levelUp
-                            //TODO: update defenses
-                            //TODO: add attack points when necessary
-                            //TODO: improve leveling up
+                            //TODO: improve leveling up by using a sliding guide
                             player.setMaxPgOnLevelUp();
                             lvl.setText(
                                     String.valueOf(player.getLevel())
@@ -274,10 +273,21 @@ public class MainActivity extends ActionBarActivity {
                     undo = true;
                     undoPreviousValue = preValue;
                     undoObject = CURRENT_PG;
+                    SnackbarManager.show(
+                            Snackbar.with(getApplicationContext()).text("Lost " + damage + " PG's")
+                                .actionLabel("Undo") // action button label
+                                .actionListener(new ActionClickListener() {
+                                    @Override
+                                    public void onActionClicked(Snackbar snackbar) {
+                                        undo();
+                                    }
+                    })
+                    ,getParent()); // action button's
                     p.edit().putInt("pg", player.getPg()).apply();
                     pgUpdate();
                     invalidateOptionsMenu();
-                } catch (Exception e) {}
+                } catch (Exception e) {
+                }
             }
         });
 
@@ -326,7 +336,9 @@ public class MainActivity extends ActionBarActivity {
 
             alert.setNegativeButton(R.string.die, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
-                    //TODO: fix
+                    //TODO: fix snackbar on death
+                    Toast.makeText(getApplicationContext(),
+                            R.string.message_death, Toast.LENGTH_LONG).show();
 //                    SnackbarManager.show(
 //                            Snackbar
 //                                    .with(this)
@@ -492,10 +504,6 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
-    public void selectPlayer(View view) {
-        //TODO: implement players and switch between them
-    }
-
     private void undo() {
         String message = "";
         if(undoObject == CURRENT_PG){
@@ -539,9 +547,9 @@ public class MainActivity extends ActionBarActivity {
         input.requestFocus();
     }
 
-    //TODO: fix the display of maxPg and levelUp
-    //TODO: set up a partial barCommand to raise only between the ratios, then a manager, then another
-    //TODO: if pgBar, change color accordingly with the pg
+    //TODO: fix incrementeProgressBar
+    //set up a partial barCommand to raise only between the ratios, then a manager, then another
+    //if pgBar, change color accordingly with the pg
     private void incrementProgressBar(final ProgressBar progressBar, final TextView textView,
                                       final int factor,
                                       final boolean setMax, int max,

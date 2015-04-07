@@ -71,7 +71,8 @@ class Player {
      */
     public static final int CA = 0, FORT = 1, REF = 2, VOL = 3;
 
-    //TODO: develop abilities
+    //TODO: develop abilities like attacks, with a popup
+    //could be introduced by the player in a introduction screen, with ticks for train and bonuses
 //    /**
 //     * Values for abilities
 //     */
@@ -104,7 +105,7 @@ class Player {
     private int classInt, raceInt;
     private String name;
     private int level;
-    //TODO: use dice class
+    //TODO: use dice dialogs
     private int[] atk, def, abilities;
     //TODO: implement fully operational powers displayed as cards
     private Power[] powers;
@@ -152,7 +153,6 @@ class Player {
             }
         }
         level = LEVEL_PX.length;
-        //TODO: substitute level by px and autoconvert
     }
 
 
@@ -225,13 +225,13 @@ class Player {
             pg = maxPg;
             curativeEfforts = maxCurativeEfforts;
             for (Power p : powers)
-                if (p != null && p.getFrequency() == Power.DIARIO)
-                    p.recover();
+                if (p != null)
+                    p.recover(Power.DIARIO);
             setState();
         }
         for (Power p : powers)
-            if (p != null && p.getFrequency() == Power.ENCUENTRO)
-                p.recover();
+            if (p != null)
+                p.recover(Power.ENCUENTRO);
     }
 
     void setAtk(int[] atk) {this.atk = atk; if(classInt != NULL) setClass();}
@@ -250,8 +250,8 @@ class Player {
     void setClass() {
         if(level == 1) maxPg = atk[CON] + CLASS_STATS[INITIAL_PG][classInt];
         maxCurativeEfforts = Player.getModifier(atk[CON]) + CLASS_STATS[DAILY_CURATIVE_EFFORTS][classInt];
-        //TODO: fix ca bonuses!
-        def[CA] = 10 + level / 2;
+        //TODO: implement armor!
+        def[CA] = 10 + level / 2 + Math.max(0, Player.getModifier(Math.max(atk[DES], atk[INT])));
         def[FORT] = 10 + level / 2 + Player.getModifier(Math.max(atk[CON], atk[FUE])) +
                 CLASS_STATS[DEF_FORT][classInt];
         def[REF] = 10 + level / 2 + Player.getModifier(Math.max(atk[DES], atk[INT])) +

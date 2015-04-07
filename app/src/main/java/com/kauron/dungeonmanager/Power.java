@@ -1,64 +1,61 @@
 package com.kauron.dungeonmanager;
 
-class Power {
-    public static final int MELEE = 1, AREA = 2, RANGED = 3;
-    public static final int DIARIO = 4, A_VOLUNTAD = 2, ENCUENTRO = 3, OPORTUNIDAD = 1;
+public class Power {
+    /**frequencies*/
+    public static final int OPORTUNIDAD = 1, A_VOLUNTAD = 2, ENCUENTRO = 3, DIARIO = 4;
+    public static final String[] FREQ = {"Nada", "Oportunidad", "A voluntad", "Encuentro", "Diario"};
+    /**actions*/
+    public static final int ESTANDAR = 1, MOVIMIENTO = 2, MENOR = 3, GRATUITA = 4;
+    public static final String[] ACTIONS = {"Nada", "Estándar", "Movimiento", "Menor", "Gratuita"};
+    /**distances*/
+    public static final int CUERPO_A_CUERPO = 1, A_DISTANCIA = 2, EXPLOSION = 3, ESTALLIDO = 4;
+    public static final String[] DISTANCES = {"Nada", "Cuerpo a cuerpo", "A distancia", "Explosión", "Estallido"};
+    /**dies
+     * They are represented by its max size
+     * 0 corresponds to [A], the weapon
+     * any other is represented by d2, d4, d6, d8, d10, d12, d20, d100
+     */
+    public static final int[] DIE = {0, 2, 4, 6, 8, 10, 12, 20, 100};
 
     private boolean used;
-    private int frequency, range, distance;
-    private String name, keywords;
-    private int atk, def;
-    /** An array filled with the maximum damage of each die.
-     *  The position 0 is the damage that doesn't depend on dies.
-     *      Example: 1d6 + 1d4 + 4 is stored as {4, 4, 6}*/
-     private int[] damage;
-    //TODO: modify this so that it takes an array of the same size always, each with each kind of damage
+    private int freq, action, distance, range, objectives;
+    private String name, description;
+    private String[] keywords; //fire, spell...
+    private int atk, def; //constants from Player to denote atk and defense
+    private int[] damage; //the max sizes of the different dies
 
 
-    Power(String name, int frequency, int range, int distance, String keywords, int atk, int def, int[] damage){
-        this.name = name;
-        this.keywords = keywords;
-        this.frequency = frequency;
-        this.range = range;
-        this.distance = distance;
-        this.atk = atk;
-        this.def = def;
-        this.damage = damage;
+    public Power(String name, String desc, int freq, int action, int distance, String[] keywords,
+                 int atk, int def, int[] damage){
         used = false;
+        this.name = name; this.description = desc;
+        this.freq = freq; this.action = action;
+        this.distance = distance;
+
     }
 
-    String getName(){return name;}
-    int getFrequency() {return frequency;}
-    String getFrequencyString(){
-        //TODO: change lists to arrays in resources
-        switch(frequency) {
-            case 1: return "Oportunidad";
-            case 2: return "A voluntad";
-            case 3: return "Encuentro";
-            case 4: return "Diario";
-            default: return null;
-        }
-    }
-    int getRange() {return range;}
-    String getRangeString() {
-        switch(range){
-            case 1: return "Cuerpo a cuerpo";
-            case 2: return "Área";
-            case 3: return "A distancia";
-            default: return null;
-        }
-    }
-    int getDistance() {return distance;}
-    String getKeywords() {return keywords;}
-    int getAtk() {return atk;}
-    int getDef() {return def;}
-    int[] getDamage() {return damage;}
+    public String getName(){return name;}
+    public String getDescription() {return description;}
 
     boolean isUsed(){return used;}
 
-    void use(){
-        if(frequency >= ENCUENTRO && !used)
-            used = true;
+    public boolean use(){
+        if (!used) {
+            if (freq >= ENCUENTRO) used = true;
+            return true;
+        } else {return false;}
     }
-    void recover(){used = false;}
+
+    public int rollAttack() {return atk + (int)(Math.random()*20) + 1;}
+    public int rollDamage() {
+        int roll = 0;
+        for(int i : damage) {
+            roll += (int)(Math.random()*i + 1);
+        }
+        return roll;
+    }
+
+    public void recover(int type){
+        if(this.freq <= type) used = false;
+    }
 }
