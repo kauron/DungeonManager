@@ -26,26 +26,29 @@ class AttackAdapter extends ArrayAdapter<Power> {
         View mView = mInflater.inflate(R.layout.attack_row, parent, false);
 
         final Power attack = getItem(position);
-
-        ((TextView) mView.findViewById(R.id.name)).setText(attack.getName());
-        ((TextView) mView.findViewById(R.id.keywords)).setText(attack.getKeywords());
-        ((TextView) mView.findViewById(R.id.frequency)).setText(attack.getFrequencyString());
-        ((TextView) mView.findViewById(R.id.extra)).setText(attack.getRangeString() + " " + attack.getDistance());
-        final AttackAdapter current = this;
-        ((ImageView) mView.findViewById(R.id.delete)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SnackbarManager.show(
-                        Snackbar.with(getContext()).text("¿Quieres borrarlo?").actionLabel("Sí").actionListener(new ActionClickListener() {
-                            @Override
-                            public void onActionClicked(Snackbar snackbar) {
-                                current.remove(attack);
-                            }
-                        })
-                );
-                //TODO: convert text to resource
-            }
-        });
+        if ( attack != null ) {
+            ((TextView) mView.findViewById(R.id.name)).setText(attack.getName());
+            ((TextView) mView.findViewById(R.id.keywords)).setText(attack.getKeywords());
+            ((TextView) mView.findViewById(R.id.frequency)).setText(attack.getFrequencyString());
+            ((TextView) mView.findViewById(R.id.extra)).setText(attack.getRangeString() + " " + attack.getDistance());
+            final AttackAdapter current = this;
+            ((ImageView) mView.findViewById(R.id.delete)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    SnackbarManager.show(
+                            Snackbar.with(getContext()).text("¿Quieres borrarlo?").actionLabel("Sí").actionListener(new ActionClickListener() {
+                                @Override
+                                public void onActionClicked(Snackbar snackbar) {
+                                    current.remove(attack);
+                                }
+                            })
+                    );
+                    //TODO: convert text to resource
+                }
+            });
+        } else  {
+            this.remove(attack);
+        }
 
         return mView;
     }

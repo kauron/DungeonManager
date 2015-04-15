@@ -1,6 +1,7 @@
 package com.kauron.dungeonmanager;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -43,11 +44,10 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        setContentView(R.layout.activity_main);
-
-        p = getSharedPreferences(Welcome.PREFERENCES, MODE_PRIVATE);
+        p = getSharedPreferences("player" + getIntent().getIntExtra("player", 0), MODE_PRIVATE);
         xpBar = (ProgressBar) findViewById(R.id.xpBar);
         curativeEffortsBar = (ProgressBar) findViewById(R.id.curativeEffortsBar);
         pgBar = (ProgressBar) findViewById(R.id.pgBar);
@@ -60,11 +60,11 @@ public class MainActivity extends ActionBarActivity {
         currentXp = (TextView) findViewById(R.id.currentXp);
         currentCurativeEfforts = (TextView) findViewById(R.id.currentCurativeEfforts);
 
-        //TODO: change references to xml and do not change progressbar background
+        //TODO: do not change progressbar background
         xpBar.getProgressDrawable()
-                        .setColorFilter(Color.parseColor("#62BACE"), PorterDuff.Mode.SRC_IN);
+                        .setColorFilter(getResources().getColor(R.color.px_bar), PorterDuff.Mode.SRC_IN);
         curativeEffortsBar.getProgressDrawable()
-                        .setColorFilter(Color.parseColor("#FFD700"), PorterDuff.Mode.SRC_IN);
+                        .setColorFilter(getResources().getColor(R.color.surges_bar), PorterDuff.Mode.SRC_IN);
         undo = false;
         //begin
         restoreData();
@@ -257,6 +257,9 @@ public class MainActivity extends ActionBarActivity {
 
         alert.setView(input);
 
+        final Context context = getApplicationContext();
+        final MainActivity activity = this;
+
         alert.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 try {
@@ -274,15 +277,16 @@ public class MainActivity extends ActionBarActivity {
                     undoPreviousValue = preValue;
                     undoObject = CURRENT_PG;
                     SnackbarManager.show(
-                            Snackbar.with(getApplicationContext()).text("Lost " + damage + " PG's")
+                            Snackbar.with(context).text("Lost " + damage + " PG's")
                                 .actionLabel("Undo") // action button label
                                 .actionListener(new ActionClickListener() {
                                     @Override
                                     public void onActionClicked(Snackbar snackbar) {
                                         undo();
                                     }
-                    })
-                    ,getParent()); // action button's
+                                })
+                                .actionColor(getResources().getColor(R.color.yellow))
+                    ,activity); // action button's
                     p.edit().putInt("pg", player.getPg()).apply();
                     pgUpdate();
                     invalidateOptionsMenu();
@@ -383,12 +387,14 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void restoreData(){
+        int i = getIntent().getIntExtra("player", 0);
         if (!p.getBoolean("saved", false)) {
-            Intent intent = new Intent(this, Introduction.class);
-            startActivity(intent.putExtra(
-                    "first_time",
-                    !p.getBoolean("saved", false)
-            ));
+            if (i == -1) {
+                Intent intent = new Intent(this, Introduction.class);
+                startActivity(intent.putExtra(
+                        "first_time",
+                        !p.getBoolean("saved", false)
+                ));
         }
         if (player == null) {
             player = new Player(
@@ -431,6 +437,7 @@ public class MainActivity extends ActionBarActivity {
         }
         player.setCurativeEffort(p.getInt("curativeEfforts", player.getMaxCurativeEfforts()));
         player.setPg(p.getInt("pg", player.getMaxPg()));
+
         pgBar.setMax(player.getMaxPg());
         negPgBar.setMax(player.getMaxPg() / 2);
 //        incrementProgressBar(

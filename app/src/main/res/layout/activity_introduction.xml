@@ -1,168 +1,211 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".Introduction">
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/firstLayout"
-        android:orientation="horizontal">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:minHeight="?attr/actionBarSize"
+        android:background="@color/primary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-        <EditText
+        <RelativeLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName|textCapWords"
-            android:layout_weight="0.5"
-            android:id="@+id/editNameIntro"
-            android:hint="@string/adventurer_name"
-            android:nextFocusDown="@+id/editPxIntro"
-            android:nextFocusForward="@+id/editPxIntro"/>
+            android:layout_height="fill_parent">
 
-        <EditText
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:inputType="number"
-            android:id="@+id/editPxIntro"
-            android:hint="@string/px"
-            android:layout_weight="1"
-            android:nextFocusDown="@+id/FUE"
-            android:nextFocusForward="@+id/FUE"
-            android:nextFocusLeft="@+id/FUE"
-            android:nextFocusRight="@+id/FUE"
-            android:nextFocusUp="@+id/FUE"/>
-        </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Character creation"/>
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
 
-    <LinearLayout
-        android:layout_width="fill_parent"
+    <Button
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:id="@+id/secondLayout"
-        android:layout_below="@+id/firstLayout">
+        android:id="@+id/finish_button"
+        android:onClick="finishButton"
+        android:layout_gravity="center_horizontal"
+        android:text="Save character" />
 
-            <Spinner
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:id="@+id/classSpinner"
-                tools:listitem="@android:layout/simple_spinner_dropdown_item"
-                android:spinnerMode="dropdown" />
+                android:id="@+id/firstLayout"
+                android:orientation="horizontal">
 
-            <Spinner
+                <EditText
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName|textCapWords"
+                    android:layout_weight="0.5"
+                    android:id="@+id/editNameIntro"
+                    android:hint="@string/adventurer_name"
+                    android:nextFocusDown="@+id/editPxIntro"
+                    android:nextFocusForward="@+id/editPxIntro"/>
+
+                <EditText
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:id="@+id/editPxIntro"
+                    android:hint="@string/px"
+                    android:layout_weight="1"
+                    android:nextFocusDown="@+id/FUE"
+                    android:nextFocusForward="@+id/FUE"
+                    android:nextFocusLeft="@+id/FUE"
+                    android:nextFocusRight="@+id/FUE"
+                    android:nextFocusUp="@+id/FUE"/>
+                </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:id="@+id/raceSpinner"
-                tools:listitem="@android:layout/simple_spinner_dropdown_item"
-                android:spinnerMode="dropdown" />
-        </LinearLayout>
+                android:orientation="horizontal"
+                android:id="@+id/secondLayout"
+                android:layout_below="@+id/firstLayout">
 
-    <GridLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/secondLayout"
-        android:id="@+id/thirdLayout"
-        android:columnCount="3">
-            <EditText
-                android:layout_width="wrap_content"
+                    <Spinner
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:id="@+id/classSpinner"
+                        tools:listitem="@android:layout/simple_spinner_dropdown_item"
+                        android:spinnerMode="dropdown" />
+
+                    <Spinner
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:id="@+id/raceSpinner"
+                        tools:listitem="@android:layout/simple_spinner_dropdown_item"
+                        android:spinnerMode="dropdown" />
+                </LinearLayout>
+
+            <GridLayout
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number"
-                android:ems="3"
+                android:layout_below="@+id/secondLayout"
+                android:id="@+id/thirdLayout"
+                android:columnCount="3">
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:ems="3"
 
-                android:layout_row="0"
-                android:layout_column="0"
+                        android:layout_row="0"
+                        android:layout_column="0"
 
-                android:id="@+id/FUE"
-                android:hint="@string/FUE"
-                android:nextFocusDown="@+id/DES"/>
+                        android:id="@+id/FUE"
+                        android:hint="@string/FUE"
+                        android:nextFocusDown="@+id/DES"/>
 
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="number"
-                android:ems="3"
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:ems="3"
 
-                android:layout_row="1"
-                android:layout_column="0"
+                        android:layout_row="1"
+                        android:layout_column="0"
 
-                android:id="@+id/CON"
-                android:hint="@string/CON"
-                android:nextFocusDown="@+id/INT" />
+                        android:id="@+id/CON"
+                        android:hint="@string/CON"
+                        android:nextFocusDown="@+id/INT" />
 
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="number"
-                android:ems="3"
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:ems="3"
 
-                android:layout_row="0"
-                android:layout_column="1"
+                        android:layout_row="0"
+                        android:layout_column="1"
 
-                android:id="@+id/DES"
-                android:hint="@string/DES"
-                android:nextFocusDown="@+id/SAB"/>
+                        android:id="@+id/DES"
+                        android:hint="@string/DES"
+                        android:nextFocusDown="@+id/SAB"/>
 
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="number"
-                android:ems="3"
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:ems="3"
 
-                android:layout_row="1"
-                android:layout_column="1"
+                        android:layout_row="1"
+                        android:layout_column="1"
 
-                android:id="@+id/INT"
-                android:hint="@string/INT"
-                android:nextFocusDown="@+id/CAR"/>
+                        android:id="@+id/INT"
+                        android:hint="@string/INT"
+                        android:nextFocusDown="@+id/CAR"/>
 
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="number"
-                android:ems="3"
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:ems="3"
 
-                android:layout_row="0"
-                android:layout_column="2"
+                        android:layout_row="0"
+                        android:layout_column="2"
 
-                android:id="@+id/SAB"
-                android:hint="@string/SAB"
-                android:nextFocusDown="@+id/CON"/>
+                        android:id="@+id/SAB"
+                        android:hint="@string/SAB"
+                        android:nextFocusDown="@+id/CON"/>
 
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="number"
-                android:ems="3"
-                android:imeOptions="actionDone"
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:ems="3"
+                        android:imeOptions="actionDone"
 
-                android:layout_row="1"
-                android:layout_column="2"
+                        android:layout_row="1"
+                        android:layout_column="2"
 
-                android:id="@+id/CAR"
-                android:hint="@string/CAR"/>
-        </GridLayout>
+                        android:id="@+id/CAR"
+                        android:hint="@string/CAR"/>
+                </GridLayout>
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@+id/thirdLayout"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_below="@+id/thirdLayout"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:visibility="gone">
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/new_attack"
-            android:id="@+id/new_attack_button" />
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/new_attack"
+                    android:id="@+id/new_attack_button" />
 
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/listView" />
-    </LinearLayout>
+                <ListView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/listView" />
+            </LinearLayout>
 
-</RelativeLayout>
+        </RelativeLayout>
+    </ScrollView>
+
+</LinearLayout>

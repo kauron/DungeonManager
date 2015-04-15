@@ -3,12 +3,17 @@ package com.kauron.dungeonmanager;
 import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.nispok.snackbar.Snackbar;
+import com.nispok.snackbar.SnackbarManager;
 
 
 public class Introduction extends ActionBarActivity {
@@ -23,6 +28,8 @@ public class Introduction extends ActionBarActivity {
         super.onCreate(savedInstanceState);
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_introduction);
+        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+
         name = (EditText) findViewById(R.id.editNameIntro);
         name.requestFocus();
         level = (EditText) findViewById(R.id.editPxIntro);
@@ -96,9 +103,20 @@ public class Introduction extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void finishButton(View view){
+        if(finished()) {
+            finish();
+        } else {
+            SnackbarManager.show(
+                    Snackbar.with(getApplicationContext()).text(R.string.missing_info_error), this
+            );
+        }
+    }
+
     private boolean finished() {
         SharedPreferences p = getSharedPreferences(Welcome.PREFERENCES, MODE_PRIVATE);
-        SharedPreferences.Editor ed = p.edit();
+        int i = p.getInt("players", 0);
+        SharedPreferences.Editor ed = getSharedPreferences("player" + i, MODE_PRIVATE).edit();
         String nameString = name.getText().toString().trim();
         int classInt = classSpinner.getSelectedItemPosition();
         int raceInt = raceSpinner.getSelectedItemPosition();
@@ -146,8 +164,6 @@ public class Introduction extends ActionBarActivity {
                 ed.putInt("sab", sab);
                 ed.putInt("con", con);
                 ed.putInt("des", des);
-
-                ed.putBoolean("saved", true);
             } else {
                 return false;
             }
@@ -165,6 +181,8 @@ public class Introduction extends ActionBarActivity {
             if (des != 0)       ed.putInt("des", des);
         }
         ed.apply();
+        getSharedPreferences(Welcome.PREFERENCES, MODE_PRIVATE).edit()
+                .putInt("players", i + 1).apply();
         return true;
     }
 }

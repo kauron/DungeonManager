@@ -33,20 +33,13 @@
         android:paddingTop="@dimen/activity_vertical_margin"
         android:paddingBottom="@dimen/activity_vertical_margin"
         android:orientation="vertical">
-        <Button
+        <TextView
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/new_character"
-            android:id="@+id/newCharacter"
-            android:onClick="onNewClick"/>
-
-        <Button
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/load_character"
-            android:id="@+id/loadCharacter"
-            android:onClick="onLoadClick"/>
-
+            android:layout_height="fill_parent"
+            android:id="@+id/no_players_text"
+            android:text="@string/no_players"
+            android:gravity="center"
+            android:visibility="gone"/>
         <ListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

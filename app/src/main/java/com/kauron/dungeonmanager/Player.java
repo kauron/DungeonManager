@@ -57,7 +57,7 @@ class Player {
      * Names for the races
      */
     public static final String[] RACE_STRINGS = new String[] {
-            "Raza", "Dracónido", "Eladrín", "Elfo", "Enano", "Gitzherai", "Humanos", "Medianos",
+            "Raza", "Dracónido", "Eladrín", "Elfo", "Enano", "Gitzherai", "Humano", "Mediano",
             "Mente del Fragmento", "Minotauro", "Salvaje", "Semielfo", "Tiflin"
     };
 
@@ -110,6 +110,7 @@ class Player {
     //TODO: implement fully operational powers displayed as cards
     private Power[] powers;
 
+    /** Constructor for creating a new character*/
     Player(
             String name, int classInt, int raceInt,
             int px, int[] atk, int[] abilities,
@@ -130,6 +131,25 @@ class Player {
         this.powers = powers;
     }
 
+    /** Constructor for restoring the Player in the middle of the game*/
+    Player(
+            int pg, int maxPg, int px, int curativeEfforts, int maxCurativeEfforts, int classInt,
+            int raceInt, String name, int[] atk, int[] def, int[] abilities, Power[] powers) {
+        this.pg = pg;
+        this.maxPg = maxPg;
+        this.px = px;
+        setLevel();
+        setState();
+        this.curativeEfforts = curativeEfforts;
+        this.maxCurativeEfforts = maxCurativeEfforts;
+        this.classInt = classInt;
+        this.raceInt = raceInt;
+        this.name = name;
+        this.atk = atk;
+        this.def = def;
+        this.abilities = abilities;
+        this.powers = powers;
+    }
 
     int getPx() {return px;}
     void setPx (int px) {this.px = px; setLevel();}
@@ -216,7 +236,7 @@ class Player {
     String getClassName() {return CLASS_STRINGS[classInt];}
 
     String getRaceName() {return RACE_STRINGS[raceInt];}
-    void setRaceInt(int raceInt) {this.raceInt= raceInt;}
+    void setRaceInt(int raceInt) {this.raceInt = raceInt;}
     int getRaceInt() {return raceInt;}
 
     //TODO: implement turns (for bonuses and continuous damage in the app

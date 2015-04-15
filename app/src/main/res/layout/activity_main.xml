@@ -52,7 +52,6 @@
                 <HorizontalScrollView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="selectPlayer"
                     android:id="@+id/scroll1">
                     <RelativeLayout
                         android:orientation="vertical"
@@ -139,7 +138,7 @@
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="right"
+                    android:gravity="end"
                     android:id="@+id/currentPg"
                     android:textSize="14sp"
                     android:textStyle="bold"
@@ -165,7 +164,7 @@
                     android:textStyle="bold"
                     android:layout_marginRight="5dp"
                     android:layout_marginLeft="5dp"
-                    android:text="0"/>
+                    android:text="@string/zero"/>
                 <ProgressBar
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="fill_parent"
@@ -199,7 +198,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="14sp"
                     android:textStyle="bold"
-                    android:gravity="right"
+                    android:gravity="end"
                     android:id="@+id/currentCurativeEfforts"
                     android:textAllCaps="true"/>
             </LinearLayout>
@@ -232,7 +231,7 @@
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="right"
+                    android:gravity="end"
                     android:id="@+id/currentXp"
                     android:textSize="14sp"
                     android:textStyle="bold"
@@ -251,7 +250,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:onClick="onAttackClick"
                 android:orientation="vertical">
 
                 <TextView

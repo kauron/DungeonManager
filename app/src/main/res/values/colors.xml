@@ -8,6 +8,13 @@
     <color name="secondary_text">#727272</color>
     <color name="icons">#FFFFFF</color>
     <color name="divider">#B6B6B6</color>
+
+    <color name="red">#F00</color>
+    <color name="yellow">#ff0</color>
+    <color name="green">#0f0</color>
+
+    <color name="surges_bar">#FFD700</color>
+    <color name="px_bar">#62BACE</color>
     <!--<color name="primary">#5D4037</color>-->
     <!--<color name="primaryDark">#3E2723</color>-->
 </resources>
