@@ -114,9 +114,6 @@ public class Introduction extends ActionBarActivity {
     }
 
     private boolean finished() {
-        SharedPreferences p = getSharedPreferences(Welcome.PREFERENCES, MODE_PRIVATE);
-        int i = p.getInt("players", 0);
-        SharedPreferences.Editor ed = getSharedPreferences("player" + i, MODE_PRIVATE).edit();
         String nameString = name.getText().toString().trim();
         int classInt = classSpinner.getSelectedItemPosition();
         int raceInt = raceSpinner.getSelectedItemPosition();
@@ -139,19 +136,28 @@ public class Introduction extends ActionBarActivity {
         if (!this.sab.getText().toString().isEmpty())
             sab = Integer.parseInt(this.sab.getText().toString());
 
-        if(first) {
+//        if(first) {
             if (
                     !nameString.isEmpty() &&
-                    classInt != Player.NULL &&
-                    raceInt != Player.NULL &&
-                    pxInt != -1 &&
-                    car != 0 &&
-                    fue != 0 &&
-                    con != 0 &&
-                    des != 0 &&
-                    intel != 0 &&
-                    sab != 0
-            ) {
+                            classInt != Player.NULL &&
+                            raceInt != Player.NULL &&
+                            pxInt != -1 &&
+                            car != 0 &&
+                            fue != 0 &&
+                            con != 0 &&
+                            des != 0 &&
+                            intel != 0 &&
+                            sab != 0
+                    ) {
+                SharedPreferences p = getSharedPreferences(Welcome.PREFERENCES, MODE_PRIVATE);
+                int i = p.getInt("players", 0);
+                String saveName = nameString;
+                for (int j = 0; j < i; j++) {
+                    saveName += p.getString("player" + j, "").equals(saveName) ? "2" : "";
+                }
+                p.edit().putString("player" + i, saveName).putInt("players", i + 1).apply();
+                SharedPreferences.Editor ed = getSharedPreferences(saveName, MODE_PRIVATE).edit();
+
                 //first save it all
                 ed.putString("playerName", nameString);
                 ed.putInt("classInt", classInt);
@@ -164,25 +170,25 @@ public class Introduction extends ActionBarActivity {
                 ed.putInt("sab", sab);
                 ed.putInt("con", con);
                 ed.putInt("des", des);
+                //TEMP
+                ed.apply();
             } else {
                 return false;
             }
-        } else {
-            if (!nameString.isEmpty()) ed.putString("playerName", nameString);
-            if (classInt != Player.NULL) ed.putInt("classInt", classInt);
-            if (raceInt != Player.NULL) ed.putInt("raceInt", raceInt);
-            if (pxInt != -1)  ed.putInt("px", pxInt);
+//        } else {
+//            if (!nameString.isEmpty()) ed.putString("playerName", nameString);
+//            if (classInt != Player.NULL) ed.putInt("classInt", classInt);
+//            if (raceInt != Player.NULL) ed.putInt("raceInt", raceInt);
+//            if (pxInt != -1)  ed.putInt("px", pxInt);
+//
+//            if (fue != 0)       ed.putInt("fue", fue);
+//            if (car != 0)       ed.putInt("car", car);
+//            if (intel != 0)     ed.putInt("int", intel);
+//            if (sab != 0)       ed.putInt("sab", sab);
+//            if (con != 0)       ed.putInt("con", con);
+//            if (des != 0)       ed.putInt("des", des);
+//        }
 
-            if (fue != 0)       ed.putInt("fue", fue);
-            if (car != 0)       ed.putInt("car", car);
-            if (intel != 0)     ed.putInt("int", intel);
-            if (sab != 0)       ed.putInt("sab", sab);
-            if (con != 0)       ed.putInt("con", con);
-            if (des != 0)       ed.putInt("des", des);
-        }
-        ed.apply();
-        getSharedPreferences(Welcome.PREFERENCES, MODE_PRIVATE).edit()
-                .putInt("players", i + 1).apply();
         return true;
     }
 }

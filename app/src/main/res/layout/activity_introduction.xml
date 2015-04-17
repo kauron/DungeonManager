@@ -25,14 +25,6 @@
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/finish_button"
-        android:onClick="finishButton"
-        android:layout_gravity="center_horizontal"
-        android:text="Save character" />
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

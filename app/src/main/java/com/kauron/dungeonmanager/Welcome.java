@@ -1,22 +1,28 @@
 package com.kauron.dungeonmanager;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import java.io.File;
 
 public class Welcome extends ActionBarActivity {
 
     public static final String PREFERENCES = "basics";
 
     private SharedPreferences p;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +61,7 @@ public class Welcome extends ActionBarActivity {
         load();
     }
 
+    //TODO: load all players with secondary constructor (except the ones created by introduction and haven't passed by MainActivity)
     private void load() {
         int n = p.getInt("players",0);
         ListView playerList = (ListView) findViewById(R.id.listView);
@@ -64,50 +71,54 @@ public class Welcome extends ActionBarActivity {
             elements = adapter.getCount();
         if ( elements < n  && adapter != null ) {
             playerList.setVisibility(View.VISIBLE);
+            findViewById(R.id.help_text).setVisibility(View.VISIBLE);
             findViewById(R.id.no_players_text).setVisibility(View.GONE);
             for ( int i = elements; i < n; i++ ) {
-                SharedPreferences sav = getSharedPreferences("player" + i, MODE_PRIVATE);
-                adapter.add(
-                        new Player(
-                                sav.getString(Player.NAME, "player" + i),
-                                sav.getInt(Player.CLASS, 0),
-                                sav.getInt(Player.RACE, 0),
-                                sav.getInt(Player.PX, 0),
-                                new int[] {
-                                        sav.getInt("fue", 10),
-                                        sav.getInt("con", 10),
-                                        sav.getInt("des", 10),
-                                        sav.getInt("int", 10),
-                                        sav.getInt("sab", 10),
-                                        sav.getInt("car", 10)
-                                },
-                                new int[18],
-                                new Power[4]
-                ));
+                SharedPreferences sav = getSharedPreferences(p.getString("player" + i, ""), MODE_PRIVATE);
+                if (sav.contains(Player.NAME))
+                    adapter.add(
+                            new Player(
+                                    sav.getString(Player.NAME, "player" + i),
+                                    sav.getInt(Player.CLASS, 0),
+                                    sav.getInt(Player.RACE, 0),
+                                    sav.getInt(Player.PX, 0),
+                                    new int[] {
+                                            sav.getInt("fue", 10),
+                                            sav.getInt("con", 10),
+                                            sav.getInt("des", 10),
+                                            sav.getInt("int", 10),
+                                            sav.getInt("sab", 10),
+                                            sav.getInt("car", 10)
+                                    },
+                                    new int[18],
+                                    new Power[4]
+                    ));
             }
         } else if ( n != 0 ) {
             playerList.setVisibility(View.VISIBLE);
+            findViewById(R.id.help_text).setVisibility(View.VISIBLE);
             findViewById(R.id.no_players_text).setVisibility(View.GONE);
             Player[] players = new Player[n];
             for ( int i = 0; i < n; i++ ) {
                 //TODO: fill the information for the player creation
-                SharedPreferences sav = getSharedPreferences("player" + i, MODE_PRIVATE);
-                players[i] = new Player(
-                        sav.getString(Player.NAME, "player" + i),
-                        sav.getInt(Player.CLASS, 0),
-                        sav.getInt(Player.RACE, 0),
-                        sav.getInt(Player.PX, 0),
-                        new int[] {
-                                sav.getInt("fue", 10),
-                                sav.getInt("con", 10),
-                                sav.getInt("des", 10),
-                                sav.getInt("int", 10),
-                                sav.getInt("sab", 10),
-                                sav.getInt("car", 10)
-                        },
-                        new int[18],
-                        new Power[4]
-                );
+                SharedPreferences sav = getSharedPreferences(p.getString("player" + i, ""), MODE_PRIVATE);
+                if (sav.contains(Player.NAME))
+                    players[i] = new Player(
+                            sav.getString(Player.NAME, "player" + i),
+                            sav.getInt(Player.CLASS, 0),
+                            sav.getInt(Player.RACE, 0),
+                            sav.getInt(Player.PX, 0),
+                            new int[] {
+                                    sav.getInt("fue", 10),
+                                    sav.getInt("con", 10),
+                                    sav.getInt("des", 10),
+                                    sav.getInt("int", 10),
+                                    sav.getInt("sab", 10),
+                                    sav.getInt("car", 10)
+                            },
+                            new int[18],
+                            new Power[4]
+                    );
             }
 
             playerList.setAdapter(new PlayerAdapter(this, players));
@@ -120,8 +131,51 @@ public class Welcome extends ActionBarActivity {
                     ).putExtra("player", position));
                 }
             });
+            final ActionBarActivity activity = this;
+            playerList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(final AdapterView<?> parent, View view, final int position, long id) {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(activity);
+                    alert.setItems(new String[]{"Delete", "Edit"}, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if ( which == 0 ) {
+                                //delete the item
+                                String name = p.getString("player" + position, "");
+                                if (name != null && !name.isEmpty()) {
+                                    getSharedPreferences(name, MODE_PRIVATE).edit().clear().apply();
+                                    Log.d("Tag", activity.getApplicationContext().getFilesDir().getParent()
+                                            + File.separator + "shared_prefs" + File.separator + name + ".xml");
+                                    try {
+                                        if(!new File(activity.getApplicationContext().getFilesDir().getParent()
+                                                + File.separator + "shared_prefs" + File.separator + name + ".xml").delete())
+                                            throw new Exception();
+                                    } catch (Exception e) {
+                                        Toast.makeText(getApplicationContext(), "Error deleting player files", Toast.LENGTH_SHORT).show();
+                                    }
+                                    int max = p.getInt("players", 0);
+                                    SharedPreferences.Editor ed = p.edit();
+                                    for (int i = position; i < max - 1; i++)
+                                        ed.putString("player" + i, p.getString("player" + (i + 1), "max"));
+                                    ed.putInt("players", max - 1).apply();
+                                    load();
+                                    ed.remove("player" + (max - 1)).apply();
+                                }
+                            } else {
+                                //edit the item
+                                Toast.makeText(
+                                        activity, "Editor not implemented yet", Toast.LENGTH_LONG)
+                                     .show();
+                            }
+                        }
+                    });
+                    alert.show();
+                    return true;
+                }
+            });
         } else {
             playerList.setVisibility(View.GONE);
+            findViewById(R.id.help_text).setVisibility(View.GONE);
             findViewById(R.id.no_players_text).setVisibility(View.VISIBLE);
         }
     }

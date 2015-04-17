@@ -90,4 +90,5 @@
     <string name="add_player">Add player</string>
     <string name="zero" translatable="false">0</string>
     <string name="no_players">No players, please add one</string>
+    <string name="help_welcome_text">Press a player to open, long press for options</string>
 </resources>

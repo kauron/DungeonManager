@@ -1,5 +1,6 @@
 package com.kauron.dungeonmanager;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -44,10 +45,22 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Initializing activity (setting toolbar as actionbar)
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        p = getSharedPreferences("player" + getIntent().getIntExtra("player", 0), MODE_PRIVATE);
+
+        //Loading player
+        try{
+            String name = getSharedPreferences(Welcome.PREFERENCES, MODE_PRIVATE)
+                    .getString("player" + getIntent().getIntExtra("player", 0), "null");
+            p = getSharedPreferences(name, MODE_PRIVATE);
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), "Error loading character", Toast.LENGTH_LONG).show();
+            finish();
+        }
+
+        //Performing all the findViewById commands
         xpBar = (ProgressBar) findViewById(R.id.xpBar);
         curativeEffortsBar = (ProgressBar) findViewById(R.id.curativeEffortsBar);
         pgBar = (ProgressBar) findViewById(R.id.pgBar);
@@ -66,12 +79,8 @@ public class MainActivity extends ActionBarActivity {
         curativeEffortsBar.getProgressDrawable()
                         .setColorFilter(getResources().getColor(R.color.surges_bar), PorterDuff.Mode.SRC_IN);
         undo = false;
-        //begin
+
         restoreData();
-        pgUpdate();
-        ceUpdate();
-        pxUpdate();
-        //end
         invalidateOptionsMenu();
     }
 
@@ -84,11 +93,12 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     public boolean onPrepareOptionsMenu (Menu menu) {
-        menu.findItem(R.id.action_undo).setEnabled(undo);
+        MenuItem menuUndo = menu.findItem(R.id.action_undo);
+        menuUndo.setEnabled(undo);
         if (undo)
-            menu.findItem(R.id.action_undo).getIcon().setAlpha(255);
+            menuUndo.getIcon().setAlpha(255);
         else
-            menu.findItem(R.id.action_undo).getIcon().setAlpha(128);
+            menuUndo.getIcon().setAlpha(128);
         return true;
     }
 
@@ -148,7 +158,9 @@ public class MainActivity extends ActionBarActivity {
 //                                            Player.LEVEL_PX[player.getLevel() - 1],
 //                                true, player.getPx() - Player.LEVEL_PX[player.getLevel() - 1]
 //                        );
-                    } catch(Exception e) {}
+                    } catch(Exception e) {
+                        Toast.makeText(getApplicationContext(), "There was an error leveling up", Toast.LENGTH_LONG).show();
+                    }
                 }
             });
             alert.show();
@@ -337,17 +349,14 @@ public class MainActivity extends ActionBarActivity {
                     undo();
                 }
             });
-
+            final Activity activity = this;
             alert.setNegativeButton(R.string.die, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
-                    //TODO: fix snackbar on death
-                    Toast.makeText(getApplicationContext(),
-                            R.string.message_death, Toast.LENGTH_LONG).show();
-//                    SnackbarManager.show(
-//                            Snackbar
-//                                    .with(this)
-//                                    .text(R.string.message_death)
-//                    );
+                    SnackbarManager.show(
+                            Snackbar
+                                    .with(activity)
+                                    .text(R.string.message_death)
+                    );
                     p.edit().clear().apply();
                     restoreData();
                 }
@@ -387,15 +396,6 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void restoreData(){
-        int i = getIntent().getIntExtra("player", 0);
-        if (!p.getBoolean("saved", false)) {
-            if (i == -1) {
-                Intent intent = new Intent(this, Introduction.class);
-                startActivity(intent.putExtra(
-                        "first_time",
-                        !p.getBoolean("saved", false)
-                ));
-        }
         if (player == null) {
             player = new Player(
                     p.getString("playerName", getString(R.string.adventurer_name)),
@@ -481,7 +481,7 @@ public class MainActivity extends ActionBarActivity {
 
         //defenses
         ((TextView) findViewById(R.id.CA)).setText(
-                getString(R.string.CA) + ": " + player.getCa()
+                getString(R.string.CA) + ":" + player.getCa()
         );
         ((TextView) findViewById(R.id.FORT)).setText(
                 getString(R.string.FORT) + ":" + player.getFort()
@@ -490,7 +490,7 @@ public class MainActivity extends ActionBarActivity {
                 getString(R.string.REF) + ":" + player.getRef()
         );
         ((TextView) findViewById(R.id.VOL)).setText(
-                getString(R.string.VOL) + ": " + player.getVol()
+                getString(R.string.VOL) + ":" + player.getVol()
         );
     }
 
