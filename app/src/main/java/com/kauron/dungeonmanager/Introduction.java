@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -21,7 +20,6 @@ public class Introduction extends ActionBarActivity {
     private EditText name, level;
     private EditText fue, con, des, sab, intel, car;
     private Spinner classSpinner, raceSpinner;
-    private boolean first;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +55,6 @@ public class Introduction extends ActionBarActivity {
                         Player.RACE_STRINGS
                 )
         );
-
-        first = getIntent().getExtras() == null || getIntent().getExtras().getBoolean("first_time");
     }
 
 
@@ -91,26 +87,13 @@ public class Introduction extends ActionBarActivity {
             if(finished()) {
                 finish();
             } else {
-                Toast.makeText(
-                        getApplicationContext(),
-                        R.string.missing_info_error,
-                        Toast.LENGTH_LONG
-                ).show();
+                SnackbarManager.show(
+                        Snackbar.with(getApplicationContext()).text(R.string.missing_info_error), this
+                );
             }
             return true;
         }
-
         return super.onOptionsItemSelected(item);
-    }
-
-    public void finishButton(View view){
-        if(finished()) {
-            finish();
-        } else {
-            SnackbarManager.show(
-                    Snackbar.with(getApplicationContext()).text(R.string.missing_info_error), this
-            );
-        }
     }
 
     private boolean finished() {
@@ -171,6 +154,7 @@ public class Introduction extends ActionBarActivity {
                 ed.putInt("con", con);
                 ed.putInt("des", des);
                 //TEMP
+                ed.putBoolean("new", true);
                 ed.apply();
             } else {
                 return false;

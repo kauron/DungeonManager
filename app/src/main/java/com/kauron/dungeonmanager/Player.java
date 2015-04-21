@@ -1,6 +1,10 @@
 package com.kauron.dungeonmanager;
 
-class Player {
+import android.content.SharedPreferences;
+
+import java.io.Serializable;
+
+class Player implements Serializable {
 
     public static final String NAME = "playerName", CLASS = "classInt", RACE = "raceInt", PX = "px";
 
@@ -107,15 +111,35 @@ class Player {
     private int level;
     //TODO: use dice dialogs
     private int[] atk, def, abilities;
+    private boolean[] abilitiesTrained;
     //TODO: implement fully operational powers displayed as cards
     private Power[] powers;
 
+    Player (SharedPreferences p) {
+        this.name = p.getString(NAME, "Player");
+        this.px   = p.getInt(PX, 0);
+        setLevel();
+        this.raceInt = p.getInt(RACE, 0);
+        this.classInt = p.getInt(CLASS, 0);
+        this.def = new int[4];
+        setAtk(new int[] {
+                p.getInt("fue", 10),
+                p.getInt("con", 10),
+                p.getInt("des", 10),
+                p.getInt("int", 10),
+                p.getInt("sab", 10),
+                p.getInt("car", 10)}
+        );
+        setState();
+        this.pg = p.getInt( "pg" , maxPg);
+        this.curativeEfforts = p.getInt( "curativeEfforts" , maxCurativeEfforts );
+
+        //TODO: load powers from wherever they are saved
+    }
+
     /** Constructor for creating a new character*/
-    Player(
-            String name, int classInt, int raceInt,
-            int px, int[] atk, int[] abilities,
-            Power[] powers
-    ){
+    Player( String name, int classInt, int raceInt,
+            int px, int[] atk, Power[] powers){
         this.name = name;
         this.px = px;
         setLevel();
@@ -127,28 +151,22 @@ class Player {
         pg = maxPg;
         curativeEfforts = maxCurativeEfforts;
 
-        this.abilities = abilities;
         this.powers = powers;
     }
 
     /** Constructor for restoring the Player in the middle of the game*/
-    Player(
-            int pg, int maxPg, int px, int curativeEfforts, int maxCurativeEfforts, int classInt,
-            int raceInt, String name, int[] atk, int[] def, int[] abilities, Power[] powers) {
-        this.pg = pg;
-        this.maxPg = maxPg;
+    Player( int pg, int px, int curativeEfforts, int classInt, int raceInt, int[] atk, String name, Power[] powers) {
         this.px = px;
         setLevel();
-        setState();
-        this.curativeEfforts = curativeEfforts;
-        this.maxCurativeEfforts = maxCurativeEfforts;
+        setAtk(atk);
         this.classInt = classInt;
         this.raceInt = raceInt;
+        setClass();
         this.name = name;
-        this.atk = atk;
-        this.def = def;
-        this.abilities = abilities;
         this.powers = powers;
+        this.pg = pg;
+        this.curativeEfforts = curativeEfforts;
+        setState();
     }
 
     int getPx() {return px;}
@@ -167,11 +185,8 @@ class Player {
 
     int getLevel() {return level;}
     void setLevel() {
-        for (int i = 0; i < LEVEL_PX.length; i++){
-            if(px < LEVEL_PX[i]) {
-                level = i; return;
-            }
-        }
+        for (int i = 0; i < LEVEL_PX.length; i++)
+            if(px < LEVEL_PX[i]) {level = i; return;}
         level = LEVEL_PX.length;
     }
 

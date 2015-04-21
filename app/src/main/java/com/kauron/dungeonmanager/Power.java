@@ -1,6 +1,8 @@
 package com.kauron.dungeonmanager;
 
-class Power {
+import java.io.Serializable;
+
+class Power implements Serializable{
     /**frequencies*/
     public static final int OPORTUNIDAD = 1, A_VOLUNTAD = 2, ENCUENTRO = 3, DIARIO = 4;
     public static final String[] FREQ = {"Nada", "Oportunidad", "A voluntad", "Encuentro", "Diario"};

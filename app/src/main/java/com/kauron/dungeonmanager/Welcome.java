@@ -76,24 +76,10 @@ public class Welcome extends ActionBarActivity {
             for ( int i = elements; i < n; i++ ) {
                 SharedPreferences sav = getSharedPreferences(p.getString("player" + i, ""), MODE_PRIVATE);
                 if (sav.contains(Player.NAME))
-                    adapter.add(
-                            new Player(
-                                    sav.getString(Player.NAME, "player" + i),
-                                    sav.getInt(Player.CLASS, 0),
-                                    sav.getInt(Player.RACE, 0),
-                                    sav.getInt(Player.PX, 0),
-                                    new int[] {
-                                            sav.getInt("fue", 10),
-                                            sav.getInt("con", 10),
-                                            sav.getInt("des", 10),
-                                            sav.getInt("int", 10),
-                                            sav.getInt("sab", 10),
-                                            sav.getInt("car", 10)
-                                    },
-                                    new int[18],
-                                    new Power[4]
-                    ));
+                    adapter.add( new Player( sav ) );
             }
+            //int pg, int maxPg, int px, int curativeEfforts, int maxCurativeEfforts, int classInt,
+            //int raceInt, String name, int[] atk, int[] def, int[] abilities, Power[] powers
         } else if ( n != 0 ) {
             playerList.setVisibility(View.VISIBLE);
             findViewById(R.id.help_text).setVisibility(View.VISIBLE);
@@ -103,22 +89,7 @@ public class Welcome extends ActionBarActivity {
                 //TODO: fill the information for the player creation
                 SharedPreferences sav = getSharedPreferences(p.getString("player" + i, ""), MODE_PRIVATE);
                 if (sav.contains(Player.NAME))
-                    players[i] = new Player(
-                            sav.getString(Player.NAME, "player" + i),
-                            sav.getInt(Player.CLASS, 0),
-                            sav.getInt(Player.RACE, 0),
-                            sav.getInt(Player.PX, 0),
-                            new int[] {
-                                    sav.getInt("fue", 10),
-                                    sav.getInt("con", 10),
-                                    sav.getInt("des", 10),
-                                    sav.getInt("int", 10),
-                                    sav.getInt("sab", 10),
-                                    sav.getInt("car", 10)
-                            },
-                            new int[18],
-                            new Power[4]
-                    );
+                    players[i] = new Player( sav );
             }
 
             playerList.setAdapter(new PlayerAdapter(this, players));

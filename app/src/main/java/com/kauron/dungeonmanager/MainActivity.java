@@ -4,13 +4,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.view.Menu;
@@ -39,7 +37,6 @@ public class MainActivity extends ActionBarActivity {
     private Button pgCurrent;
     private TextView currentPg, currentXp, currentCurativeEfforts, lvl;
     private SharedPreferences p;
-    private Toolbar toolbar;
 
 
     @Override
@@ -47,7 +44,7 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         //Initializing activity (setting toolbar as actionbar)
         setContentView(R.layout.activity_main);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         //Loading player
@@ -73,7 +70,6 @@ public class MainActivity extends ActionBarActivity {
         currentXp = (TextView) findViewById(R.id.currentXp);
         currentCurativeEfforts = (TextView) findViewById(R.id.currentCurativeEfforts);
 
-        //TODO: do not change progressbar background
         xpBar.getProgressDrawable()
                         .setColorFilter(getResources().getColor(R.color.px_bar), PorterDuff.Mode.SRC_IN);
         curativeEffortsBar.getProgressDrawable()
@@ -303,6 +299,7 @@ public class MainActivity extends ActionBarActivity {
                     pgUpdate();
                     invalidateOptionsMenu();
                 } catch (Exception e) {
+                    Toast.makeText(getApplicationContext(), "There was an error", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -339,7 +336,7 @@ public class MainActivity extends ActionBarActivity {
         pgCurrent.setText(String.valueOf(player.getPg()));
         if (status == Player.MUERTO) {
             pgCurrent.setTextColor(Color.BLACK);
-            pgCurrent.setBackgroundColor(Color.RED);
+            pgCurrent.setBackgroundColor(getResources().getColor(R.color.red));
 
             AlertDialog.Builder alert = new AlertDialog.Builder(this);
             alert.setTitle(getString(R.string.reset_confirmation_title));
@@ -365,9 +362,9 @@ public class MainActivity extends ActionBarActivity {
             alert.show();
         } else if (status == Player.DEBILITADO) {
             pgCurrent.setBackgroundColor(android.R.drawable.btn_default);
-            pgCurrent.setTextColor(Color.RED);
-            pgBar.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
-            negPgBar.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
+            pgCurrent.setTextColor(getResources().getColor(R.color.red));
+            pgBar.getProgressDrawable().setColorFilter(getResources().getColor(R.color.red), PorterDuff.Mode.SRC_IN);
+            negPgBar.getProgressDrawable().setColorFilter(getResources().getColor(R.color.red), PorterDuff.Mode.SRC_IN);
             if(lastState != Player.SAME) {
                 SnackbarManager.show(
                         Snackbar
@@ -377,9 +374,9 @@ public class MainActivity extends ActionBarActivity {
             }
         } else if (status == Player.MALHERIDO) {
             pgCurrent.setBackgroundColor(android.R.drawable.btn_default);
-            pgCurrent.setTextColor(Color.YELLOW);
-            pgBar.getProgressDrawable().setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_IN);
-            negPgBar.getProgressDrawable().setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_IN);
+            pgCurrent.setTextColor(getResources().getColor(R.color.yellow));
+            pgBar.getProgressDrawable().setColorFilter(getResources().getColor(R.color.yellow), PorterDuff.Mode.SRC_IN);
+            negPgBar.getProgressDrawable().setColorFilter(getResources().getColor(R.color.yellow), PorterDuff.Mode.SRC_IN);
             if(lastState != Player.SAME) {
                 SnackbarManager.show(
                         Snackbar
@@ -388,42 +385,28 @@ public class MainActivity extends ActionBarActivity {
                 );
             }
         } else {
-            pgCurrent.setTextColor(Color.GREEN);
+            pgCurrent.setTextColor(getResources().getColor(R.color.green));
             pgCurrent.setBackgroundColor(android.R.drawable.btn_default);
-            pgBar.getProgressDrawable().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
-            negPgBar.getProgressDrawable().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
+            pgBar.getProgressDrawable().setColorFilter(getResources().getColor(R.color.green), PorterDuff.Mode.SRC_IN);
+            negPgBar.getProgressDrawable().setColorFilter(getResources().getColor(R.color.green), PorterDuff.Mode.SRC_IN);
         }
     }
 
     private void restoreData(){
         if (player == null) {
-            player = new Player(
-                    p.getString("playerName", getString(R.string.adventurer_name)),
-                    p.getInt("classInt", Player.NULL),
-                    p.getInt("raceInt", Player.NULL),
-                    p.getInt("px", 0),
-                    new int[]{
-                            p.getInt("fue", 10),
-                            p.getInt("con", 10),
-                            p.getInt("des", 10),
-                            p.getInt("int", 10),
-                            p.getInt("sab", 10),
-                            p.getInt("car", 10)
-                    },
-                    new int[18],
-                    new Power[4]);
+            player = new Player( p );
         } else {
-            player.setName(p.getString("playerName", getString(R.string.adventurer_name)));
-            player.setClassInt(p.getInt("classInt", Player.NULL));
-            player.setRaceInt(p.getInt("raceInt", Player.NULL));
-            player.setPx(p.getInt("px", player.getPx()));
+            player.setName(p.getString(Player.NAME, player.getName()));
+            player.setClassInt(p.getInt(Player.CLASS, player.getClassInt()));
+            player.setRaceInt(p.getInt(Player.RACE, player.getRaceInt()));
+            player.setPx(p.getInt(Player.PX, player.getPx()));
             player.setAtk(new int[]{
-                    p.getInt("fue", 10),
-                    p.getInt("con", 10),
-                    p.getInt("des", 10),
-                    p.getInt("int", 10),
-                    p.getInt("sab", 10),
-                    p.getInt("car", 10)
+                    p.getInt("fue", player.getFue()),
+                    p.getInt("con", player.getCon()),
+                    p.getInt("des", player.getDes()),
+                    p.getInt("int", player.getInt()),
+                    p.getInt("sab", player.getSab()),
+                    p.getInt("car", player.getCar())
             });
         }
         pxUpdate();
@@ -440,17 +423,7 @@ public class MainActivity extends ActionBarActivity {
 
         pgBar.setMax(player.getMaxPg());
         negPgBar.setMax(player.getMaxPg() / 2);
-//        incrementProgressBar(
-//                pgBar, currentPg,
-//                100, true, player.getMaxPg(),
-//                true, player.getPg()
-//        );
         curativeEffortsBar.setMax(player.getMaxCurativeEfforts());
-//        incrementProgressBar(
-//                curativeEffortsBar, currentCurativeEfforts,
-//                100, true, player.getMaxCurativeEfforts(),
-//                true, player.getCurativeEfforts()
-//        );
         pgUpdate();
         ceUpdate();
         //set restored values to the respective fields
@@ -553,90 +526,4 @@ public class MainActivity extends ActionBarActivity {
         dialog.show();
         input.requestFocus();
     }
-
-    //TODO: fix incrementeProgressBar
-    //set up a partial barCommand to raise only between the ratios, then a manager, then another
-    //if pgBar, change color accordingly with the pg
-    private void incrementProgressBar(final ProgressBar progressBar, final TextView textView,
-                                      final int factor,
-                                      final boolean setMax, int max,
-                                      final boolean setVal, int end) {
-        if(factor == 1){
-            textView.setText(
-                    (progressBar.getProgress() + Player.LEVEL_PX[player.getLevel() - 1])
-                    + " / " +
-                    (progressBar.getMax() + Player.LEVEL_PX[player.getLevel() - 1])
-            );
-        } else {
-            textView.setText(
-                    (progressBar.getProgress()/factor) + " / " +
-                    (progressBar.getMax()/factor)
-            );
-        }
-
-        if(setMax) progressBar.setMax(factor*max);
-        if(!setVal) return;
-        if(progressBar.getProgress() - end*factor == 0) return;
-        final Handler handler = new Handler();
-        final int finalEnd = (end < 0 ? 0 : -1) * end * factor;
-        final int time = Math.max(2000 / Math.abs(progressBar.getProgress() - finalEnd), 1);
-        new Thread(new Runnable() {
-            public void run() {
-                int current = progressBar.getProgress();
-                boolean bigger = current < finalEnd;
-                while ((bigger && current < finalEnd) || (!bigger && current > finalEnd)) {
-                    if(bigger) current += 2;
-                    else current -= 2;
-                    // Update the progress bar and display the
-                    //current value in the text view
-                    final int finalCurrent = Math.abs(current);
-                    handler.post(new Runnable() {
-                        public void run() {
-                            progressBar.setProgress(finalCurrent);
-                            if(factor == 1){
-                                textView.setText(
-                                        (finalCurrent + Player.LEVEL_PX[player.getLevel() - 1])
-                                        + " / " +
-                                        (progressBar.getMax() + Player.LEVEL_PX[player.getLevel() - 1])
-                                );
-                            } else {
-                                textView.setText((finalCurrent/factor) +" / "+(progressBar.getMax()/factor));
-                            }
-                        }
-                    });
-                    try {
-                        // Sleep for 200 milliseconds.
-                        //Just to display the progress slowly
-                        Thread.sleep(time);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }).start();
-    }
-
-
-//                    if(progressBar.getId() == R.id.pgBar) {
-//                        double rate = (double)current / progressBar.getMax() * (negative ? -1:1);
-//                        if (rate <= 0) {
-//                            progressBar.getProgressDrawable()
-//                                    .setColorFilter(
-//                                            Color.RED,
-//                                            PorterDuff.Mode.SRC_IN
-//                                    );
-//                        } else if (rate <= 0.5) {
-//                            progressBar.getProgressDrawable()
-//                                    .setColorFilter(
-//                                            Color.YELLOW,
-//                                            PorterDuff.Mode.SRC_IN
-//                                    );
-//                        } else {
-//                            progressBar.getProgressDrawable()
-//                                    .setColorFilter(
-//                                            Color.GREEN,
-//                                            PorterDuff.Mode.SRC_IN
-//                                    );
-//                        }
-//                    }
 }

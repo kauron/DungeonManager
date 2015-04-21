@@ -9,12 +9,12 @@
     <color name="icons">#FFFFFF</color>
     <color name="divider">#B6B6B6</color>
 
-    <color name="red">#F00</color>
-    <color name="yellow">#ff0</color>
+    <color name="red">#9F0D0A</color>
+    <color name="yellow">#FFBB00</color>
     <color name="green">#0f0</color>
 
-    <color name="surges_bar">#FFD700</color>
-    <color name="px_bar">#62BACE</color>
+    <color name="surges_bar">#989F2B</color>
+    <color name="px_bar">#005874</color>
     <!--<color name="primary">#5D4037</color>-->
     <!--<color name="primaryDark">#3E2723</color>-->
 </resources>
