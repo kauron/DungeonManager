@@ -1,5 +1,7 @@
 package com.kauron.dungeonmanager;
 
+import android.content.SharedPreferences;
+
 import java.io.Serializable;
 
 class Power implements Serializable{
@@ -15,37 +17,33 @@ class Power implements Serializable{
     /**dies
      * They are represented by its max size
      * 0 corresponds to [A], the weapon
-     * any other is represented by d2, d4, d6, d8, d10, d12, d20, d100
+     * any other is represented by [A], d2, d4, d6, d8, d10, d12, d20, d100, extra damage
      */
-    public static final int[] DIE = {0, 2, 4, 6, 8, 10, 12, 20, 100};
+    public static final int[] DIE = {0, 2, 4, 6, 8, 10, 12, 20, 100, 0};
 
     private boolean used;
     private int freq, action, distance, range, objectives;
-    private String name, description;
-    private String[] keywords; //fire, spell...
+    private String name, impact, objective;
+    private String keywords; //fire, spell...
     private int atk, def; //constants from Player to denote atk and defense
-    private int[] damage; //the max sizes of the different dies
 
+    Power ( SharedPreferences p ) {
+        this.name      = p.getString("s0", "Name");
+        this.keywords  = p.getString("s1", "Keywords");
+        this.impact    = p.getString("s2", "2d10");
+        this.distance  = Integer.parseInt(p.getString("s3", "10"));
+        this.objective = p.getString("s4", "One creature");
 
-    Power(String name, String desc, int freq, int action, int distance, String[] keywords,
-                 int atk, int def, int[] damage){
-        used = false;
-        this.name = name; this.description = desc;
-        this.freq = freq; this.action = action;
-        this.distance = distance;
-        this.keywords = keywords;
+        this.used = p.getBoolean("used", false);
 
+        this.freq   = p.getInt("i0", 0);
+        this.range  = p.getInt("i1", 0);
+        this.atk    = p.getInt("i2", 0);
+        this.def    = p.getInt("i3", 0);
+        this.action = p.getInt("i4", 0);
     }
 
-    String getKeywords() {
-        if ( keywords != null && keywords.length != 0 ) {
-            String r = keywords[0];
-            for (String k : keywords) r += ", " + k;
-            return r;
-        } else {
-            return "";
-        }
-    }
+    String getKeywords() {return keywords;}
 
     String getFrequencyString() {return FREQ[freq];}
     int getFreq() {return freq;}
@@ -56,7 +54,7 @@ class Power implements Serializable{
     int getDistance() {return distance;}
 
     String getName(){return name;}
-    String getDescription() {return description;}
+    String getImpact() {return impact;}
 
     boolean isUsed(){return used;}
 
@@ -68,13 +66,6 @@ class Power implements Serializable{
     }
 
     int rollAttack() {return atk + (int)(Math.random()*20) + 1;}
-    int rollDamage() {
-        int roll = 0;
-        for(int i : damage) {
-            roll += (int)(Math.random()*i + 1);
-        }
-        return roll;
-    }
 
     void recover(int type){
         if(this.freq <= type) used = false;

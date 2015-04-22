@@ -49,7 +49,7 @@ public class Welcome extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if ( id == R.id.action_add_player ) {
-            startActivity(new Intent(this, Introduction.class).putExtra("first_time", true));
+            startActivity(new Intent(this, PlayerEditor.class).putExtra("first_time", true));
         }
 
         return super.onOptionsItemSelected(item);
@@ -61,7 +61,7 @@ public class Welcome extends ActionBarActivity {
         load();
     }
 
-    //TODO: load all players with secondary constructor (except the ones created by introduction and haven't passed by MainActivity)
+    //TODO: load all players with secondary constructor (except the ones created by introduction and haven't passed by ShowPlayer)
     private void load() {
         int n = p.getInt("players",0);
         ListView playerList = (ListView) findViewById(R.id.listView);
@@ -86,7 +86,6 @@ public class Welcome extends ActionBarActivity {
             findViewById(R.id.no_players_text).setVisibility(View.GONE);
             Player[] players = new Player[n];
             for ( int i = 0; i < n; i++ ) {
-                //TODO: fill the information for the player creation
                 SharedPreferences sav = getSharedPreferences(p.getString("player" + i, ""), MODE_PRIVATE);
                 if (sav.contains(Player.NAME))
                     players[i] = new Player( sav );
@@ -98,7 +97,7 @@ public class Welcome extends ActionBarActivity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     startActivity(new Intent(
-                            getApplicationContext(), MainActivity.class
+                            getApplicationContext(), ShowPlayer.class
                     ).putExtra("player", position));
                 }
             });

@@ -15,7 +15,7 @@ import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
 
 
-public class Introduction extends ActionBarActivity {
+public class PlayerEditor extends ActionBarActivity {
 
     private EditText name, level;
     private EditText fue, con, des, sab, intel, car;
@@ -25,7 +25,7 @@ public class Introduction extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setContentView(R.layout.activity_introduction);
+        setContentView(R.layout.activity_player_editor);
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
         name = (EditText) findViewById(R.id.editNameIntro);
@@ -61,7 +61,7 @@ public class Introduction extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_introduction, menu);
+        getMenuInflater().inflate(R.menu.menu_player_editor, menu);
         return true;
     }
 

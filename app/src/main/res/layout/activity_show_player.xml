@@ -1,0 +1,382 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ShowPlayer">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:minHeight="?attr/actionBarSize"
+        android:background="@color/primary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </android.support.v7.widget.Toolbar>
+
+
+    <LinearLayout
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:onClick="damage"
+            android:clickable="true"
+            android:layout_marginBottom="@dimen/bar_margin">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/titlePgBar"
+                    android:text="@string/pg"
+                    android:textAllCaps="true"
+                    android:drawableBottom="?android:attr/listChoiceBackgroundIndicator"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textColor="?android:textColorSecondary"
+                    android:textSize="14sp"
+                    android:paddingLeft="8dip"
+                    android:paddingRight="8dip"
+                    android:layout_weight="1"/>
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:id="@+id/currentPg"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textAllCaps="true"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <ProgressBar
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/negPgBar"
+                    android:layout_weight="2"
+                    android:rotation="180"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAllCaps="true"
+                    android:textStyle="bold"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:text="@string/zero"/>
+                <ProgressBar
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/pgBar"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+        </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="@dimen/bar_margin">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/titleCurativeEffortsBar"
+                android:text="@string/curative_efforts"
+                android:textAllCaps="true"
+                android:drawableBottom="?android:attr/listChoiceBackgroundIndicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textColor="?android:textColorSecondary"
+                android:textSize="14sp"
+                android:paddingLeft="8dip"
+                android:paddingRight="8dip"/>
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:gravity="end"
+                android:id="@+id/currentCurativeEfforts"
+                android:textAllCaps="true"/>
+        </LinearLayout>
+
+        <ProgressBar
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/curativeEffortsBar"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="@dimen/bar_margin">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/titleXpBar"
+                android:text="@string/px"
+                android:textAllCaps="true"
+                android:drawableBottom="?android:attr/listChoiceBackgroundIndicator"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textColor="?android:textColorSecondary"
+                android:textSize="14sp"
+                android:paddingLeft="8dip"
+                android:paddingRight="8dip"
+                android:layout_weight="1"/>
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:id="@+id/currentXp"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textAllCaps="true"
+                android:layout_weight="1"/>
+        </LinearLayout>
+
+
+        <ProgressBar
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/xpBar"/>
+    </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/addElement"
+                android:text="@string/new_attack"
+                android:textColor="@color/primary"
+                android:background="@android:color/transparent"
+                android:onClick="addToList"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/listSelectButton"
+                android:textColor="@color/primary"
+                android:background="@android:color/transparent"
+                tools:text="Go to abilities"/>
+
+        </LinearLayout>
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/attackList"
+            android:layout_gravity="center_horizontal"
+            android:choiceMode="none" />
+
+        <LinearLayout
+            android:id="@+id/attackContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/titleAttack"
+                android:text="@string/attack"
+                android:textAllCaps="true"
+                android:drawableBottom="?android:attr/listChoiceBackgroundIndicator"
+                android:layout_marginBottom="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textColor="?android:textColorSecondary"
+                android:textSize="14sp"
+                android:gravity="center_vertical"
+                android:paddingLeft="8dip"
+                android:paddingRight="8dip"/>
+            <HorizontalScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <GridLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/attackGrid"
+                    android:columnCount="3"
+                    android:rowCount="2">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:typeface="monospace"
+                        android:ems="4"
+                        android:layout_row="0"
+                        android:layout_column="0"
+                        android:id="@+id/FUE"
+                        tools:text="@string/FUE" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:typeface="monospace"
+                        android:ems="4"
+                        android:layout_row="1"
+                        android:layout_column="0"
+                        android:id="@+id/CON"
+                        tools:text="@string/CON" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:typeface="monospace"
+                        android:ems="4"
+                        android:layout_row="0"
+                        android:layout_column="1"
+                        android:id="@+id/DES"
+                        tools:text="@string/DES" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:typeface="monospace"
+                        android:ems="4"
+                        android:layout_row="1"
+                        android:layout_column="1"
+                        android:id="@+id/INT"
+                        tools:text="@string/INT" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:typeface="monospace"
+                        android:ems="4"
+                        android:layout_row="0"
+                        android:layout_column="2"
+                        android:id="@+id/SAB"
+                        tools:text="@string/SAB" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:typeface="monospace"
+                        android:ems="4"
+                        android:layout_row="1"
+                        android:layout_column="2"
+                        android:id="@+id/CAR"
+                        tools:text="@string/CAR" />
+                </GridLayout>
+            </HorizontalScrollView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/defenseContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:visibility="gone"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/titleDefense"
+                android:text="@string/defense"
+                android:textAllCaps="true"
+                android:layout_marginBottom="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textColor="?android:textColorSecondary"
+                android:textSize="14sp"
+                android:gravity="center_vertical"
+                android:paddingLeft="8dip"
+                android:paddingRight="8dip"/>
+
+            <GridLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/defenseGrid"
+                android:columnCount="2"
+                android:rowCount="2">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:typeface="monospace"
+                    android:ems="5"
+                    android:layout_row="0"
+                    android:layout_column="0"
+                    android:id="@+id/CA"
+                    tools:text="@string/CA" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:typeface="monospace"
+                    android:ems="5"
+                    android:layout_row="0"
+                    android:layout_column="1"
+                    android:id="@+id/FORT"
+                    tools:text="@string/FORT" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:typeface="monospace"
+                    android:ems="5"
+                    android:layout_row="1"
+                    android:layout_column="0"
+                    android:id="@+id/REF"
+                    tools:text="@string/REF" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:typeface="monospace"
+                    android:ems="5"
+                    android:layout_row="1"
+                    android:layout_column="1"
+                    android:id="@+id/VOL"
+                    tools:text="@string/VOL" />
+            </GridLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

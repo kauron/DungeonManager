@@ -14,7 +14,8 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:contentDescription="@string/edit" />
+        android:contentDescription="@string/edit"
+        android:tint="@color/black" />
 
     <TextView
         tools:text="Happiness"

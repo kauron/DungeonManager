@@ -35,7 +35,7 @@
     <string name="race_name">Race</string>
     <string name="state_changed_debilitado">You have fainted. You can\'t do anything!</string>
     <string name="cancel">Cancel</string>
-    <string name="ok">Ok</string>
+    <string name="ok">OK</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
 
@@ -62,12 +62,12 @@
     <string name="other">Otro</string>
     <string name="px">XP</string>
 
-    <string name="FUE">FUE</string>
+    <string name="FUE">STR</string>
     <string name="CON">CON</string>
-    <string name="DES">DES</string>
+    <string name="DES">DEX</string>
     <string name="INT">INT</string>
-    <string name="CAR">CAR</string>
-    <string name="SAB">SAB</string>
+    <string name="CAR">CHA</string>
+    <string name="SAB">WIS</string>
     <string name="action_save">Save</string>
     <string name="dialog_resolve_max_pg_hint">Max PG</string>
     <string name="empty_field">Please input something</string>
@@ -94,15 +94,58 @@
     <string name="character_creation">Character creation</string>
     <string name="name">Name</string>
     <string name="keywords">Keywords</string>
-    <string name="powerNameHint">Mordedura visual</string>
-    <string name="keywordsPowerHint">Arcano, hechizo, psíquico</string>
-    <string name="number10">10</string>
-    <string name="vs">VS</string>
+    <string name="powerNameHint">Blasting charm</string>
+    <string name="keywordsPowerHint">Magic, fire, weapon</string>
+    <string name="number10" translatable="false">10</string>
+    <string name="vs" translatable="false">VS</string>
     <string name="save">Save</string>
-    <string name="impactEditHint">1d6 + mod. CAR y eres invisible hasta el comienzo del siguiente turno</string>
+    <string name="impactEditHint">1d6 + mod. CHAR and you become invisible</string>
     <string name="impact">Impact</string>
     <string name="objective">Objective</string>
     <string name="objectiveHint">One creature</string>
     <string name="power_editor">Power Editor</string>
     <string name="save_player">Save player</string>
+
+    <string-array name="freq_array">
+        <item>Frequency</item>
+        <item>Opportunity</item>
+        <item>At will</item>
+        <item>Encounter</item>
+        <item>Daily</item>
+    </string-array>
+
+    <string-array name="actions_array">
+        <item>Action type</item>
+        <item>Standard</item>
+        <item>Movement</item>
+        <item>Minor</item>
+        <item>Free</item>
+    </string-array>
+
+    <string-array name="ranges_array">
+        <item>Range</item>
+        <item>Melee</item>
+        <item>Ranged</item>
+        <item>Area</item>
+        <item>Close</item>
+        <item>Aura</item>
+    </string-array>
+
+    <string-array name="atk_array">
+        <item>ATK</item>
+        <item>STR</item>
+        <item>CON</item>
+        <item>DEX</item>
+        <item>INT</item>
+        <item>WIS</item>
+        <item>CHA</item>
+    </string-array>
+
+    <string-array name="def_array">
+        <item>DEF</item>
+        <item>AC</item>
+        <item>FORT</item>
+        <item>REF</item>
+        <item>WILL</item>
+    </string-array>
 </resources>

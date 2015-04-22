@@ -1,7 +1,6 @@
 package com.kauron.dungeonmanager;
 
 import android.content.SharedPreferences;
-
 import java.io.Serializable;
 
 class Player implements Serializable {
@@ -110,10 +109,8 @@ class Player implements Serializable {
     private String name;
     private int level;
     //TODO: use dice dialogs
-    private int[] atk, def, abilities;
-    private boolean[] abilitiesTrained;
+    private int[] atk, def;
     //TODO: implement fully operational powers displayed as cards
-    private Power[] powers;
 
     Player (SharedPreferences p) {
         this.name = p.getString(NAME, "Player");
@@ -133,40 +130,6 @@ class Player implements Serializable {
         setState();
         this.pg = p.getInt( "pg" , maxPg);
         this.curativeEfforts = p.getInt( "curativeEfforts" , maxCurativeEfforts );
-
-        //TODO: load powers from wherever they are saved
-    }
-
-    /** Constructor for creating a new character*/
-    Player( String name, int classInt, int raceInt,
-            int px, int[] atk, Power[] powers){
-        this.name = name;
-        this.px = px;
-        setLevel();
-        this.raceInt = raceInt;
-        this.classInt = classInt;
-        this.def = new int[4];
-        setAtk(atk);
-        setState();
-        pg = maxPg;
-        curativeEfforts = maxCurativeEfforts;
-
-        this.powers = powers;
-    }
-
-    /** Constructor for restoring the Player in the middle of the game*/
-    Player( int pg, int px, int curativeEfforts, int classInt, int raceInt, int[] atk, String name, Power[] powers) {
-        this.px = px;
-        setLevel();
-        setAtk(atk);
-        this.classInt = classInt;
-        this.raceInt = raceInt;
-        setClass();
-        this.name = name;
-        this.powers = powers;
-        this.pg = pg;
-        this.curativeEfforts = curativeEfforts;
-        setState();
     }
 
     int getPx() {return px;}
@@ -241,33 +204,10 @@ class Player implements Serializable {
     }
 
     String getName() {return name;}
-    void setName(String name) {this.name = name;}
-
-    int getClassInt() {return classInt;}
-    void setClassInt(int classInt) {
-        this.classInt = classInt;
-        if (atk != null) setClass();
-    }
     String getClassName() {return CLASS_STRINGS[classInt];}
-
     String getRaceName() {return RACE_STRINGS[raceInt];}
     void setRaceInt(int raceInt) {this.raceInt = raceInt;}
     int getRaceInt() {return raceInt;}
-
-    //TODO: implement turns (for bonuses and continuous damage in the app
-    void rest(boolean isLong) {
-        if(isLong) {
-            pg = maxPg;
-            curativeEfforts = maxCurativeEfforts;
-            for (Power p : powers)
-                if (p != null)
-                    p.recover(Power.DIARIO);
-            setState();
-        }
-        for (Power p : powers)
-            if (p != null)
-                p.recover(Power.ENCUENTRO);
-    }
 
     void setAtk(int[] atk) {this.atk = atk; if(classInt != NULL) setClass();}
 

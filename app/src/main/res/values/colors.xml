@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary">#795548</color>
-    <color name="primary_dark">#5D4037</color>
+    <color name="primary">#5D4037</color>
+    <color name="primary_dark">#3E2723</color>
     <color name="primary_light">#D7CCC8</color>
     <color name="accent">#FF5252</color>
     <color name="primary_text">#212121</color>
@@ -12,9 +12,11 @@
     <color name="red">#9F0D0A</color>
     <color name="yellow">#FFBB00</color>
     <color name="green">#0f0</color>
+    <color name="white">#EEEEEE</color>
 
     <color name="surges_bar">#989F2B</color>
     <color name="px_bar">#005874</color>
+    <color name="black">#000000</color>
     <!--<color name="primary">#5D4037</color>-->
     <!--<color name="primaryDark">#3E2723</color>-->
 </resources>

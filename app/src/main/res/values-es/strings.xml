@@ -2,7 +2,7 @@
 <resources>
     <string name="action_cure">Curar</string>
     <string name="action_edit_basics">Editar personaje</string>
-    <string name="action_finish">PG Máx.</string>
+    <string name="action_finish">Guardar</string>
     <string name="adventurer_name">Nombre</string>
     <string name="cancel">Cancelar</string>
     <string name="class_name">Clase</string>
@@ -76,4 +76,23 @@
     <string name="load_character">Cargar personaje</string>
     <string name="new_character_warning">Esto borrará al personaje anterior</string>
     <string name="new_attack">Nuevo ataque</string>
+    <string name="add_player">Añadir personaje</string>
+    <string name="character_creation">Creación de personaje</string>
+    <string name="delete">Borrar</string>
+    <string name="edit">Editar</string>
+    <string name="hello_world"></string>
+    <string name="help_welcome_text">Toca un jugador para seleccionarlo, pulsación larga para opciones</string>
+    <string name="impact">Impacto</string>
+    <string name="impactEditHint">1d6 + 4 y eres invisible</string>
+    <string name="keywords">Palabras clave</string>
+    <string name="keywordsPowerHint">Arcano, hechizo, psíquico</string>
+    <string name="name">Nombre</string>
+    <string name="no_players">No hay personajes, añade uno</string>
+    <string name="objective">Objetivo</string>
+    <string name="objectiveHint">Una criatura</string>
+    <string name="powerNameHint">Mordedura visual</string>
+    <string name="power_editor">Editor de ataques</string>
+    <string name="save">Guardar</string>
+    <string name="save_player">Guardar personaje</string>
+    <string name="title_activity_power_editor">Editor de poderes</string>
 </resources>
