@@ -1,6 +1,7 @@
 package com.kauron.dungeonmanager;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
 
 import java.io.Serializable;
 
@@ -45,16 +46,22 @@ class Power implements Serializable{
 
     String getKeywords() {return keywords;}
 
+    String getTypeString() {return ACTIONS[action];}
     String getFrequencyString() {return FREQ[freq];}
-    int getFreq() {return freq;}
-
     String getRangeString() {return DISTANCES[range];}
-    int getRange() {return range;}
+
+    int getAtk() {return atk;}
+    int getDef() {return def;}
+    int getFreq() {return freq;}
 
     int getDistance() {return distance;}
 
     String getName(){return name;}
     String getImpact() {return impact;}
+    String getObjective() {return objective;}
+    String getOther() {return "";}
+
+    //TODO: add other element to include further description
 
     boolean isUsed(){return used;}
 

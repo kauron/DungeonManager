@@ -95,4 +95,65 @@
     <string name="save">Guardar</string>
     <string name="save_player">Guardar personaje</string>
     <string name="title_activity_power_editor">Editor de poderes</string>
+
+    <string-array name="freq_array">
+        <item>Frecuencia</item>
+        <item>Oportunidad</item>
+        <item>A voluntad</item>
+        <item>Encuentro</item>
+        <item>Diario</item>
+    </string-array>
+
+    <string-array name="actions_array">
+        <item>Tipo de acción</item>
+        <item>Acción estándar</item>
+        <item>Acción de movimiento</item>
+        <item>Acción menor</item>
+        <item>Acción gratuita</item>
+    </string-array>
+
+    <string-array name="ranges_array">
+        <item>Rango de ataque</item>
+        <item>Cuerpo a cuerpo</item>
+        <item>A distancia</item>
+        <item>Área</item>
+        <item>Cercano</item>
+        <item>Aura</item>
+    </string-array>
+
+    <string-array name="atk_array">
+        <item>ATK</item>
+        <item>FUE</item>
+        <item>CON</item>
+        <item>DES</item>
+        <item>INT</item>
+        <item>SAB</item>
+        <item>CAR</item>
+    </string-array>
+
+    <string-array name="def_array">
+        <item>DEF</item>
+        <item>CA</item>
+        <item>FORT</item>
+        <item>REF</item>
+        <item>VOL</item>
+    </string-array>
+
+    <string-array name="attack_array">
+        <item>Ataque</item>
+        <item>Fuerza</item>
+        <item>Constitución</item>
+        <item>Destreza</item>
+        <item>Inteligencia</item>
+        <item>Sabiduría</item>
+        <item>Carisma</item>
+    </string-array>
+
+    <string-array name="defense_array">
+        <item>Defensa</item>
+        <item>CA</item>
+        <item>Fortaleza</item>
+        <item>Reflejos</item>
+        <item>Voluntad</item>
+    </string-array>
 </resources>

@@ -147,8 +147,8 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:hint="@string/impactEditHint"
-                android:layout_toRightOf="@+id/impactText"
-                android:layout_toEndOf="@+id/impactText" />
+                android:layout_toRightOf="@+id/attackText"
+                android:layout_toEndOf="@+id/attackText" />
 
 
             <TextView
@@ -156,7 +156,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/impact"
-                android:id="@+id/impactText"
+                android:id="@+id/attackText"
                 android:gravity="center_vertical"
                 android:layout_below="@+id/vsLayout"
                 android:layout_alignParentLeft="true"

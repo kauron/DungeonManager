@@ -148,4 +148,22 @@
         <item>REF</item>
         <item>WILL</item>
     </string-array>
+
+    <string-array name="attack_array">
+        <item>Attack</item>
+        <item>Strength</item>
+        <item>Constitution</item>
+        <item>Dexterity</item>
+        <item>Intelligence</item>
+        <item>Wisdom</item>
+        <item>Charisma</item>
+    </string-array>
+
+    <string-array name="defense_array">
+        <item>Defense</item>
+        <item>AC</item>
+        <item>Fortitude</item>
+        <item>Reflexes</item>
+        <item>Will</item>
+    </string-array>
 </resources>

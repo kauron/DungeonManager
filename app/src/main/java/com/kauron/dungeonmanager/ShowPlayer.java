@@ -1,10 +1,13 @@
 package com.kauron.dungeonmanager;
 
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -131,9 +134,7 @@ public class ShowPlayer extends ActionBarActivity {
                     try {
                         boolean levelUp = player.addPx(Integer.parseInt(input.getText().toString()));
                         if (levelUp) {
-                            //levelUp
                             //TODO: improve leveling up by using a sliding guide
-                            player.setMaxPgOnLevelUp();
                         }
                         p.edit().putInt("px", player.getPx()).apply();
                         if(levelUp)
@@ -479,12 +480,82 @@ public class ShowPlayer extends ActionBarActivity {
             }
 
             attackList.setAdapter(new AttackAdapter(this, powers));
-
+            final Activity thisActivity = this;
             attackList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Toast.makeText(getApplicationContext(), ((Power)parent.getItemAtPosition(position)).getName(), Toast.LENGTH_LONG).show();
-                    //TODO: show here dialog with power's complete information, and buttons to use, recharge or delete
+
+                    final Dialog dialog = new Dialog(ShowPlayer.this);
+                    dialog.setContentView(R.layout.attack_display);
+                    // set the custom dialog components - text, image and button
+//                    Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
+//                    // if button is clicked, close the custom dialog
+//                    dialogButton.setOnClickListener(new OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            dialog.dismiss();
+//                        }
+//                    });
+
+                    //identify all the elements from the VIEW and then add LISTENERS
+                    Power power = (Power) parent.getItemAtPosition(position);
+                    View nameText = dialog.findViewById(R.id.nameText);
+                    switch(power.getFreq()){
+                        case Power.A_VOLUNTAD:
+                            nameText.setBackgroundColor(getResources().getColor(R.color.at_will));
+                            break;
+                        case Power.ENCUENTRO:
+                            nameText.setBackgroundColor(getResources().getColor(R.color.encounter));
+                            break;
+                        case Power.DIARIO:
+                            nameText.setBackgroundColor(getResources().getColor(R.color.daily));
+                            break;
+                        default:
+                            nameText.setBackgroundColor(getResources().getColor(R.color.green));
+                    }
+                    //TODO: fix the title gap
+                    ((TextView) nameText)                               .setText(power.getName());
+                    ((TextView) dialog.findViewById(R.id.typeText))     .setText(power.getTypeString());
+                    ((TextView) dialog.findViewById(R.id.rangeText))    .setText(power.getRangeString() + " ");
+                    ((TextView) dialog.findViewById(R.id.freqText))     .setText(power.getFrequencyString());
+                    ((TextView) dialog.findViewById(R.id.keywordsText)) .setText(power.getKeywords());
+                    ((TextView) dialog.findViewById(R.id.distanceText)) .setText(String.valueOf(power.getDistance()));
+                    ((TextView) dialog.findViewById(R.id.objectiveText)).setText(power.getObjective());
+                    ((TextView) dialog.findViewById(R.id.impactText))   .setText(power.getImpact());
+                    ((TextView) dialog.findViewById(R.id.otherText))    .setText(power.getOther());
+
+                    String[] attack  = getResources().getStringArray(R.array.attack_array);
+                    String[] defense = getResources().getStringArray(R.array.defense_array);
+                    //TODO: add attack and defense array
+                    ((TextView) dialog.findViewById(R.id.attackText))   .setText(attack[power.getAtk()]
+                            + " " + getResources().getString(R.string.vs)
+                            + " " + defense[power.getDef()]);
+
+                    dialog.findViewById(R.id.useButton).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            //TODO: use power
+                            Toast.makeText(getApplicationContext(), "Use it", Toast.LENGTH_LONG).show();
+                        }
+                    });
+
+                    dialog.findViewById(R.id.deleteButton).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            //TODO: delete power
+                            Toast.makeText(getApplicationContext(), "Delete it", Toast.LENGTH_LONG).show();
+                        }
+                    });
+
+                    dialog.findViewById(R.id.editButton).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            //TODO: edit power
+                            Toast.makeText(getApplicationContext(), "Edit it", Toast.LENGTH_LONG).show();
+                        }
+                    });
+
+                    dialog.show();
                 }
             });
         }

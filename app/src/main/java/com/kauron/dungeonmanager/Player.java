@@ -160,7 +160,7 @@ class Player implements Serializable {
             this.pg = maxPg;
         this.maxPg = maxPg;
     }
-    void setMaxPgOnLevelUp() {maxPg += CLASS_STATS[PG_ON_LEVEL_UP][classInt];}
+    private void setMaxPgOnLevelUp() {maxPg += CLASS_STATS[PG_ON_LEVEL_UP][classInt];}
 
     int getPg() {return pg;}
     void setPg(int pg) {this.pg = pg; setState();}
@@ -206,10 +206,8 @@ class Player implements Serializable {
     String getName() {return name;}
     String getClassName() {return CLASS_STRINGS[classInt];}
     String getRaceName() {return RACE_STRINGS[raceInt];}
-    void setRaceInt(int raceInt) {this.raceInt = raceInt;}
-    int getRaceInt() {return raceInt;}
 
-    void setAtk(int[] atk) {this.atk = atk; if(classInt != NULL) setClass();}
+    private void setAtk(int[] atk) {this.atk = atk; if(classInt != NULL) setClass();}
 
     int getFue() {return atk[FUE];}
     int getCon() {return atk[CON];}
@@ -222,7 +220,7 @@ class Player implements Serializable {
     int getRef() {return def[REF];}
     int getVol() {return def[VOL];}
 
-    void setClass() {
+    private void setClass() {
         if(level == 1) maxPg = atk[CON] + CLASS_STATS[INITIAL_PG][classInt];
         maxCurativeEfforts = Player.getModifier(atk[CON]) + CLASS_STATS[DAILY_CURATIVE_EFFORTS][classInt];
         //TODO: implement armor!

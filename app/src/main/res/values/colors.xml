@@ -14,6 +14,11 @@
     <color name="green">#0f0</color>
     <color name="white">#EEEEEE</color>
 
+    <color name="daily">#33292A</color>
+    <color name="encounter">#6B0617</color>
+    <color name="at_will">#4F7448</color>
+    <color name="darkened_text">#DDD6D1</color>
+
     <color name="surges_bar">#989F2B</color>
     <color name="px_bar">#005874</color>
     <color name="black">#000000</color>
