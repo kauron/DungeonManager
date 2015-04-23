@@ -1,5 +1,6 @@
 package com.kauron.dungeonmanager;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import java.io.Serializable;
 
@@ -235,5 +236,16 @@ class Player implements Serializable {
 
     static int getModifier(int i) {
         return i / 2 - 5;
+    }
+
+    int getStatusColor(Context context) {
+        if (pg > maxPg / 2)
+            return context.getResources().getColor(R.color.green);
+        else if (pg > 0)
+            return context.getResources().getColor(R.color.yellow);
+        else if (pg > - maxPg / 2)
+            return context.getResources().getColor(R.color.red);
+        else
+            return context.getResources().getColor(R.color.black);
     }
 }

@@ -1,5 +1,6 @@
 package com.kauron.dungeonmanager;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 
@@ -76,5 +77,18 @@ class Power implements Serializable{
 
     void recover(int type){
         if(this.freq <= type) used = false;
+    }
+
+    int getFreqColor(Context context) {
+        switch (freq) {
+            case DIARIO:
+                return context.getResources().getColor(R.color.daily);
+            case ENCUENTRO:
+                return context.getResources().getColor(R.color.encounter);
+            case A_VOLUNTAD:
+                return context.getResources().getColor(R.color.at_will);
+            default:
+                return context.getResources().getColor(R.color.green); //TODO: find other color
+        }
     }
 }

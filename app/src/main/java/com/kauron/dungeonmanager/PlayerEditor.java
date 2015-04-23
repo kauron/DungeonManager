@@ -136,7 +136,8 @@ public class PlayerEditor extends ActionBarActivity {
                 int i = p.getInt("players", 0);
                 String saveName = nameString;
                 for (int j = 0; j < i; j++) {
-                    saveName += p.getString("player" + j, "").equals(saveName) ? "2" : "";
+                    if (p.getString("player" + j, "").equals(saveName))
+                        saveName += "2";
                 }
                 p.edit().putString("player" + i, saveName).putInt("players", i + 1).apply();
                 SharedPreferences.Editor ed = getSharedPreferences(saveName, MODE_PRIVATE).edit();

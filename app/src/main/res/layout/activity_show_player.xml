@@ -192,7 +192,7 @@
                 android:id="@+id/listSelectButton"
                 android:textColor="@color/primary"
                 android:background="@android:color/transparent"
-                tools:text="Go to abilities"/>
+                android:text="Go to abilities"/>
 
         </LinearLayout>
 

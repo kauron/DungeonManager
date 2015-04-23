@@ -1,6 +1,7 @@
 package com.kauron.dungeonmanager;
 
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -20,13 +21,19 @@ public class PowerEditor extends ActionBarActivity {
     private String[] strings = new String[5];
     private int[] ints = new int[5];
 
+    private String originalName;
+    private int power;
+    private SharedPreferences p;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_power_editor);
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
+        power = getIntent().getIntExtra("power", -1);
 
+        p = getSharedPreferences(getIntent().getStringExtra("player"), MODE_PRIVATE);
 
         //EditText
         edits[0] = (EditText) findViewById(R.id.nameEdit);
@@ -78,6 +85,16 @@ public class PowerEditor extends ActionBarActivity {
                 )
         );
 
+
+        if (power != -1) {
+            SharedPreferences pp = getSharedPreferences(p.getString("power" + power, ""), MODE_PRIVATE);
+            for ( int i = 0; i < spinners.length; i++ )
+                spinners[i].setSelection(pp.getInt("i" + i, 0));
+            for ( int i = 0; i < edits.length; i++ )
+                edits[i].setText(pp.getString("s" + i, ""));
+            originalName = edits[0].getText().toString();
+        }
+
     }
 
 
@@ -85,42 +102,45 @@ public class PowerEditor extends ActionBarActivity {
         //TODO: change strings per resources
         boolean readyToSave = true;
 
-        for ( int i = 0; i < edits.length; i++ )
-            if ( edits[i].getText().toString().trim().length() == 0 ) {
+        for ( int i = 0; i < edits.length; i++ ) {
+            String s = edits[i].getText().toString().trim();
+            if (s.length() == 0) {
                 edits[i].setError("This field is required");
                 readyToSave = false;
             } else {
-                strings[i] = edits[i].getText().toString().trim();
+                strings[i] = s;
             }
+        }
 
-
-        for ( int i = 0; i < spinners.length; i++)
-            if ( spinners[i].getSelectedItemPosition() == 0 ) {
+        for ( int i = 0; i < spinners.length; i++) {
+            int n = spinners[i].getSelectedItemPosition();
+            if ( n == 0) {
                 spinners[i].setBackgroundColor(getResources().getColor(R.color.red));
                 readyToSave = false;
+                //TODO: remove the color when the user has made a choice
             } else {
-                ints[i] = spinners[i].getSelectedItemPosition();
-                spinners[i].setBackgroundColor(getResources().getColor(R.color.green));
+                ints[i] = n;
             }
+        }
 
         if ( readyToSave ) {
-            String player = getIntent().getStringExtra("player");
-            SharedPreferences p = getSharedPreferences(player, MODE_PRIVATE);
-
             int powers = p.getInt("powers", 0);
 
-            for (int i = 0; i < powers; i++) {
-                if ( p.getString("power" + i, "") == strings[0] ) {
-                    edits[0].setError("This power has already been defined. Use another name.");
-                    return;
+            String saveName;
+            if ( originalName == null ) {
+                saveName = strings[0];
+                for (int i = 0; i < powers; i++) {
+                    if (p.getString("power" + power, "").equals(saveName)) saveName += "2";
                 }
+            } else {
+                saveName = originalName;
             }
 
-            p.edit().putString("power" + powers, strings[0])
+            p.edit().putString("power" + powers, saveName)
                     .putInt("powers", powers + 1)
                     .apply();
 
-            SharedPreferences.Editor ed = getSharedPreferences(strings[0], MODE_PRIVATE).edit();
+            SharedPreferences.Editor ed = getSharedPreferences( saveName, MODE_PRIVATE).edit();
 
             for (int i = 0; i < strings.length; i++)
                 ed.putString("s" + i, strings[i]);

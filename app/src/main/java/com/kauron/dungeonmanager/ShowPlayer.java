@@ -7,17 +7,19 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -28,6 +30,8 @@ import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
 import com.nispok.snackbar.listeners.ActionClickListener;
 
+import java.io.File;
+
 public class ShowPlayer extends ActionBarActivity {
 
     public static final int CURRENT_PG = 1, NULL = 0;
@@ -37,7 +41,7 @@ public class ShowPlayer extends ActionBarActivity {
     //TODO: fix undo (show snackbar with button in each case, without timing).
     private int undoObject, undoPreviousValue;
 
-    private ProgressBar pgBar, negPgBar, xpBar, curativeEffortsBar;
+    private ProgressBar posPgBar, negPgBar, xpBar, curativeEffortsBar;
     private TextView currentPg, currentXp, currentCurativeEfforts;
     private SharedPreferences p;
     private Toolbar toolbar;
@@ -64,7 +68,7 @@ public class ShowPlayer extends ActionBarActivity {
         //Performing all the findViewById commands
         xpBar = (ProgressBar) findViewById(R.id.xpBar);
         curativeEffortsBar = (ProgressBar) findViewById(R.id.curativeEffortsBar);
-        pgBar = (ProgressBar) findViewById(R.id.pgBar);
+        posPgBar = (ProgressBar) findViewById(R.id.pgBar);
         negPgBar = (ProgressBar) findViewById(R.id.negPgBar);
 
         currentPg = (TextView) findViewById(R.id.currentPg);
@@ -151,7 +155,8 @@ public class ShowPlayer extends ActionBarActivity {
             alert.show();
             input.requestFocus();
             return true;
-            //TODO: the player no longer contains the powers, therefore the
+            //TODO: the player no longer contains the powers, therefore the resting action affects the array of powers
+            //TODO: fix restoring powers
 //        } else if (id == R.id.action_time_long_rest) {
 //            player.rest(true);
 //            SnackbarManager.show(
@@ -299,31 +304,14 @@ public class ShowPlayer extends ActionBarActivity {
     private void pgUpdate() {
         int status = player.getState();
         int pg = player.getPg();
-        if (pg < 0) {
-            if (status == Player.MUERTO)
-                negPgBar.setProgress(negPgBar.getMax());
-            else
-                negPgBar.setProgress(-pg);
-            pgBar.setProgress(0);
-        } else {
-            pgBar.setProgress(pg);
-            negPgBar.setProgress(0);
-        }
+        negPgBar.setProgress(pg < 0 ? -pg : 0);
+        posPgBar.setProgress(pg > 0 ? pg : 0);
 
         currentPg.setText(player.getPg() + " / " + player.getMaxPg());
 
-        if (status == Player.MUERTO) {
-            pgBar.getProgressDrawable().setColorFilter(getResources().getColor(R.color.black), PorterDuff.Mode.SRC_IN);
-        } else if (status == Player.DEBILITADO) {
-            pgBar.getProgressDrawable().setColorFilter(getResources().getColor(R.color.red), PorterDuff.Mode.SRC_IN);
-            negPgBar.getProgressDrawable().setColorFilter(getResources().getColor(R.color.red), PorterDuff.Mode.SRC_IN);
-        } else if (status == Player.MALHERIDO) {
-            pgBar.getProgressDrawable().setColorFilter(getResources().getColor(R.color.yellow), PorterDuff.Mode.SRC_IN);
-            negPgBar.getProgressDrawable().setColorFilter(getResources().getColor(R.color.yellow), PorterDuff.Mode.SRC_IN);
-        } else {
-            pgBar.getProgressDrawable().setColorFilter(getResources().getColor(R.color.green), PorterDuff.Mode.SRC_IN);
-            negPgBar.getProgressDrawable().setColorFilter(getResources().getColor(R.color.green), PorterDuff.Mode.SRC_IN);
-        }
+        int color = player.getStatusColor(getApplicationContext());
+        posPgBar.getProgressDrawable().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+        negPgBar.getProgressDrawable().setColorFilter(color, PorterDuff.Mode.SRC_IN);
     }
 
     private void restoreData(){
@@ -343,7 +331,7 @@ public class ShowPlayer extends ActionBarActivity {
         player.setCurativeEffort(p.getInt("curativeEfforts", player.getMaxCurativeEfforts()));
         player.setPg(p.getInt("pg", player.getMaxPg()));
 
-        pgBar.setMax(player.getMaxPg());
+        posPgBar.setMax(player.getMaxPg());
         negPgBar.setMax(player.getMaxPg() / 2);
         curativeEffortsBar.setMax(player.getMaxCurativeEfforts());
         pgUpdate();
@@ -455,7 +443,16 @@ public class ShowPlayer extends ActionBarActivity {
         input.requestFocus();
     }
 
-    public void addToList (View view) { startActivity(new Intent(this, PowerEditor.class).putExtra("player", player.getName())); }
+    public void addToList (View view) {
+        startActivity(
+                new Intent(
+                        this,
+                        PowerEditor.class
+                )
+                        .putExtra("player", player.getName())
+                        .putExtra("power", -1)
+        );
+    }
 
     private void refreshList() {
         //TODO: check which is active (now there is only a power list), so there is only one possibility
@@ -480,12 +477,12 @@ public class ShowPlayer extends ActionBarActivity {
             }
 
             attackList.setAdapter(new AttackAdapter(this, powers));
-            final Activity thisActivity = this;
             attackList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                     final Dialog dialog = new Dialog(ShowPlayer.this);
+                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                     dialog.setContentView(R.layout.attack_display);
                     // set the custom dialog components - text, image and button
 //                    Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
@@ -498,21 +495,10 @@ public class ShowPlayer extends ActionBarActivity {
 //                    });
 
                     //identify all the elements from the VIEW and then add LISTENERS
-                    Power power = (Power) parent.getItemAtPosition(position);
+                    final Power power = (Power) parent.getItemAtPosition(position);
                     View nameText = dialog.findViewById(R.id.nameText);
-                    switch(power.getFreq()){
-                        case Power.A_VOLUNTAD:
-                            nameText.setBackgroundColor(getResources().getColor(R.color.at_will));
-                            break;
-                        case Power.ENCUENTRO:
-                            nameText.setBackgroundColor(getResources().getColor(R.color.encounter));
-                            break;
-                        case Power.DIARIO:
-                            nameText.setBackgroundColor(getResources().getColor(R.color.daily));
-                            break;
-                        default:
-                            nameText.setBackgroundColor(getResources().getColor(R.color.green));
-                    }
+                    int color = power.getFreqColor(getApplicationContext());
+                    nameText.setBackgroundColor(color);
                     //TODO: fix the title gap
                     ((TextView) nameText)                               .setText(power.getName());
                     ((TextView) dialog.findViewById(R.id.typeText))     .setText(power.getTypeString());
@@ -521,43 +507,75 @@ public class ShowPlayer extends ActionBarActivity {
                     ((TextView) dialog.findViewById(R.id.keywordsText)) .setText(power.getKeywords());
                     ((TextView) dialog.findViewById(R.id.distanceText)) .setText(String.valueOf(power.getDistance()));
                     ((TextView) dialog.findViewById(R.id.objectiveText)).setText(power.getObjective());
-                    ((TextView) dialog.findViewById(R.id.impactText))   .setText(power.getImpact());
+                    ((TextView) dialog.findViewById(R.id.impactText)).setText(power.getImpact());
                     ((TextView) dialog.findViewById(R.id.otherText))    .setText(power.getOther());
 
                     String[] attack  = getResources().getStringArray(R.array.attack_array);
                     String[] defense = getResources().getStringArray(R.array.defense_array);
-                    //TODO: add attack and defense array
-                    ((TextView) dialog.findViewById(R.id.attackText))   .setText(attack[power.getAtk()]
+                    ((TextView) dialog.findViewById(R.id.attackText)).setText(attack[power.getAtk()]
                             + " " + getResources().getString(R.string.vs)
                             + " " + defense[power.getDef()]);
 
-                    dialog.findViewById(R.id.useButton).setOnClickListener(new View.OnClickListener() {
+                    Button useButton = (Button) dialog.findViewById(R.id.useButton);
+                    useButton.setBackgroundColor(color);
+                    useButton.setTextColor(getResources().getColor(R.color.white));
+                    useButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             //TODO: use power
-                            Toast.makeText(getApplicationContext(), "Use it", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Power used!", Toast.LENGTH_LONG).show();
+                            power.use();
                         }
                     });
-
-                    dialog.findViewById(R.id.deleteButton).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            //TODO: delete power
-                            Toast.makeText(getApplicationContext(), "Delete it", Toast.LENGTH_LONG).show();
-                        }
-                    });
-
-                    dialog.findViewById(R.id.editButton).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            //TODO: edit power
-                            Toast.makeText(getApplicationContext(), "Edit it", Toast.LENGTH_LONG).show();
-                        }
-                    });
-
+                    //TODO: edit power
                     dialog.show();
                 }
             });
         }
+        final Activity thisActivity = this;
+
+        attackList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(final AdapterView<?> parent, View view, final int position, long id) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(thisActivity);
+                alert.setItems(new String[]{"Delete", "Edit"}, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if ( which == 0 ) {
+                            //delete the item
+                            String name = p.getString("power" + position, "");
+                            if (name != null && !name.isEmpty()) {
+                                getSharedPreferences(name, MODE_PRIVATE).edit().clear().apply();
+                                Log.d("Tag", thisActivity.getApplicationContext().getFilesDir().getParent()
+                                        + File.separator + "shared_prefs" + File.separator + name + ".xml");
+                                try {
+                                    if(!new File(thisActivity.getApplicationContext().getFilesDir().getParent()
+                                            + File.separator + "shared_prefs" + File.separator + name + ".xml").delete())
+                                        throw new Exception();
+                                } catch (Exception e) {
+                                    Toast.makeText(getApplicationContext(), "Error deleting attack files", Toast.LENGTH_SHORT).show();
+                                }
+                                int max = p.getInt("powers", 0);
+                                SharedPreferences.Editor ed = p.edit();
+                                for (int i = position; i < max - 1; i++)
+                                    ed.putString("power" + i, p.getString("power" + (i + 1), "max"));
+                                ed.putInt("powers", max - 1).apply();
+                                refreshList();
+                                ed.remove("power" + (max - 1)).apply();
+                            }
+                        } else {
+                            //edit the item
+                            startActivity(
+                                    new Intent(getApplicationContext(), PowerEditor.class)
+                                            .putExtra("power", position)
+                                            .putExtra("player", player.getName())
+                            );
+                        }
+                    }
+                });
+                alert.show();
+                return true;
+            }
+        });
     }
 }

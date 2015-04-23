@@ -5,6 +5,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <!--TODO: organize the input similarly to the output-->
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:minHeight="?attr/actionBarSize"
@@ -28,7 +30,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/nameEdit"
-                android:capitalize="words"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
@@ -40,7 +41,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/keywordsEdit"
-                android:capitalize="words"
                 android:layout_below="@+id/nameEdit"
                 android:layout_alignRight="@+id/nameEdit"
                 android:layout_alignEnd="@+id/nameEdit"
@@ -190,7 +190,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/objectiveEdit"
-                android:capitalize="words"
                 android:hint="@string/objectiveHint"
                 android:layout_below="@+id/actionTypeSpinner"
                 android:layout_alignParentRight="true"

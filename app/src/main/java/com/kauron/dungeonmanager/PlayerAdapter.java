@@ -42,16 +42,9 @@ class PlayerAdapter extends ArrayAdapter<Player> {
             neg.setProgress(pg < 0 ? -pg : 0);
             pos.setProgress(pg > 0 ?  pg : 0);
 
-            int c;
-            if ( pg <= 0 )
-                c = getContext().getResources().getColor(R.color.red);
-            else if ( pg <= maxPg / 2 )
-                c = getContext().getResources().getColor(R.color.yellow);
-            else
-                c = getContext().getResources().getColor(R.color.green);
-
-            neg.getProgressDrawable().setColorFilter(c, PorterDuff.Mode.SRC_IN);
-            pos.getProgressDrawable().setColorFilter(c, PorterDuff.Mode.SRC_IN);
+            int color = player.getStatusColor(getContext());
+            neg.getProgressDrawable().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+            pos.getProgressDrawable().setColorFilter(color, PorterDuff.Mode.SRC_IN);
         }
 
         return mView;

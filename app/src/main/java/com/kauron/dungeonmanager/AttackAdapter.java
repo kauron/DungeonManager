@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +37,8 @@ class AttackAdapter extends ArrayAdapter<Power> {
             ((TextView) mView.findViewById(R.id.keywords)).setText(attack.getKeywords());
             ((TextView) mView.findViewById(R.id.frequency)).setText(attack.getFrequencyString());
             ((TextView) mView.findViewById(R.id.extra)).setText(attack.getRangeString() + " " + attack.getDistance());
+            mView.setBackgroundColor(attack.getFreqColor(getContext()));
+            mView.getBackground().setAlpha((position % 2) * 127 + 128);
         }
         return mView;
     }
