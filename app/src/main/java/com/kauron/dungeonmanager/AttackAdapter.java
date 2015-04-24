@@ -38,7 +38,10 @@ class AttackAdapter extends ArrayAdapter<Power> {
             ((TextView) mView.findViewById(R.id.frequency)).setText(attack.getFrequencyString());
             ((TextView) mView.findViewById(R.id.extra)).setText(attack.getRangeString() + " " + attack.getDistance());
             mView.setBackgroundColor(attack.getFreqColor(getContext()));
-            mView.getBackground().setAlpha((position % 2) * 127 + 128);
+            if (attack.isUsed())
+                mView.getBackground().setAlpha(0);
+            else
+                mView.getBackground().setAlpha((position % 2) * 127 + 128);
         }
         return mView;
     }

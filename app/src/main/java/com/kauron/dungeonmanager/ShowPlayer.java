@@ -460,13 +460,14 @@ public class ShowPlayer extends ActionBarActivity {
         int n = p.getInt("powers",0);
         int elements = 0;
         ListView attackList = (ListView) findViewById(R.id.attackList);
-        AttackAdapter adapter = (AttackAdapter) attackList.getAdapter();
+        final AttackAdapter adapter = (AttackAdapter) attackList.getAdapter();
 
         if ( adapter != null )
             elements = adapter.getCount();
         if ( elements < n  && adapter != null ) {
             for ( int i = elements; i < n; i++ ) {
                 SharedPreferences sav = getSharedPreferences(p.getString("power" + i, ""), MODE_PRIVATE);
+                //TODO: solve error when closing the editor
                 adapter.add( new Power ( sav ) );
             }
         } else if ( n != 0 ) {
@@ -499,18 +500,18 @@ public class ShowPlayer extends ActionBarActivity {
                     View nameText = dialog.findViewById(R.id.nameText);
                     int color = power.getFreqColor(getApplicationContext());
                     nameText.setBackgroundColor(color);
-                    //TODO: fix the title gap
-                    ((TextView) nameText)                               .setText(power.getName());
-                    ((TextView) dialog.findViewById(R.id.typeText))     .setText(power.getTypeString());
-                    ((TextView) dialog.findViewById(R.id.rangeText))    .setText(power.getRangeString() + " ");
-                    ((TextView) dialog.findViewById(R.id.freqText))     .setText(power.getFrequencyString());
-                    ((TextView) dialog.findViewById(R.id.keywordsText)) .setText(power.getKeywords());
-                    ((TextView) dialog.findViewById(R.id.distanceText)) .setText(String.valueOf(power.getDistance()));
+
+                    ((TextView) nameText).setText(power.getName());
+                    ((TextView) dialog.findViewById(R.id.typeText)).setText(power.getTypeString());
+                    ((TextView) dialog.findViewById(R.id.rangeText)).setText(power.getRangeString() + " ");
+                    ((TextView) dialog.findViewById(R.id.freqText)).setText(power.getFrequencyString());
+                    ((TextView) dialog.findViewById(R.id.keywordsText)).setText(power.getKeywords());
+                    ((TextView) dialog.findViewById(R.id.distanceText)).setText(String.valueOf(power.getDistance()));
                     ((TextView) dialog.findViewById(R.id.objectiveText)).setText(power.getObjective());
                     ((TextView) dialog.findViewById(R.id.impactText)).setText(power.getImpact());
-                    ((TextView) dialog.findViewById(R.id.otherText))    .setText(power.getOther());
+                    ((TextView) dialog.findViewById(R.id.otherText)).setText(power.getOther());
 
-                    String[] attack  = getResources().getStringArray(R.array.attack_array);
+                    String[] attack = getResources().getStringArray(R.array.attack_array);
                     String[] defense = getResources().getStringArray(R.array.defense_array);
                     ((TextView) dialog.findViewById(R.id.attackText)).setText(attack[power.getAtk()]
                             + " " + getResources().getString(R.string.vs)
@@ -519,15 +520,17 @@ public class ShowPlayer extends ActionBarActivity {
                     Button useButton = (Button) dialog.findViewById(R.id.useButton);
                     useButton.setBackgroundColor(color);
                     useButton.setTextColor(getResources().getColor(R.color.white));
-                    useButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            //TODO: use power
-                            Toast.makeText(getApplicationContext(), "Power used!", Toast.LENGTH_LONG).show();
-                            power.use();
-                        }
-                    });
-                    //TODO: edit power
+                    if (power.isUsed()) {
+                        useButton.getBackground().setAlpha(0);
+                        useButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                //TODO: use power
+                                Toast.makeText(getApplicationContext(), "Power used!", Toast.LENGTH_LONG).show();
+                                power.use();
+                            }
+                        });
+                    }
                     dialog.show();
                 }
             });

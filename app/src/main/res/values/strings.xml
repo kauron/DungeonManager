@@ -105,6 +105,7 @@
     <string name="objectiveHint">One creature</string>
     <string name="power_editor">Power Editor</string>
     <string name="save_player">Save player</string>
+    <string name="required">This field is required</string>
 
     <string-array name="freq_array">
         <item>Frequency</item>

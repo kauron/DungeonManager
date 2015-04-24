@@ -156,4 +156,5 @@
         <item>Reflejos</item>
         <item>Voluntad</item>
     </string-array>
+    <string name="required">Este campo es obligatorio</string>
 </resources>

@@ -106,7 +106,7 @@ public class Welcome extends ActionBarActivity {
                 @Override
                 public boolean onItemLongClick(final AdapterView<?> parent, View view, final int position, long id) {
                     AlertDialog.Builder alert = new AlertDialog.Builder(activity);
-                    alert.setItems(new String[]{"Delete", "Edit"}, new DialogInterface.OnClickListener() {
+                    alert.setItems(new String[]{"Delete", "Edit", "Export"}, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             if ( which == 0 ) {
@@ -131,11 +131,13 @@ public class Welcome extends ActionBarActivity {
                                     load();
                                     ed.remove("player" + (max - 1)).apply();
                                 }
-                            } else {
-                                //edit the item
+                            } else if (which == 1) {
+                                //TODO: edit the player
                                 Toast.makeText(
                                         activity, "Editor not implemented yet", Toast.LENGTH_LONG)
                                      .show();
+                            } else {
+                                //TODO: export as filesh
                             }
                         }
                     });

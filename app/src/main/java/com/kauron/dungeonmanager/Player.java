@@ -109,9 +109,8 @@ class Player implements Serializable {
     private int classInt, raceInt;
     private String name;
     private int level;
-    //TODO: use dice dialogs
     private int[] atk, def;
-    //TODO: implement fully operational powers displayed as cards
+    //TODO: implement fully operational powers (die rolling)
 
     Player (SharedPreferences p) {
         this.name = p.getString(NAME, "Player");

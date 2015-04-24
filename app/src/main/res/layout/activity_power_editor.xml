@@ -6,6 +6,7 @@
     android:orientation="vertical">
 
     <!--TODO: organize the input similarly to the output-->
+    <!--TODO: add "other" element to input further information-->
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"

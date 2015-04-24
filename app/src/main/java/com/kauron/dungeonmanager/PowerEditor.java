@@ -99,13 +99,12 @@ public class PowerEditor extends ActionBarActivity {
 
 
     public void saveClick(View view) {
-        //TODO: change strings per resources
         boolean readyToSave = true;
 
         for ( int i = 0; i < edits.length; i++ ) {
             String s = edits[i].getText().toString().trim();
             if (s.length() == 0) {
-                edits[i].setError("This field is required");
+                edits[i].setError(getString(R.string.required));
                 readyToSave = false;
             } else {
                 strings[i] = s;
@@ -132,13 +131,12 @@ public class PowerEditor extends ActionBarActivity {
                 for (int i = 0; i < powers; i++) {
                     if (p.getString("power" + power, "").equals(saveName)) saveName += "2";
                 }
+                p.edit().putString("power" + powers, saveName)
+                        .putInt("powers", powers + 1)
+                        .apply();
             } else {
                 saveName = originalName;
             }
-
-            p.edit().putString("power" + powers, saveName)
-                    .putInt("powers", powers + 1)
-                    .apply();
 
             SharedPreferences.Editor ed = getSharedPreferences( saveName, MODE_PRIVATE).edit();
 
