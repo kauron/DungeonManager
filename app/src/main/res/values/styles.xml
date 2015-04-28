@@ -13,7 +13,7 @@
         <!--<item name="colorDivider">@color/divider</item>-->
     </style>
 
-    <!-- TODO: fix-->
+    <!-- TODO: fix button styling-->
     <style name="MaterialButton" parent="@android:style/Widget.Button">
         <item name="android:textColor">@color/primary</item>
         <item name="android:background">@android:color/transparent</item>

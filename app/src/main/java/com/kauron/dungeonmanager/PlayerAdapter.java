@@ -11,9 +11,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 class PlayerAdapter extends ArrayAdapter<Player> {
 
-    PlayerAdapter(Context context, Player[] players) {
+    PlayerAdapter(Context context, ArrayList<Player> players) {
         super(context, R.layout.player_row, players);
     }
 

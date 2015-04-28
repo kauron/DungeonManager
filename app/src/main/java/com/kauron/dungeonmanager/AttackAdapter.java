@@ -20,9 +20,10 @@ import com.nispok.snackbar.SnackbarManager;
 import com.nispok.snackbar.listeners.ActionClickListener;
 
 import java.io.File;
+import java.util.ArrayList;
 
 class AttackAdapter extends ArrayAdapter<Power> {
-    AttackAdapter(Context context, Power[] powers) {
+    AttackAdapter(Context context, ArrayList<Power> powers) {
         super(context, R.layout.attack_row, powers);
     }
 
@@ -41,7 +42,7 @@ class AttackAdapter extends ArrayAdapter<Power> {
             if (attack.isUsed())
                 mView.getBackground().setAlpha(0);
             else
-                mView.getBackground().setAlpha((position % 2) * 127 + 128);
+                mView.getBackground().setAlpha((position % 2) * 50 + 205);
         }
         return mView;
     }

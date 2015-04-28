@@ -1,6 +1,7 @@
 package com.kauron.dungeonmanager;
 
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -24,12 +25,15 @@ public class PowerEditor extends ActionBarActivity {
     private String originalName;
     private int power;
     private SharedPreferences p;
+    private Drawable background;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_power_editor);
-        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
 
         power = getIntent().getIntExtra("power", -1);
 
@@ -84,6 +88,7 @@ public class PowerEditor extends ActionBarActivity {
                         getResources().getStringArray(R.array.actions_array)
                 )
         );
+        background = spinners[0].getBackground();
 
 
         if (power != -1) {
@@ -96,7 +101,6 @@ public class PowerEditor extends ActionBarActivity {
         }
 
     }
-
 
     public void saveClick(View view) {
         boolean readyToSave = true;
@@ -116,8 +120,9 @@ public class PowerEditor extends ActionBarActivity {
             if ( n == 0) {
                 spinners[i].setBackgroundColor(getResources().getColor(R.color.red));
                 readyToSave = false;
-                //TODO: remove the color when the user has made a choice
+                //TODO: TEST THIS remove the color when the user has made a choice
             } else {
+                spinners[i].setBackground(background);
                 ints[i] = n;
             }
         }

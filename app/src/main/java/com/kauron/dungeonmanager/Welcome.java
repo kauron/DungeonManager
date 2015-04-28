@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -15,7 +16,12 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.nispok.snackbar.Snackbar;
+import com.nispok.snackbar.SnackbarManager;
+import com.nispok.snackbar.listeners.ActionClickListener;
+
 import java.io.File;
+import java.util.ArrayList;
 
 public class Welcome extends ActionBarActivity {
 
@@ -23,12 +29,13 @@ public class Welcome extends ActionBarActivity {
 
     private SharedPreferences p;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
-        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
         p = getSharedPreferences(PREFERENCES, MODE_PRIVATE);
         load();
     }
@@ -65,7 +72,7 @@ public class Welcome extends ActionBarActivity {
     private void load() {
         int n = p.getInt("players",0);
         ListView playerList = (ListView) findViewById(R.id.listView);
-        PlayerAdapter adapter = (PlayerAdapter) playerList.getAdapter();
+        final PlayerAdapter adapter = (PlayerAdapter) playerList.getAdapter();
         int elements = 0;
         if ( adapter != null )
             elements = adapter.getCount();
@@ -78,17 +85,16 @@ public class Welcome extends ActionBarActivity {
                 if (sav.contains(Player.NAME))
                     adapter.add( new Player( sav ) );
             }
-            //int pg, int maxPg, int px, int curativeEfforts, int maxCurativeEfforts, int classInt,
-            //int raceInt, String name, int[] atk, int[] def, int[] abilities, Power[] powers
+            adapter.notifyDataSetChanged();
         } else if ( n != 0 ) {
             playerList.setVisibility(View.VISIBLE);
             findViewById(R.id.help_text).setVisibility(View.VISIBLE);
             findViewById(R.id.no_players_text).setVisibility(View.GONE);
-            Player[] players = new Player[n];
+            ArrayList<Player> players = new ArrayList<>();
             for ( int i = 0; i < n; i++ ) {
                 SharedPreferences sav = getSharedPreferences(p.getString("player" + i, ""), MODE_PRIVATE);
-                if (sav.contains(Player.NAME))
-                    players[i] = new Player( sav );
+                if (sav.contains(Player.NAME)) //TODO: adding a second player causes an error
+                    players.add( new Player( sav ) );
             }
 
             playerList.setAdapter(new PlayerAdapter(this, players));
@@ -106,45 +112,70 @@ public class Welcome extends ActionBarActivity {
                 @Override
                 public boolean onItemLongClick(final AdapterView<?> parent, View view, final int position, long id) {
                     AlertDialog.Builder alert = new AlertDialog.Builder(activity);
-                    alert.setItems(new String[]{"Delete", "Edit", "Export"}, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            if ( which == 0 ) {
-                                //delete the item
-                                String name = p.getString("player" + position, "");
-                                if (name != null && !name.isEmpty()) {
-                                    getSharedPreferences(name, MODE_PRIVATE).edit().clear().apply();
-                                    Log.d("Tag", activity.getApplicationContext().getFilesDir().getParent()
-                                            + File.separator + "shared_prefs" + File.separator + name + ".xml");
-                                    try {
-                                        if(!new File(activity.getApplicationContext().getFilesDir().getParent()
-                                                + File.separator + "shared_prefs" + File.separator + name + ".xml").delete())
-                                            throw new Exception();
-                                    } catch (Exception e) {
-                                        Toast.makeText(getApplicationContext(), "Error deleting player files", Toast.LENGTH_SHORT).show();
-                                    }
-                                    int max = p.getInt("players", 0);
-                                    SharedPreferences.Editor ed = p.edit();
-                                    for (int i = position; i < max - 1; i++)
-                                        ed.putString("player" + i, p.getString("player" + (i + 1), "max"));
-                                    ed.putInt("players", max - 1).apply();
-                                    load();
-                                    ed.remove("player" + (max - 1)).apply();
+                    alert.setItems(
+                            new String[]{
+                                    getString(R.string.delete),
+                                    getString(R.string.edit),
+                                    getString(R.string.export)},
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    if (which == 0) {
+                                        //delete the item
+                                        SnackbarManager.show(
+                                                Snackbar.with(getApplicationContext())
+                                                        .text(R.string.sure)
+                                                        .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE)
+                                                        .actionLabel(R.string.delete)
+                                                        .actionColor(getResources().getColor(R.color.yellow))
+                                                        .actionListener(new ActionClickListener() {
+                                                            @Override
+                                                            public void onActionClicked(Snackbar snackbar) {
+                                                                String name = p.getString("player" + position, "");
+                                                                if (name != null && !name.isEmpty()) {
+                                                                    getSharedPreferences(name, MODE_PRIVATE).edit().clear().apply();
+                                                                    Log.d("Tag", activity.getApplicationContext().getFilesDir().getParent()
+                                                                            + File.separator + "shared_prefs" + File.separator + name + ".xml");
+                                                                    try {
+                                                                        if (!new File(activity.getApplicationContext().getFilesDir().getParent()
+                                                                                + File.separator + "shared_prefs" + File.separator + name + ".xml").delete())
+                                                                            throw new Exception();
+                                                                    } catch (Exception e) {
+                                                                        Toast.makeText(getApplicationContext(), "Error deleting player files", Toast.LENGTH_SHORT).show();
+                                                                    }
+                                                                    int max = p.getInt("players", 0);
+                                                                    SharedPreferences.Editor ed = p.edit();
+                                                                    for (int i = position; i < max - 1; i++)
+                                                                        ed.putString("player" + i, p.getString("player" + (i + 1), "max"));
+                                                                    ed.putInt("players", max - 1).apply();
+                                                                    load();
+                                                                    ed.remove("player" + (max - 1)).apply();
+                                                                }
+                                                            }
+                                                        }),
+                                                activity
+                                        );
+                                } else if(which==1) {
+                                    //TODO: edit the player
+                                    /**TEMP*/
+                                    Toast.makeText(
+                                            activity, "Editor not implemented yet", Toast.LENGTH_LONG)
+                                            .show();
+                                } else {
+                                    //TODO: export as files
+                                    /**TEMP*/
+                                    Toast.makeText(
+                                            activity, "Exporting feature not implemented yet", Toast.LENGTH_LONG)
+                                            .show();
                                 }
-                            } else if (which == 1) {
-                                //TODO: edit the player
-                                Toast.makeText(
-                                        activity, "Editor not implemented yet", Toast.LENGTH_LONG)
-                                     .show();
-                            } else {
-                                //TODO: export as filesh
                             }
-                        }
-                    });
-                    alert.show();
-                    return true;
                 }
-            });
+
+                );
+                alert.show();
+                return true;
+            }
+        });
         } else {
             playerList.setVisibility(View.GONE);
             findViewById(R.id.help_text).setVisibility(View.GONE);

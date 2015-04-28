@@ -1,6 +1,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -13,8 +14,9 @@
         android:minHeight="?attr/actionBarSize"
         android:background="@color/primary"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </android.support.v7.widget.Toolbar>
+        android:layout_height="wrap_content"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
@@ -31,6 +33,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/nameEdit"
+                android:capitalize="sentences"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
@@ -41,6 +44,7 @@
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:capitalize="sentences"
                 android:id="@+id/keywordsEdit"
                 android:layout_below="@+id/nameEdit"
                 android:layout_alignRight="@+id/nameEdit"
@@ -147,6 +151,7 @@
                 android:layout_below="@+id/vsLayout"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
+                android:capitalize="sentences"
                 android:hint="@string/impactEditHint"
                 android:layout_toRightOf="@+id/attackText"
                 android:layout_toEndOf="@+id/attackText" />
@@ -194,6 +199,7 @@
                 android:hint="@string/objectiveHint"
                 android:layout_below="@+id/actionTypeSpinner"
                 android:layout_alignParentRight="true"
+                android:capitalize="sentences"
                 android:layout_alignParentEnd="true"
                 android:layout_toRightOf="@+id/objectiveText"
                 android:layout_toEndOf="@+id/objectiveText" />

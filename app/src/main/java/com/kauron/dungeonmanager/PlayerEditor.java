@@ -26,7 +26,9 @@ public class PlayerEditor extends ActionBarActivity {
         super.onCreate(savedInstanceState);
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_player_editor);
-        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
 
         name = (EditText) findViewById(R.id.editNameIntro);
         name.requestFocus();

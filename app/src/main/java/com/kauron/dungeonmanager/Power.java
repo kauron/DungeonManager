@@ -24,8 +24,8 @@ class Power implements Serializable{
     public static final int[] DIE = {0, 2, 4, 6, 8, 10, 12, 20, 100, 0};
 
     private boolean used;
-    private int freq, action, distance, range, objectives;
-    private String name, impact, objective;
+    private int freq, action, range;
+    private String name, impact, objective, distance;
     private String keywords; //fire, spell...
     private int atk, def; //constants from Player to denote atk and defense
 
@@ -33,7 +33,7 @@ class Power implements Serializable{
         this.name      = p.getString("s0", "Name");
         this.keywords  = p.getString("s1", "Keywords");
         this.impact    = p.getString("s2", "2d10");
-        this.distance  = Integer.parseInt(p.getString("s3", "10"));
+        this.distance  = p.getString("s3", "10");
         this.objective = p.getString("s4", "One creature");
 
         this.used = p.getBoolean("used", false);
@@ -55,8 +55,7 @@ class Power implements Serializable{
     int getDef() {return def;}
     int getFreq() {return freq;}
 
-    int getDistance() {return distance;}
-
+    String getDistance() {return distance;}
     String getName(){return name;}
     String getImpact() {return impact;}
     String getObjective() {return objective;}
@@ -85,10 +84,8 @@ class Power implements Serializable{
                 return context.getResources().getColor(R.color.daily);
             case ENCUENTRO:
                 return context.getResources().getColor(R.color.encounter);
-            case A_VOLUNTAD:
-                return context.getResources().getColor(R.color.at_will);
             default:
-                return context.getResources().getColor(R.color.green); //TODO: find other color
+                return context.getResources().getColor(R.color.at_will);
         }
     }
 }

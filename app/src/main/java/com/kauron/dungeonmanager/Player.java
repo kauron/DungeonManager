@@ -112,6 +112,10 @@ class Player implements Serializable {
     private int[] atk, def;
     //TODO: implement fully operational powers (die rolling)
 
+    /**
+     * Builds a whole player from its saved stats
+     * @param p SharedPreferences object containing data for a player.
+     */
     Player (SharedPreferences p) {
         this.name = p.getString(NAME, "Player");
         this.px   = p.getInt(PX, 0);
@@ -160,7 +164,6 @@ class Player implements Serializable {
             this.pg = maxPg;
         this.maxPg = maxPg;
     }
-    private void setMaxPgOnLevelUp() {maxPg += CLASS_STATS[PG_ON_LEVEL_UP][classInt];}
 
     int getPg() {return pg;}
     void setPg(int pg) {this.pg = pg; setState();}
@@ -221,8 +224,10 @@ class Player implements Serializable {
     int getVol() {return def[VOL];}
 
     private void setClass() {
-        if(level == 1) maxPg = atk[CON] + CLASS_STATS[INITIAL_PG][classInt];
-        maxCurativeEfforts = Player.getModifier(atk[CON]) + CLASS_STATS[DAILY_CURATIVE_EFFORTS][classInt];
+        maxPg = atk[CON] + CLASS_STATS[INITIAL_PG][classInt]
+                + ( level - 1 ) * CLASS_STATS[PG_ON_LEVEL_UP][classInt];
+        maxCurativeEfforts =
+                Player.getModifier(atk[CON]) + CLASS_STATS[DAILY_CURATIVE_EFFORTS][classInt];
         //TODO: implement armor!
         def[CA] = 10 + level / 2 + Math.max(0, Player.getModifier(Math.max(atk[DES], atk[INT])));
         def[FORT] = 10 + level / 2 + Player.getModifier(Math.max(atk[CON], atk[FUE])) +
@@ -246,5 +251,13 @@ class Player implements Serializable {
             return context.getResources().getColor(R.color.red);
         else
             return context.getResources().getColor(R.color.black);
+    }
+
+    void rest (boolean isLong) {
+        if ( isLong ) {
+            pg = maxPg;
+            curativeEfforts = maxCurativeEfforts;
+        }
+        //TODO: here implement action points!
     }
 }

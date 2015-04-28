@@ -80,8 +80,7 @@
     <string name="character_creation">Creación de personaje</string>
     <string name="delete">Borrar</string>
     <string name="edit">Editar</string>
-    <string name="hello_world"></string>
-    <string name="help_welcome_text">Toca un jugador para seleccionarlo, pulsación larga para opciones</string>
+    <string name="help_welcome_text">Toca un jugador para seleccionarlo, mantén pulsado para opciones</string>
     <string name="impact">Impacto</string>
     <string name="impactEditHint">1d6 + 4 y eres invisible</string>
     <string name="keywords">Palabras clave</string>
@@ -156,5 +155,15 @@
         <item>Reflejos</item>
         <item>Voluntad</item>
     </string-array>
+
+
     <string name="required">Este campo es obligatorio</string>
+    <string name="sure">¿Estás seguro?</string>
+    <string name="used">Has usado</string>
+    <string name="restored">Valores restaurados</string>
+    <string name="export">Exportar</string>
+    <string name="healed">Has recuperado %d PG</string>
+    <string name="title_activity_player_creator">Creador de personaje</string>
+    <string name="lost_hp">Has perdido %d PG</string>
+    <string name="level_up">Subir un nivel</string>
 </resources>
