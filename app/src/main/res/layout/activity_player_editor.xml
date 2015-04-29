@@ -45,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="number"
                 android:id="@+id/xpEdit"
-                android:hint="@string/px"
+                android:hint="@string/xp"
                 android:layout_weight="1"
                 android:nextFocusDown="@+id/STR"
                 android:nextFocusForward="@+id/STR"
@@ -94,7 +94,7 @@
                     android:layout_column="0"
 
                     android:id="@+id/STR"
-                    android:hint="@string/FUE"
+                    android:hint="@string/STR"
                     android:nextFocusDown="@+id/DEX"/>
 
                 <EditText
@@ -120,7 +120,7 @@
                     android:layout_column="1"
 
                     android:id="@+id/DEX"
-                    android:hint="@string/DES"
+                    android:hint="@string/DEX"
                     android:nextFocusDown="@+id/WIS"/>
 
                 <EditText
@@ -146,7 +146,7 @@
                     android:layout_column="2"
 
                     android:id="@+id/WIS"
-                    android:hint="@string/SAB"
+                    android:hint="@string/WIS"
                     android:nextFocusDown="@+id/CON"/>
 
                 <EditText
@@ -160,7 +160,7 @@
                     android:layout_column="2"
 
                     android:id="@+id/CHA"
-                    android:hint="@string/CAR"/>
+                    android:hint="@string/CHA"/>
             </GridLayout>
 
         <LinearLayout

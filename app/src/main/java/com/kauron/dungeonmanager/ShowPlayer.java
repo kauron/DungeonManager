@@ -8,8 +8,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.util.Log;
@@ -133,7 +133,7 @@ public class ShowPlayer extends ActionBarActivity {
                 SnackbarManager.show(
                         Snackbar
                                 .with(this)
-                                .text(R.string.maxed_curative)
+                                .text(R.string.full_hp)
                                 .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE)
                 );
             } else {
@@ -142,7 +142,7 @@ public class ShowPlayer extends ActionBarActivity {
             return true;
         } else if (id == R.id.action_time_encounter_end) {
             AlertDialog.Builder alert = new AlertDialog.Builder(this);
-            alert.setTitle(R.string.px_awarded_title);
+            alert.setTitle(R.string.xp_awarded_title);
             final EditText input = new EditText(this);
             input.setInputType(InputType.TYPE_CLASS_NUMBER);
             input.setImeOptions(EditorInfo.IME_ACTION_DONE);
@@ -155,7 +155,7 @@ public class ShowPlayer extends ActionBarActivity {
                     return false;
                 }
             });
-            input.setHint(R.string.px_awarded_hint);
+            input.setHint(R.string.xp_awarded_hint);
             alert.setView(input);
             alert.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                 @Override
@@ -255,7 +255,7 @@ public class ShowPlayer extends ActionBarActivity {
             SnackbarManager.show(
                     Snackbar
                             .with(this)
-                            .text(R.string.no_curative_efforts_error)
+                            .text(R.string.no_surges)
                             .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE)
             );
             return false;

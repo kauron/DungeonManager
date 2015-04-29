@@ -17,7 +17,7 @@
         </activity>
         <activity
             android:name=".PlayerEditor"
-            android:label="@string/title_activity_introduction"
+            android:label="@string/title_activity_player_editor"
             android:parentActivityName=".Welcome">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

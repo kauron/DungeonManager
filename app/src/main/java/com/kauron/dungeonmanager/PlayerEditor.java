@@ -1,8 +1,8 @@
 package com.kauron.dungeonmanager;
 
 import android.content.SharedPreferences;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -72,7 +72,7 @@ public class PlayerEditor extends ActionBarActivity {
         super.onBackPressed();
         Toast.makeText(
                 getApplicationContext(),
-                R.string.message_no_back_button_intro,
+                R.string.player_not_saved,
                 Toast.LENGTH_SHORT
         ).show();
     }
@@ -90,7 +90,7 @@ public class PlayerEditor extends ActionBarActivity {
                 finish();
             } else {
                 SnackbarManager.show(
-                        Snackbar.with(getApplicationContext()).text(R.string.missing_info_error), this
+                        Snackbar.with(getApplicationContext()).text(R.string.fill_all_info), this
                 );
             }
             return true;

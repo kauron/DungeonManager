@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.kauron.dungeonmanager.PlayerEditor">
     <item android:id="@+id/action_save"
-        android:title="@string/action_save"
+        android:title="@string/save"
         android:orderInCategory="100"
         android:icon="@drawable/ic_action_save"
         app:showAsAction="ifRoom" />

@@ -143,7 +143,7 @@
 
                 <TextView
                     android:id="@+id/xpTitle"
-                    android:text="@string/px"
+                    android:text="@string/xp"
                     android:textAllCaps="true"
                     android:drawableBottom="?android:attr/listChoiceBackgroundIndicator"
                     android:layout_width="fill_parent"

@@ -2,85 +2,44 @@
 <resources>
 
     <string name="app_name" translatable="false">Dungeon Manager</string>
-    <string name="attack">Attack</string>
     <string name="action_cure">Cure</string>
     <string name="action_undo">Undo</string>
     <string name="hp">HP</string>
-    <string name="die">Die</string>
-    <string name="CA">AC</string>
-    <string name="FORT">FORT</string>
-    <string name="REF">REF</string>
-    <string name="VOL">WILL</string>
-    <string name="defense">Defense</string>
     <string name="curative_efforts">Surges</string>
-    <string name="load_text">Load %1$s</string>
     <string name="rest_done">Your encounter powers have been restored</string>
     <string name="long_rest_done">You have rested and restored all your powers</string>
-    <string name="action_reset">Reset</string>
-    <string name="message_reset">All the data has been cleared</string>
-    <string name="reset_confirmation_title">Are you sure?</string>
-    <string name="reset_confirmation">All data will be lost!</string>
-    <string name="action_undo_current_pg">Action undone</string>
-    <string name="action_edit_basics">Edit character</string>
     <string name="action_time">Time events</string>
-    <string name="action_time_turn">Next turn</string>
     <string name="action_time_rest">Short rest</string>
     <string name="action_time_long_rest">Long rest</string>
-    <string name="action_time_day">Next day</string>
     <string name="action_time_encounter_end">Encounter ended</string>
     <string name="adventurer_name">Adventurer name</string>
-    <string name="state_changed_malherido">You have less than half of your maximum health</string>
     <string name="new_energies_message">Who is using a surge?</string>
-    <string name="class_name">Class</string>
-    <string name="race_name">Race</string>
-    <string name="state_changed_debilitado">You have fainted. You can\'t do anything!</string>
     <string name="cancel">Cancel</string>
     <string name="ok">OK</string>
-    <string name="yes">Yes</string>
-    <string name="no">No</string>
 
-    <string name="edit_PG_Title">Suffer damage</string>
-    <string name="message_death">You have died</string>
-    <string name="new_energies1">You have</string>
-    <string name="new_energies2">surges</string>
-    <string name="new_energies">Surge</string>
-    <string name="title_activity_introduction">Edit character</string>
-    <string name="action_finish">Save</string>
+    <string name="new_energies">New energies</string>
+    <string name="title_activity_player_editor">Edit character</string>
 
     <string name="level">Level</string>
-    <string name="max_curative_efforts">Max surges</string>
-    <string name="max_pg">Max HP</string>
-    <string name="missing_info_error">You need to fill all the information</string>
-    <string name="no_curative_efforts_error">You don\'t have any surges left!</string>
-    <string name="maxed_curative">You have reached your maximum level of HP</string>
+    <string name="fill_all_info">You need to fill all the information</string>
+    <string name="no_surges">You don\'t have any surges left!</string>
+    <string name="full_hp">You have reached your maximum level of HP</string>
     <string name="suffer_damage">Input the damage suffered</string>
     <string name="suffer_damage_hint">HP lost</string>
     <string name="me">Me</string>
-    <string name="px_awarded_title">Input XP awarded</string>
-    <string name="px_awarded_hint">XP from the encounter</string>
-    <string name="message_no_px">You haven\'t won any XP</string>
-    <string name="other">Otro</string>
-    <string name="px">XP</string>
+    <string name="xp_awarded_title">Input XP awarded</string>
+    <string name="xp_awarded_hint">XP from the encounter</string>
+    <string name="other">Other</string>
+    <string name="xp">XP</string>
 
-    <string name="FUE">STR</string>
+    <string name="STR">STR</string>
     <string name="CON">CON</string>
-    <string name="DES">DEX</string>
+    <string name="DEX">DEX</string>
     <string name="INT">INT</string>
-    <string name="CAR">CHA</string>
-    <string name="SAB">WIS</string>
-    <string name="action_save">Save</string>
-    <string name="dialog_resolve_max_pg_hint">Max HP</string>
-    <string name="empty_field">Please input something</string>
-    <string name="dialog_resolve_max_pg_title">Alert</string>
-    <string name="dialog_resolve_max_pg_message">Couldn\'t compute your max HP based on your level</string>
-    <string name="action_download">Update app</string>
-    <string name="message_no_back_button_intro">Your information hasn\'t been saved</string>
-    <string name="title_activity_welcome">Welcome</string>
+    <string name="CHA">CHA</string>
+    <string name="WIS">WIS</string>
+    <string name="player_not_saved">Your information hasn\'t been saved</string>
 
-    <string name="action_settings">Settings</string>
-    <string name="new_character">New character</string>
-    <string name="load_character">Load character</string>
-    <string name="new_character_warning">This will erase any previously existing data saved</string>
     <string name="new_attack">New power</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
@@ -90,7 +49,6 @@
     <string name="zero" translatable="false">0</string>
     <string name="no_players">No players, please add one</string>
     <string name="help_welcome_text">Press a player to open, hold for options</string>
-    <string name="character_creation">Character creation</string>
     <string name="name">Name</string>
     <string name="keywords">Keywords</string>
     <string name="powerNameHint">Blasting charm</string>
@@ -102,8 +60,6 @@
     <string name="impact">Impact</string>
     <string name="objective">Objective</string>
     <string name="objectiveHint">One creature</string>
-    <string name="power_editor">Power Editor</string>
-    <string name="save_player">Save player</string>
     <string name="required">This field is required</string>
     <string name="used">You have used</string>
     <string name="sure">Are you sure?</string>
@@ -228,7 +184,6 @@
     </string-array>
 
     <string name="title_activity_player_creator">Player Creator</string>
-    <string name="hello_world">Hello world!</string>
     <string name="lost_hp">Lost %d HP</string>
     <string name="level_up">Level up</string>
     <string name="use">Use</string>
