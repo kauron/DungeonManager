@@ -33,7 +33,7 @@
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/negPgBar"
+            android:id="@+id/negative_hp_bar"
             android:layout_weight="2"
             android:rotation="180"/>
         <TextView
@@ -48,10 +48,10 @@
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/pgBar"
+            android:id="@+id/positive_hp_bar"
             android:layout_weight="1"
             tools:progress="30"
-            tools:progressTint="#FF0"/>
+            tools:progressTint="@color/yellow"/>
     </LinearLayout>
 
     <TextView
@@ -59,7 +59,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         tools:text="Brujo Tiflin"
-        android:id="@+id/other"
+        android:id="@+id/class_and_race"
         android:layout_above="@+id/progressBar"
         android:layout_toRightOf="@+id/name"
         android:layout_toEndOf="@+id/name"
@@ -70,7 +70,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         tools:text="Level 1"
-        android:id="@+id/level"
+        android:id="@+id/levelText"
         android:layout_above="@+id/progressBar"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />

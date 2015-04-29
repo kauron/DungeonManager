@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         tools:text="Melee 1"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:id="@+id/extra"
+        android:id="@+id/range_and_distance"
         android:textColor="@android:color/white"
         android:layout_below="@+id/name"
         android:layout_alignParentLeft="true"
@@ -35,9 +35,9 @@
         tools:text="(fire, explosion)"
         android:textColor="@android:color/white"
         android:paddingLeft="10dp"
-        android:layout_alignBottom="@id/extra"
-        android:layout_toRightOf="@+id/extra"
-        android:layout_toEndOf="@+id/extra" />
+        android:layout_alignBottom="@id/range_and_distance"
+        android:layout_toRightOf="@+id/range_and_distance"
+        android:layout_toEndOf="@+id/range_and_distance" />
 
     <TextView
         android:layout_width="wrap_content"

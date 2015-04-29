@@ -3,7 +3,7 @@
     <string name="action_cure">Curar</string>
     <string name="action_edit_basics">Editar personaje</string>
     <string name="action_finish">Guardar</string>
-    <string name="adventurer_name">Nombre</string>
+    <string name="adventurer_name">Nombre del personaje</string>
     <string name="cancel">Cancelar</string>
     <string name="class_name">Clase</string>
     <string name="edit_PG_Title">Sufrir daño</string>
@@ -27,7 +27,7 @@
     <string name="action_undo">Deshacer</string>
     <string name="action_undo_current_pg">Acción deshecha</string>
     <string name="curative_efforts">Esfuerzos curativos</string>
-    <string name="pg">PG</string>
+    <string name="hp">PG</string>
     <string name="action_reset">Borrar datos</string>
     <string name="die">Morir</string>
     <string name="message_death">Has muerto</string>
@@ -63,7 +63,7 @@
     <string name="message_no_px">No has ganado ningún PX</string>
     <string name="dialog_resolve_max_pg_hint">Máx PG</string>
     <string name="dialog_resolve_max_pg_message">No se han podido calcular tus PG a partir de tu nivel</string>
-    <string name="dialog_resolve_max_pg_title">Atención</string>
+    <string name="dialog_resolve_max_pg_title">Alerta</string>
     <string name="empty_field">Por favor, escribe algo</string>
     <string name="action_download">Actualizar app</string>
     <string name="message_no_back_button_intro">Tu personaje no se ha guardado</string>
@@ -95,7 +95,7 @@
     <string name="save_player">Guardar personaje</string>
     <string name="title_activity_power_editor">Editor de poderes</string>
 
-    <string-array name="freq_array">
+    <string-array name="frequencies">
         <item>Frecuencia</item>
         <item>Oportunidad</item>
         <item>A voluntad</item>
@@ -103,7 +103,7 @@
         <item>Diario</item>
     </string-array>
 
-    <string-array name="actions_array">
+    <string-array name="actions">
         <item>Tipo de acción</item>
         <item>Acción estándar</item>
         <item>Acción de movimiento</item>
@@ -111,7 +111,7 @@
         <item>Acción gratuita</item>
     </string-array>
 
-    <string-array name="ranges_array">
+    <string-array name="ranges">
         <item>Rango de ataque</item>
         <item>Cuerpo a cuerpo</item>
         <item>A distancia</item>
@@ -120,7 +120,7 @@
         <item>Aura</item>
     </string-array>
 
-    <string-array name="atk_array">
+    <string-array name="atk">
         <item>ATK</item>
         <item>FUE</item>
         <item>CON</item>
@@ -130,7 +130,7 @@
         <item>CAR</item>
     </string-array>
 
-    <string-array name="def_array">
+    <string-array name="def">
         <item>DEF</item>
         <item>CA</item>
         <item>FORT</item>
@@ -138,7 +138,7 @@
         <item>VOL</item>
     </string-array>
 
-    <string-array name="attack_array">
+    <string-array name="attack">
         <item>Ataque</item>
         <item>Fuerza</item>
         <item>Constitución</item>
@@ -148,7 +148,7 @@
         <item>Carisma</item>
     </string-array>
 
-    <string-array name="defense_array">
+    <string-array name="defence">
         <item>Defensa</item>
         <item>CA</item>
         <item>Fortaleza</item>
@@ -166,4 +166,5 @@
     <string name="title_activity_player_creator">Creador de personaje</string>
     <string name="lost_hp">Has perdido %d PG</string>
     <string name="level_up">Subir un nivel</string>
+    <string name="use">Usar</string>
 </resources>

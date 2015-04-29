@@ -18,7 +18,7 @@ import com.nispok.snackbar.SnackbarManager;
 public class PlayerEditor extends ActionBarActivity {
 
     private EditText name, level;
-    private EditText fue, con, des, sab, intel, car;
+    private EditText str, con, dex, wis, intel, cha;
     private Spinner classSpinner, raceSpinner;
 
     @Override
@@ -30,15 +30,15 @@ public class PlayerEditor extends ActionBarActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
 
-        name = (EditText) findViewById(R.id.editNameIntro);
+        name = (EditText) findViewById(R.id.namePlayerEdit);
         name.requestFocus();
-        level = (EditText) findViewById(R.id.editPxIntro);
-        fue = (EditText) findViewById(R.id.FUE);
+        level = (EditText) findViewById(R.id.xpEdit);
+        str = (EditText) findViewById(R.id.STR);
         con = (EditText) findViewById(R.id.CON);
-        des = (EditText) findViewById(R.id.DES);
-        sab = (EditText) findViewById(R.id.SAB);
+        dex = (EditText) findViewById(R.id.DEX);
+        wis = (EditText) findViewById(R.id.WIS);
         intel = (EditText) findViewById(R.id.INT);
-        car = (EditText) findViewById(R.id.CAR);
+        cha = (EditText) findViewById(R.id.CHA);
 
         classSpinner = (Spinner) findViewById(R.id.classSpinner);
         classSpinner.setAdapter(
@@ -108,74 +108,59 @@ public class PlayerEditor extends ActionBarActivity {
             pxInt = Integer.parseInt(level.getText().toString());
 
         int fue = 0, con = 0, des = 0, intel = 0, sab = 0, car = 0;
-        if (!this.car.getText().toString().isEmpty())
-            car = Integer.parseInt(this.car.getText().toString());
-        if (!this.fue.getText().toString().isEmpty())
-            fue = Integer.parseInt(this.fue.getText().toString());
+        if (!this.cha.getText().toString().isEmpty())
+            car = Integer.parseInt(this.cha.getText().toString());
+        if (!this.str.getText().toString().isEmpty())
+            fue = Integer.parseInt(this.str.getText().toString());
         if (!this.con.getText().toString().isEmpty())
             con = Integer.parseInt(this.con.getText().toString());
-        if (!this.des.getText().toString().isEmpty())
-            des = Integer.parseInt(this.des.getText().toString());
+        if (!this.dex.getText().toString().isEmpty())
+            des = Integer.parseInt(this.dex.getText().toString());
         if (!this.intel.getText().toString().isEmpty())
             intel = Integer.parseInt(this.intel.getText().toString());
-        if (!this.sab.getText().toString().isEmpty())
-            sab = Integer.parseInt(this.sab.getText().toString());
+        if (!this.wis.getText().toString().isEmpty())
+            sab = Integer.parseInt(this.wis.getText().toString());
 
-//        if(first) {
-            if (
-                    !nameString.isEmpty() &&
-                            classInt != Player.NULL &&
-                            raceInt != Player.NULL &&
-                            pxInt != -1 &&
-                            car != 0 &&
-                            fue != 0 &&
-                            con != 0 &&
-                            des != 0 &&
-                            intel != 0 &&
-                            sab != 0
-                    ) {
-                SharedPreferences p = getSharedPreferences(Welcome.PREFERENCES, MODE_PRIVATE);
-                int i = p.getInt("players", 0);
-                String saveName = nameString;
-                for (int j = 0; j < i; j++) {
-                    if (p.getString("player" + j, "").equals(saveName))
-                        saveName += "2";
-                }
-                p.edit().putString("player" + i, saveName).putInt("players", i + 1).apply();
-                SharedPreferences.Editor ed = getSharedPreferences(saveName, MODE_PRIVATE).edit();
-
-                //first save it all
-                ed.putString("playerName", nameString);
-                ed.putInt("classInt", classInt);
-                ed.putInt("raceInt", raceInt);
-                ed.putInt("px", pxInt);
-
-                ed.putInt("fue", fue);
-                ed.putInt("car", car);
-                ed.putInt("int", intel);
-                ed.putInt("sab", sab);
-                ed.putInt("con", con);
-                ed.putInt("des", des);
-                //TEMP
-                ed.putBoolean("new", true);
-                ed.apply();
-            } else {
-                return false;
+        if (
+                !nameString.isEmpty() &&
+                        classInt != Player.NULL &&
+                        raceInt != Player.NULL &&
+                        pxInt != -1 &&
+                        car != 0 &&
+                        fue != 0 &&
+                        con != 0 &&
+                        des != 0 &&
+                        intel != 0 &&
+                        sab != 0
+                ) {
+            SharedPreferences p = getSharedPreferences(Welcome.PREFERENCES, MODE_PRIVATE);
+            int i = p.getInt("players", 0);
+            String saveName = nameString;
+            for (int j = 0; j < i; j++) {
+                if (p.getString("player" + j, "").equals(saveName))
+                    saveName += "2";
             }
-//        } else {
-//            if (!nameString.isEmpty()) ed.putString("playerName", nameString);
-//            if (classInt != Player.NULL) ed.putInt("classInt", classInt);
-//            if (raceInt != Player.NULL) ed.putInt("raceInt", raceInt);
-//            if (pxInt != -1)  ed.putInt("px", pxInt);
-//
-//            if (fue != 0)       ed.putInt("fue", fue);
-//            if (car != 0)       ed.putInt("car", car);
-//            if (intel != 0)     ed.putInt("int", intel);
-//            if (sab != 0)       ed.putInt("sab", sab);
-//            if (con != 0)       ed.putInt("con", con);
-//            if (des != 0)       ed.putInt("des", des);
-//        }
+            p.edit().putString("player" + i, saveName).putInt("players", i + 1).apply();
+            SharedPreferences.Editor ed = getSharedPreferences(saveName, MODE_PRIVATE).edit();
 
-        return true;
+            //first save it all
+            ed.putString("playerName", nameString);
+            ed.putInt("classInt", classInt);
+            ed.putInt("raceInt", raceInt);
+            ed.putInt("px", pxInt);
+
+            ed.putInt("fue", fue);
+            ed.putInt("car", car);
+            ed.putInt("int", intel);
+            ed.putInt("sab", sab);
+            ed.putInt("con", con);
+            ed.putInt("des", des);
+            //TEMP
+            ed.putBoolean("new", true);
+            ed.apply();
+            return true;
+        } else {
+            return false;
+        }
     }
 }

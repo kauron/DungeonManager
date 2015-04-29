@@ -1,8 +1,6 @@
 package com.kauron.dungeonmanager;
 
 import android.content.Context;
-import android.graphics.AvoidXfermode;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,23 +26,23 @@ class PlayerAdapter extends ArrayAdapter<Player> {
 
         if ( player != null ) {
             ((TextView) mView.findViewById(R.id.name)).setText(player.getName());
-            ((TextView) mView.findViewById(R.id.other)).setText(player.getClassName() + " " + player.getRaceName());
-            ((TextView) mView.findViewById(R.id.level))
+            ((TextView) mView.findViewById(R.id.class_and_race)).setText(player.getClassName() + " " + player.getRaceName());
+            ((TextView) mView.findViewById(R.id.levelText))
                     .setText(
                             getContext().getResources().getString(R.string.level) + " " + player.getLevel()
                     );
-            int pg = player.getPg();
-            int maxPg = player.getMaxPg();
-            ProgressBar neg = (ProgressBar) mView.findViewById(R.id.negPgBar);
-            ProgressBar pos = (ProgressBar) mView.findViewById(R.id.pgBar);
+            int hp = player.getHp();
+            int maxHp = player.getMaxHp();
+            ProgressBar neg = (ProgressBar) mView.findViewById(R.id.negative_hp_bar);
+            ProgressBar pos = (ProgressBar) mView.findViewById(R.id.positive_hp_bar);
 
-            neg.setMax(maxPg / 2);
-            pos.setMax(maxPg);
+            neg.setMax(maxHp / 2);
+            pos.setMax(maxHp);
 
-            neg.setProgress(pg < 0 ? -pg : 0);
-            pos.setProgress(pg > 0 ?  pg : 0);
+            neg.setProgress(hp < 0 ? -hp : 0);
+            pos.setProgress(hp > 0 ?  hp : 0);
 
-            int color = player.getStatusColor(getContext());
+            int color = player.getStatusColor(getContext().getResources());
             neg.getProgressDrawable().setColorFilter(color, PorterDuff.Mode.SRC_IN);
             pos.getProgressDrawable().setColorFilter(color, PorterDuff.Mode.SRC_IN);
         }

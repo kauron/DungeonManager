@@ -2,20 +2,22 @@ package com.kauron.dungeonmanager;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Color;
+import android.content.res.Resources;
 
 import java.io.Serializable;
 
 class Power implements Serializable{
     /**frequencies*/
-    public static final int OPORTUNIDAD = 1, A_VOLUNTAD = 2, ENCUENTRO = 3, DIARIO = 4;
-    public static final String[] FREQ = {"Nada", "Oportunidad", "A voluntad", "Encuentro", "Diario"};
+    public static final int AT_WILL = 2, ENCOUNTER = 3, DAILY = 4;
+    /*{"Nada", "A voluntad", "Encuentro", "Diario"}*/
     /**actions*/
-    public static final int ESTANDAR = 1, MOVIMIENTO = 2, MENOR = 3, GRATUITA = 4;
-    public static final String[] ACTIONS = {"Nada", "Estándar", "Movimiento", "Menor", "Gratuita"};
+    public static final int STANDARD = 1, MOVEMENT = 2, MINOR = 3, FREE = 4;
+    /*{"Nada", "Estándar", "Movimiento", "Menor", "Gratuita"}*/
     /**distances*/
-    public static final int CUERPO_A_CUERPO = 1, A_DISTANCIA = 2, EXPLOSION = 3, ESTALLIDO = 4;
-    public static final String[] DISTANCES = {"Nada", "Cuerpo a cuerpo", "A distancia", "Explosión", "Estallido"};
+    public static final int MELEE = 1, RANGED = 2, EXPLOSION = 3, AREA = 4, CLOSE = 5, AURA = 6;
+    /* {"Nada", "Cuerpo a cuerpo", "A distancia", "Explosión", "Estallido"};*/
+
+    public static String[] RANGES, ACTIONS, FREQ, ATK, DEF, ATTACK, DEFENSE;
     /**dies
      * They are represented by its max size
      * 0 corresponds to [A], the weapon
@@ -45,11 +47,21 @@ class Power implements Serializable{
         this.action = p.getInt("i4", 0);
     }
 
+    static void setStrings(Resources res) {
+        FREQ    = res.getStringArray(R.array.frequencies);
+        ACTIONS = res.getStringArray(R.array.actions);
+        RANGES  = res.getStringArray(R.array.ranges);
+        ATK     = res.getStringArray(R.array.atk);
+        DEF     = res.getStringArray(R.array.def);
+        ATTACK  = res.getStringArray(R.array.attack);
+        DEFENSE = res.getStringArray(R.array.defense);
+    }
+
     String getKeywords() {return keywords;}
 
     String getTypeString() {return ACTIONS[action];}
     String getFrequencyString() {return FREQ[freq];}
-    String getRangeString() {return DISTANCES[range];}
+    String getRangeString() {return RANGES[range];}
 
     int getAtk() {return atk;}
     int getDef() {return def;}
@@ -67,7 +79,7 @@ class Power implements Serializable{
 
     boolean use(){
         if (!used) {
-            if (freq >= ENCUENTRO) used = true;
+            if (freq >= ENCOUNTER) used = true;
             return true;
         } else {return false;}
     }
@@ -80,9 +92,9 @@ class Power implements Serializable{
 
     int getFreqColor(Context context) {
         switch (freq) {
-            case DIARIO:
+            case DAILY:
                 return context.getResources().getColor(R.color.daily);
-            case ENCUENTRO:
+            case ENCOUNTER:
                 return context.getResources().getColor(R.color.encounter);
             default:
                 return context.getResources().getColor(R.color.at_will);

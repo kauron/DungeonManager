@@ -2,7 +2,6 @@ package com.kauron.dungeonmanager;
 
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -13,8 +12,6 @@ import android.widget.Spinner;
 
 
 public class PowerEditor extends ActionBarActivity {
-
-    public static final String NAME="name", FREQ="freq", KEYWORDS="keywords", RANGE="range", DISTANCE="distance";
 
     private EditText [] edits = new EditText[5];
     private Spinner [] spinners = new Spinner[5];
@@ -53,7 +50,7 @@ public class PowerEditor extends ActionBarActivity {
                 new ArrayAdapter<>(
                         this,
                         android.R.layout.simple_spinner_dropdown_item,
-                        getResources().getStringArray(R.array.freq_array)
+                        Power.FREQ
                 )
         );
         spinners[1] = (Spinner) findViewById(R.id.rangeSpinner);
@@ -61,7 +58,7 @@ public class PowerEditor extends ActionBarActivity {
                 new ArrayAdapter<>(
                         this,
                         android.R.layout.simple_spinner_dropdown_item,
-                        getResources().getStringArray(R.array.ranges_array)
+                        Power.RANGES
                 )
         );
         spinners[2] = (Spinner) findViewById(R.id.atkSpinner);
@@ -69,7 +66,7 @@ public class PowerEditor extends ActionBarActivity {
                 new ArrayAdapter<>(
                         this,
                         android.R.layout.simple_spinner_dropdown_item,
-                        getResources().getStringArray(R.array.atk_array)
+                        Power.ATK
                 )
         );
         spinners[3] = (Spinner) findViewById(R.id.defSpinner);
@@ -77,26 +74,26 @@ public class PowerEditor extends ActionBarActivity {
                 new ArrayAdapter<>(
                         this,
                         android.R.layout.simple_spinner_dropdown_item,
-                        getResources().getStringArray(R.array.def_array)
+                        Power.DEF
                 )
         );
-        spinners[4] = (Spinner) findViewById(R.id.actionTypeSpinner);
+        spinners[4] = (Spinner) findViewById(R.id.actionSpinner);
         spinners[4].setAdapter(
                 new ArrayAdapter<>(
                         this,
                         android.R.layout.simple_spinner_dropdown_item,
-                        getResources().getStringArray(R.array.actions_array)
+                        Power.ACTIONS
                 )
         );
         background = spinners[0].getBackground();
 
 
         if (power != -1) {
-            SharedPreferences pp = getSharedPreferences(p.getString("power" + power, ""), MODE_PRIVATE);
+            SharedPreferences powerPrefs = getSharedPreferences(p.getString("power" + power, ""), MODE_PRIVATE);
             for ( int i = 0; i < spinners.length; i++ )
-                spinners[i].setSelection(pp.getInt("i" + i, 0));
+                spinners[i].setSelection(powerPrefs.getInt("i" + i, 0));
             for ( int i = 0; i < edits.length; i++ )
-                edits[i].setText(pp.getString("s" + i, ""));
+                edits[i].setText(powerPrefs.getString("s" + i, ""));
             originalName = edits[0].getText().toString();
         }
 

@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -35,7 +34,10 @@ public class Welcome extends ActionBarActivity {
         setContentView(R.layout.activity_welcome);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
+
+        Player.setStrings(getResources());
+        Power .setStrings(getResources());
+
         p = getSharedPreferences(PREFERENCES, MODE_PRIVATE);
         load();
     }
@@ -68,10 +70,9 @@ public class Welcome extends ActionBarActivity {
         load();
     }
 
-    //TODO: load all players with secondary constructor (except the ones created by introduction and haven't passed by ShowPlayer)
     private void load() {
         int n = p.getInt("players",0);
-        ListView playerList = (ListView) findViewById(R.id.listView);
+        ListView playerList = (ListView) findViewById(R.id.playersList);
         final PlayerAdapter adapter = (PlayerAdapter) playerList.getAdapter();
         int elements = 0;
         if ( adapter != null )
@@ -93,7 +94,7 @@ public class Welcome extends ActionBarActivity {
             ArrayList<Player> players = new ArrayList<>();
             for ( int i = 0; i < n; i++ ) {
                 SharedPreferences sav = getSharedPreferences(p.getString("player" + i, ""), MODE_PRIVATE);
-                if (sav.contains(Player.NAME)) //TODO: adding a second player causes an error
+                if (sav.contains(Player.NAME))
                     players.add( new Player( sav ) );
             }
 

@@ -2,34 +2,29 @@ package com.kauron.dungeonmanager;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+
 import java.io.Serializable;
 
 class Player implements Serializable {
 
-    public static final String NAME = "playerName", CLASS = "classInt", RACE = "raceInt", PX = "px";
+    public static final String NAME = "playerName", CLASS = "classInt", RACE = "raceInt", XP = "px";
 
     /**
      * Names for the classes
      */
-    public static final String[] CLASS_STRINGS = {
-            "Clase", "Ardiente", "Brujo", "Buscador", "Clérigo", "Explorador",
-            "Guerrero", "Mago", "Mente de Batalla", "Monje", "Paladín", "Pícaro", "Psiónico",
-            "Sacerdote Rúnico", "Señor de la guerra"
-    };
+    public static String[] CLASS_STRINGS;
+
+//            "Clase", "Ardiente", "Brujo", "Buscador", "Clérigo", "Explorador",
+//            "Guerrero", "Mago", "Mente de Batalla", "Monje", "Paladín", "Pícaro", "Psiónico",
+//            "Sacerdote Rúnico", "Señor de la guerra"
 
     public static final int NULL = 0;
 
-//    /**
-//     * Values for classes
-//     */
-//    public static final int ARDIENTE = 1, BRUJO = 2, BUSCADOR = 3, CLÉRIGO = 4,
-//            EXPLORADOR = 5, GUERRERO = 6, MAGO = 7, MENTE_DE_BATALLA = 8, MONJE = 9, PALADÍN = 10,
-//            PÍCARO = 11, PSIÓNICO = 12, SACERDOTE_RÚNICO = 13, SEÑOR_DE_LA_GUERRA = 14;
-
     /**
-     * Values for level - px computation
+     * Values for level - xp computation
      */
-    public static final int[] LEVEL_PX = new int[]{
+    public static final int[] LEVEL_XP = new int[]{
             0, 1000, 2250, 3750, 5500, 7500, 10000, 13000, 16500, 20500, 26000,
             32000, 39000, 47000, 57000, 69000, 83000, 99000, 119000, 143000, 175000,
             210000, 255000, 310000, 375000, 450000, 550000, 675000, 825000, 1000000
@@ -39,13 +34,13 @@ class Player implements Serializable {
      * Values for each class' characteristics
      */
     public static final int[][] CLASS_STATS = new int[][] {
-            //pg on level up
+            //hp on level up
             {0, 5, 5, 5, 5, 5, 6, 4, 6, 5, 6, 5, 4, 5, 5},
-            //defenses bonus: fort, ref, vol
+            //defenses bonus: fort, ref, will
             {0, 1, 0, 0, 0, 1, 2, 0, 0, 1, 1, 0, 0, 0, 1},
             {0, 0, 1, 1, 0, 1, 0, 0, 0, 1, 1, 2, 0, 0, 0},
             {0, 1, 1, 1, 2, 0, 0, 2, 2, 1, 1, 0, 2, 2, 1},
-            //initial pg bonus
+            //initial hp bonus
             {0,12,12,12,12,12,15,10,15,12,15,12,12,12,12},
             //daily curative efforts
             {0, 7, 6, 7, 7, 6, 9, 6, 9, 7,10, 6, 6, 7, 7}
@@ -54,58 +49,51 @@ class Player implements Serializable {
     /**
      * Identifiers for each class characteristic
      */
-    public static final int PG_ON_LEVEL_UP = 0, DEF_FORT = 1, DEF_REF = 2, DEF_VOL = 3,
-        INITIAL_PG = 4, DAILY_CURATIVE_EFFORTS = 5;
+    public static final int HP_ON_LEVEL_UP = 0, DEF_FORT = 1, DEF_REF = 2, DEF_WILL = 3,
+        INITIAL_HP = 4, DAILY_SURGES = 5;
 
     /**
      * Names for the races
      */
-    public static final String[] RACE_STRINGS = new String[] {
-            "Raza", "Dracónido", "Eladrín", "Elfo", "Enano", "Gitzherai", "Humano", "Mediano",
-            "Mente del Fragmento", "Minotauro", "Salvaje", "Semielfo", "Tiflin"
-    };
+    public static String[] RACE_STRINGS;
+
+//            "Raza", "Dracónido", "Eladrín", "Elfo", "Enano", "Gitzherai", "Humano", "Mediano",
+//            "Mente del Fragmento", "Minotauro", "Salvaje", "Semielfo", "Tiflin"
 
     /**
      * Values for attack
      */
-    public static final int FUE = 0, CON = 1, DES = 2, INT = 3, SAB = 4, CAR = 5;
+    public static final int STR = 0, CON = 1, DEX = 2, INT = 3, WIS = 4, CHA = 5;
 
     /**
      * Values for defenses
      */
-    public static final int CA = 0, FORT = 1, REF = 2, VOL = 3;
+    public static final int AC = 0, FORT = 1, REF = 2, WILL = 3;
 
     //TODO: develop abilities like attacks, with a popup
     //could be introduced by the player in a introduction screen, with ticks for train and bonuses
-//    /**
-//     * Values for abilities
-//     */
-//    public static final int ACROBACIAS = 1, AGUANTE = 2, ARCANOS = 3, ATLETISMO = 4, DIPLOMACIA = 5,
-//        DUNGEONS = 6, ENGAÑAR = 7, HISTORIA  = 8, HURTO = 9, INTIMIDAR = 10, NATURALEZA = 11,
-//        PERCEPCIÓN = 12, PERSPICACIA = 13, RECURSOS = 14, RELIGIÓN = 15, SANAR = 16, SIGILO = 17;
-
     /**
      * Names for the abilities
      */
-    public static final String[] ABILITY_STRING = new String[] {
+    public static String[] ABILITY_STRING = new String[] {
             "Habilidades", "Acrobacias", "Aguante", "Arcanos", "Atletismo", "Diplomacia", "Dungeons", "Engañar",
             "Historia", "Hurto", "Intimidar", "Naturaleza", "Percepción", "Perspicacia", "Recursos",
             "Religión", "Sanar", "Sigilo"
     };
 
     public static final int[] ABILITY_BOOST = new int[] {
-            -1, DES, CON, INT, FUE, CAR, SAB, CAR, INT, CAR, DES, SAB, SAB, SAB, CAR, INT, SAB, DES
+            -1, DEX, CON, INT, STR, CHA, WIS, CHA, INT, CHA, DEX, WIS, WIS, WIS, CHA, INT, WIS, DEX
     };
 
     /**
      * Values for the current living state
      */
-    public static final int OK = 1, MALHERIDO = 2, DEBILITADO = 3, MUERTO = 4, SAME = 5,
+    public static final int OK = 1, BLOODIED = 2, DYING = 3, DEAD = 4, SAME = 5,
             USE_CURATIVE_EFFORT = -1, CURED = 1, NOT_CURED = 0, MAXED = -1;
 
-    private int pg, maxPg, px;
+    private int hp, maxHp, xp;
     private int state, lastState;
-    private int curativeEfforts, maxCurativeEfforts;
+    private int surges, maxSurges;
     private int classInt, raceInt;
     private String name;
     private int level;
@@ -118,7 +106,7 @@ class Player implements Serializable {
      */
     Player (SharedPreferences p) {
         this.name = p.getString(NAME, "Player");
-        this.px   = p.getInt(PX, 0);
+        this.xp = p.getInt(XP, 0);
         setLevel();
         this.raceInt = p.getInt(RACE, 0);
         this.classInt = p.getInt(CLASS, 0);
@@ -132,66 +120,73 @@ class Player implements Serializable {
                 p.getInt("car", 10)}
         );
         setState();
-        this.pg = p.getInt( "pg" , maxPg);
-        this.curativeEfforts = p.getInt( "curativeEfforts" , maxCurativeEfforts );
+        this.hp = p.getInt( "pg" , maxHp);
+        this.surges = p.getInt( "curativeEfforts" , maxSurges);
     }
 
-    int getPx() {return px;}
-    void setPx (int px) {this.px = px; setLevel();}
-    boolean addPx(int px) {
+    public static void setStrings ( Resources res ) {
+        CLASS_STRINGS  = res.getStringArray(R.array.classes);
+        RACE_STRINGS   = res.getStringArray(R.array.races);
+        ABILITY_STRING = res.getStringArray(R.array.abilities);
+    }
+
+    int getXp() {return xp;}
+    void setXp(int xp) {this.xp = xp; setLevel();}
+    boolean addPx(int xp) {
         int lastLevel = level;
-        setPx(this.px + px);
+        setXp(this.xp + xp);
         return lastLevel < level;
     }
 
-    int getMaxCurativeEfforts() {return maxCurativeEfforts;}
-    void setMaxCurativeEfforts(int maxCurativeEfforts) {this.maxCurativeEfforts = maxCurativeEfforts;}
+    int getMaxSurges() {return maxSurges;}
+    void setMaxSurges(int maxSurges) {this.maxSurges = maxSurges;}
 
-    int getCurativeEfforts() {return curativeEfforts;}
-    void setCurativeEffort(int curativeEfforts) {this.curativeEfforts = curativeEfforts;}
+    int getSurges() {return surges;}
+    void setCurativeEffort(int surges) {this.surges = surges;}
 
     int getLevel() {return level;}
     void setLevel() {
-        for (int i = 0; i < LEVEL_PX.length; i++)
-            if(px < LEVEL_PX[i]) {level = i; return;}
-        level = LEVEL_PX.length;
+        for (int i = 0; i < LEVEL_XP.length; i++)
+            if(xp < LEVEL_XP[i]) {level = i; return;}
+        level = LEVEL_XP.length;
     }
 
 
-    int getMaxPg() {return maxPg;}
-    void setMaxPg(int maxPg) {
-        if(this.maxPg == 0)
-            this.pg = maxPg;
-        this.maxPg = maxPg;
+    int getMaxHp() {return maxHp;}
+    void setMaxHp(int maxHp) {
+        if(this.maxHp == 0)
+            this.hp = maxHp;
+        this.maxHp = maxHp;
     }
 
-    int getPg() {return pg;}
-    void setPg(int pg) {this.pg = pg; setState();}
+    int getHp() {return hp;}
+    void setHp(int hp) {this.hp = hp; setState();}
     void losePg(int damage) {
-        pg -= damage;
+        hp -= damage;
         setState();
     }
     int recoverPg(int recovered, boolean uses) {
         if(recovered == USE_CURATIVE_EFFORT){
-            if(uses && curativeEfforts <= 0) return NOT_CURED;
+            if(uses && surges <= 0) return NOT_CURED;
             else {
-                if(uses && pg < maxPg) curativeEfforts--;
-                if (pg < 0) {
-                    pg = 0;
+                if(uses && hp < maxHp) surges--;
+                if (hp < 0) {
+                    hp = 0;
                 } else {
-                    pg += maxPg / 4;
+                    hp += maxHp / 4;
                 }
             }
         } else {
-            if (pg < 0) {
-                pg = 0;
+            if (hp < 0) {
+                hp = 0;
             } else {
-                pg += recovered;
+                hp += recovered;
             }
         }
         setState();
 
-        if (pg > maxPg) {pg = maxPg; return MAXED;}
+        if (hp > maxHp) {
+            hp = maxHp; return MAXED;}
 
         return CURED;
     }
@@ -200,9 +195,9 @@ class Player implements Serializable {
     int getState() {return state;}
     private void setState() {
         lastState = state;
-        if (pg <= maxPg / -2) state = MUERTO;
-        else if (pg <= 0) state = DEBILITADO;
-        else if(pg <= maxPg / 2) state = MALHERIDO;
+        if (hp <= maxHp / -2) state = DEAD;
+        else if (hp <= 0) state = DYING;
+        else if(hp <= maxHp / 2) state = BLOODIED;
         else state = OK;
     }
 
@@ -212,51 +207,51 @@ class Player implements Serializable {
 
     private void setAtk(int[] atk) {this.atk = atk; if(classInt != NULL) setClass();}
 
-    int getFue() {return atk[FUE];}
+    int getFue() {return atk[STR];}
     int getCon() {return atk[CON];}
-    int getSab() {return atk[SAB];}
-    int getCar() {return atk[CAR];}
-    int getDes() {return atk[DES];}
+    int getSab() {return atk[WIS];}
+    int getCar() {return atk[CHA];}
+    int getDes() {return atk[DEX];}
     int getInt() {return atk[INT];}
-    int getCa() {return def[CA];}
+    int getCa() {return def[AC];}
     int getFort() {return def[FORT];}
     int getRef() {return def[REF];}
-    int getVol() {return def[VOL];}
+    int getVol() {return def[WILL];}
 
     private void setClass() {
-        maxPg = atk[CON] + CLASS_STATS[INITIAL_PG][classInt]
-                + ( level - 1 ) * CLASS_STATS[PG_ON_LEVEL_UP][classInt];
-        maxCurativeEfforts =
-                Player.getModifier(atk[CON]) + CLASS_STATS[DAILY_CURATIVE_EFFORTS][classInt];
+        maxHp = atk[CON] + CLASS_STATS[INITIAL_HP][classInt]
+                + ( level - 1 ) * CLASS_STATS[HP_ON_LEVEL_UP][classInt];
+        maxSurges =
+                Player.getModifier(atk[CON]) + CLASS_STATS[DAILY_SURGES][classInt];
         //TODO: implement armor!
-        def[CA] = 10 + level / 2 + Math.max(0, Player.getModifier(Math.max(atk[DES], atk[INT])));
-        def[FORT] = 10 + level / 2 + Player.getModifier(Math.max(atk[CON], atk[FUE])) +
+        def[AC] = 10 + level / 2 + Math.max(0, Player.getModifier(Math.max(atk[DEX], atk[INT])));
+        def[FORT] = 10 + level / 2 + Player.getModifier(Math.max(atk[CON], atk[STR])) +
                 CLASS_STATS[DEF_FORT][classInt];
-        def[REF] = 10 + level / 2 + Player.getModifier(Math.max(atk[DES], atk[INT])) +
+        def[REF] = 10 + level / 2 + Player.getModifier(Math.max(atk[DEX], atk[INT])) +
                 CLASS_STATS[DEF_REF][classInt];
-        def[VOL] = 10 + level / 2 + Player.getModifier(Math.max(atk[CAR], atk[SAB])) +
-                CLASS_STATS[DEF_VOL][classInt];
+        def[WILL] = 10 + level / 2 + Player.getModifier(Math.max(atk[CHA], atk[WIS])) +
+                CLASS_STATS[DEF_WILL][classInt];
     }
 
     static int getModifier(int i) {
         return i / 2 - 5;
     }
 
-    int getStatusColor(Context context) {
-        if (pg > maxPg / 2)
-            return context.getResources().getColor(R.color.green);
-        else if (pg > 0)
-            return context.getResources().getColor(R.color.yellow);
-        else if (pg > - maxPg / 2)
-            return context.getResources().getColor(R.color.red);
+    int getStatusColor(Resources res) {
+        if (hp > maxHp / 2)
+            return res.getColor(R.color.green);
+        else if (hp > 0)
+            return res.getColor(R.color.yellow);
+        else if (hp > -maxHp / 2)
+            return res.getColor(R.color.red);
         else
-            return context.getResources().getColor(R.color.black);
+            return res.getColor(R.color.black);
     }
 
     void rest (boolean isLong) {
         if ( isLong ) {
-            pg = maxPg;
-            curativeEfforts = maxCurativeEfforts;
+            hp = maxHp;
+            surges = maxSurges;
         }
         //TODO: here implement action points!
     }

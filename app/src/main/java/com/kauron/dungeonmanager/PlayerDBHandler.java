@@ -11,8 +11,8 @@ public class PlayerDBHandler extends SQLiteOpenHelper {
 
     public static final String TABLE_PLAYERS = "players";
     public static final String C_ID="_id", C_NAME="name", C_CLASS="class", C_RACE="race";
-    public static final String C_PG="pg", C_PG_MAX="pgMax", C_SURGES="surges", C_SURGES_MAX="surgesMax";
-    public static final String C_PX = "px", C_ATK = "atk", C_ABILITY = "ability", C_POWER_ID="powerID";
+    public static final String C_HP ="hp", C_HP_MAX ="hpMax", C_SURGES="surges", C_SURGES_MAX="surgesMax";
+    public static final String C_XP = "px", C_ATK = "atk", C_ABILITY = "ability", C_POWER_ID="powerID";
 
     //TODO: complete class and implement database to save the players instead of sharedprefs
     //TODO: not using it at the moment

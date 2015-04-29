@@ -35,23 +35,23 @@
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName|textCapWords"
                 android:layout_weight="0.5"
-                android:id="@+id/editNameIntro"
+                android:id="@+id/namePlayerEdit"
                 android:hint="@string/adventurer_name"
-                android:nextFocusDown="@+id/editPxIntro"
-                android:nextFocusForward="@+id/editPxIntro"/>
+                android:nextFocusDown="@+id/xpEdit"
+                android:nextFocusForward="@+id/xpEdit"/>
 
             <EditText
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
-                android:id="@+id/editPxIntro"
+                android:id="@+id/xpEdit"
                 android:hint="@string/px"
                 android:layout_weight="1"
-                android:nextFocusDown="@+id/FUE"
-                android:nextFocusForward="@+id/FUE"
-                android:nextFocusLeft="@+id/FUE"
-                android:nextFocusRight="@+id/FUE"
-                android:nextFocusUp="@+id/FUE"/>
+                android:nextFocusDown="@+id/STR"
+                android:nextFocusForward="@+id/STR"
+                android:nextFocusLeft="@+id/STR"
+                android:nextFocusRight="@+id/STR"
+                android:nextFocusUp="@+id/STR"/>
             </LinearLayout>
 
         <LinearLayout
@@ -93,9 +93,9 @@
                     android:layout_row="0"
                     android:layout_column="0"
 
-                    android:id="@+id/FUE"
+                    android:id="@+id/STR"
                     android:hint="@string/FUE"
-                    android:nextFocusDown="@+id/DES"/>
+                    android:nextFocusDown="@+id/DEX"/>
 
                 <EditText
                     android:layout_width="wrap_content"
@@ -119,9 +119,9 @@
                     android:layout_row="0"
                     android:layout_column="1"
 
-                    android:id="@+id/DES"
+                    android:id="@+id/DEX"
                     android:hint="@string/DES"
-                    android:nextFocusDown="@+id/SAB"/>
+                    android:nextFocusDown="@+id/WIS"/>
 
                 <EditText
                     android:layout_width="wrap_content"
@@ -134,7 +134,7 @@
 
                     android:id="@+id/INT"
                     android:hint="@string/INT"
-                    android:nextFocusDown="@+id/CAR"/>
+                    android:nextFocusDown="@+id/CHA"/>
 
                 <EditText
                     android:layout_width="wrap_content"
@@ -145,7 +145,7 @@
                     android:layout_row="0"
                     android:layout_column="2"
 
-                    android:id="@+id/SAB"
+                    android:id="@+id/WIS"
                     android:hint="@string/SAB"
                     android:nextFocusDown="@+id/CON"/>
 
@@ -159,7 +159,7 @@
                     android:layout_row="1"
                     android:layout_column="2"
 
-                    android:id="@+id/CAR"
+                    android:id="@+id/CHA"
                     android:hint="@string/CAR"/>
             </GridLayout>
 

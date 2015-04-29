@@ -40,16 +40,15 @@ public class ShowPlayer extends ActionBarActivity {
 
     public Player player;
     private boolean undo;
-    //TODO: fix undo (show snackbar with button in each case, without timing).
     private int undoObject, undoPreviousValue;
 
-    private ProgressBar posPgBar, negPgBar, xpBar, curativeEffortsBar;
-    private TextView currentPg, currentXp, currentCurativeEfforts, level;
+    private ProgressBar posHpBar, negHpBar, xpBar, surgesBar;
+    private TextView hpText, xpText, surgesText, levelText;
     private SharedPreferences p;
     private Toolbar toolbar;
 
 
-    private ListView attackList;
+    private ListView powerList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,19 +69,19 @@ public class ShowPlayer extends ActionBarActivity {
         }
 
         //Performing all the findViewById commands
-        xpBar = (ProgressBar) findViewById(R.id.xpBar);
-        curativeEffortsBar = (ProgressBar) findViewById(R.id.curativeEffortsBar);
-        posPgBar = (ProgressBar) findViewById(R.id.pgBar);
-        negPgBar = (ProgressBar) findViewById(R.id.negPgBar);
+        xpBar     = (ProgressBar) findViewById(R.id.xpBar);
+        surgesBar = (ProgressBar) findViewById(R.id.surgesBar);
+        posHpBar  = (ProgressBar) findViewById(R.id.positive_hp_bar);
+        negHpBar  = (ProgressBar) findViewById(R.id.negative_hp_bar);
 
-        currentPg = (TextView) findViewById(R.id.currentPg);
-        currentXp = (TextView) findViewById(R.id.currentXp);
-        currentCurativeEfforts = (TextView) findViewById(R.id.currentCurativeEfforts);
-        level = (TextView) findViewById(R.id.level);
+        hpText     = (TextView) findViewById(R.id.hpText);
+        xpText     = (TextView) findViewById(R.id.xpText);
+        surgesText = (TextView) findViewById(R.id.surgesText);
+        levelText  = (TextView) findViewById(R.id.levelText);
 
         xpBar.getProgressDrawable()
                         .setColorFilter(getResources().getColor(R.color.px_bar), PorterDuff.Mode.SRC_IN);
-        curativeEffortsBar.getProgressDrawable()
+        surgesBar.getProgressDrawable()
                         .setColorFilter(getResources().getColor(R.color.surges_bar), PorterDuff.Mode.SRC_IN);
         undo = false;
 
@@ -100,7 +99,7 @@ public class ShowPlayer extends ActionBarActivity {
     @Override
     public boolean onPrepareOptionsMenu (Menu menu) {
         MenuItem menuHeal = menu.findItem(R.id.action_cure);
-        boolean maxed = player.getPg() == player.getMaxPg();
+        boolean maxed = player.getHp() == player.getMaxHp();
         menuHeal.setEnabled(!maxed);
         if (maxed)
             menuHeal.getIcon().setAlpha(128);
@@ -112,10 +111,10 @@ public class ShowPlayer extends ActionBarActivity {
     private void addPx(EditText input) {
         try {
             if (player.addPx(Integer.parseInt(input.getText().toString()))) levelUp();
-            p.edit().putInt("px", player.getPx()).apply();
-            pxUpdate();
-            ceUpdate();
-            pgUpdate();
+            p.edit().putInt("px", player.getXp()).apply();
+            xpUpdate();
+            surgeUpdate();
+            hpUpdate();
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(), "There was an error leveling up", Toast.LENGTH_LONG).show();
         }
@@ -130,7 +129,7 @@ public class ShowPlayer extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_cure) {
-            if(player.getMaxPg() <= player.getPg()){
+            if(player.getMaxHp() <= player.getHp()){
                 SnackbarManager.show(
                         Snackbar
                                 .with(this)
@@ -167,23 +166,22 @@ public class ShowPlayer extends ActionBarActivity {
             alert.setNegativeButton(R.string.level_up, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    player.setPx(Player.LEVEL_PX[player.getLevel()]);
+                    player.setXp(Player.LEVEL_XP[player.getLevel()]);
                     levelUp();
-                    p.edit().putInt(Player.PX, player.getPx()).apply();
-                    pxUpdate();
+                    p.edit().putInt(Player.XP, player.getXp()).apply();
+                    xpUpdate();
                 }
             });
             alert.show();
             input.requestFocus();
             return true;
-            //TODO: TEST fix restoring powers
         } else if (id == R.id.action_time_long_rest) {
-            AttackAdapter attackAdapter = (AttackAdapter)attackList.getAdapter();
-            if (attackAdapter != null) {
-                for (int i = 0; i < attackAdapter.getCount(); i++) {
-                    Power power = attackAdapter.getItem(i);
-                    if ( power.getFreq() != Power.A_VOLUNTAD ) {
-                        power.recover(Power.DIARIO);
+            PowerAdapter powerAdapter = (PowerAdapter) powerList.getAdapter();
+            if (powerAdapter != null) {
+                for (int i = 0; i < powerAdapter.getCount(); i++) {
+                    Power power = powerAdapter.getItem(i);
+                    if ( power.getFreq() != Power.AT_WILL) {
+                        power.recover(Power.DAILY);
                         getSharedPreferences(p.getString("power" + i, ""), MODE_PRIVATE)
                                 .edit().putBoolean("used", false);
                     }
@@ -199,18 +197,18 @@ public class ShowPlayer extends ActionBarActivity {
                             .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE)
             );
             p.edit()
-                    .putInt("pg", player.getPg())
-                    .putInt("curativeEfforts", player.getCurativeEfforts())
+                    .putInt("pg", player.getHp())
+                    .putInt("curativeEfforts", player.getSurges())
                     .apply();
-            pgUpdate();
-            ceUpdate();
+            hpUpdate();
+            surgeUpdate();
         } else if (id == R.id.action_time_rest) {
-            AttackAdapter attackAdapter = (AttackAdapter) attackList.getAdapter();
-            if (attackAdapter != null) {
-                for (int i = 0; i < attackAdapter.getCount(); i++) {
-                    Power power = attackAdapter.getItem(i);
-                    if ( power.getFreq() == Power.ENCUENTRO) {
-                        power.recover(Power.ENCUENTRO);
+            PowerAdapter powerAdapter = (PowerAdapter) powerList.getAdapter();
+            if (powerAdapter != null) {
+                for (int i = 0; i < powerAdapter.getCount(); i++) {
+                    Power power = powerAdapter.getItem(i);
+                    if ( power.getFreq() == Power.ENCOUNTER) {
+                        power.recover(Power.ENCOUNTER);
                         getSharedPreferences(p.getString("power" + i, ""), MODE_PRIVATE)
                                 .edit().putBoolean("used", false);
                     }
@@ -224,8 +222,8 @@ public class ShowPlayer extends ActionBarActivity {
                             .text(R.string.rest_done)
                             .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE)
             );
-            pgUpdate();
-            ceUpdate();
+            hpUpdate();
+            surgeUpdate();
         }
 
         return super.onOptionsItemSelected(item);
@@ -233,17 +231,17 @@ public class ShowPlayer extends ActionBarActivity {
 
     private void levelUp() {
         //TODO: improve leveling up by using a sliding guide
-        xpBar.setMax(Player.LEVEL_PX[player.getLevel()] -
-                Player.LEVEL_PX[player.getLevel() - 1]);
+        xpBar.setMax(Player.LEVEL_XP[player.getLevel()] -
+                Player.LEVEL_XP[player.getLevel() - 1]);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         restoreData();
-        pgUpdate();
-        ceUpdate();
-        pxUpdate();
+        hpUpdate();
+        surgeUpdate();
+        xpUpdate();
     }
 
     /**
@@ -263,13 +261,13 @@ public class ShowPlayer extends ActionBarActivity {
             return false;
         } else {
             SharedPreferences.Editor e = p.edit();
-            e.putInt("pg", player.getPg());
+            e.putInt("pg", player.getHp());
             if(usesEffort) {
-                e.putInt("curativeEfforts", player.getCurativeEfforts());
-                ceUpdate();
+                e.putInt("curativeEfforts", player.getSurges());
+                surgeUpdate();
             }
             e.apply();
-            pgUpdate();
+            hpUpdate();
             return true;
         }
     }
@@ -285,24 +283,24 @@ public class ShowPlayer extends ActionBarActivity {
                 .setTitle(R.string.new_energies)
                 .setPositiveButton(R.string.me, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        undoPreviousValue = player.getPg();
-                        if (heal(true)) {
+                        undoPreviousValue = player.getHp();
+                        if (heal(true)) { //a surge has been used
                             SnackbarManager.show(
                                     Snackbar.with(getApplicationContext())
-                                            .text(String.format(getString(R.string.healed), player.getMaxPg() / 4))
+                                            .text(String.format(getString(R.string.healed), player.getMaxHp() / 4))
                                             .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE)
                                             .actionLabel(R.string.action_undo)
                                             .actionColor(getResources().getColor(R.color.yellow))
                                             .actionListener(new ActionClickListener() {
                                                 @Override
                                                 public void onActionClicked(Snackbar snackbar) {
-                                                    player.setPg(undoPreviousValue);
-                                                    player.setCurativeEffort(player.getCurativeEfforts() + 1);
+                                                    player.setHp(undoPreviousValue);
+                                                    player.setCurativeEffort(player.getSurges() + 1);
                                                     p.edit().putInt("pg", undoPreviousValue)
-                                                            .putInt("curativeEfforts", player.getCurativeEfforts())
+                                                            .putInt("curativeEfforts", player.getSurges())
                                                             .apply();
-                                                    pgUpdate();
-                                                    ceUpdate();
+                                                    hpUpdate();
+                                                    surgeUpdate();
                                                     SnackbarManager.show(
                                                             Snackbar
                                                                     .with(getApplicationContext())
@@ -320,18 +318,18 @@ public class ShowPlayer extends ActionBarActivity {
                 .setNegativeButton(R.string.other, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        undoPreviousValue = player.getPg();
+                        undoPreviousValue = player.getHp();
                         heal(false);
                         SnackbarManager.show(
                                 Snackbar.with(getApplicationContext())
-                                        .text(String.format(getString(R.string.healed), player.getMaxPg() / 4))
+                                        .text(String.format(getString(R.string.healed), player.getMaxHp() / 4))
                                         .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE)
                                         .actionLabel(R.string.action_undo)
                                         .actionColor(getResources().getColor(R.color.yellow))
                                         .actionListener(new ActionClickListener() {
                                             @Override
                                             public void onActionClicked(Snackbar snackbar) {
-                                                player.setPg(undoPreviousValue);
+                                                player.setHp(undoPreviousValue);
                                                 p.edit().putInt("pg", undoPreviousValue).apply();
                                                 SnackbarManager.show(
                                                         Snackbar
@@ -340,7 +338,7 @@ public class ShowPlayer extends ActionBarActivity {
                                                                 .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE),
                                                         activity
                                                 );
-                                                pgUpdate();
+                                                hpUpdate();
                                             }
                                         }),
                                 activity
@@ -379,7 +377,7 @@ public class ShowPlayer extends ActionBarActivity {
         alert.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 try {
-                    int preValue = player.getPg();
+                    int preValue = player.getHp();
                     int damage = Integer.parseInt(input.getText().toString());
                     player.losePg(damage);
                     undo = true;
@@ -397,8 +395,8 @@ public class ShowPlayer extends ActionBarActivity {
                                     .actionColor(getResources().getColor(R.color.yellow))
                                     .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE)
                     ,activity); // action button's
-                    p.edit().putInt("pg", player.getPg()).apply();
-                    pgUpdate();
+                    p.edit().putInt("pg", player.getHp()).apply();
+                    hpUpdate();
                     invalidateOptionsMenu();
                 } catch (Exception e) {
                     Toast.makeText(getApplicationContext(), "There was an error", Toast.LENGTH_LONG).show();
@@ -419,82 +417,46 @@ public class ShowPlayer extends ActionBarActivity {
      * Sets the hit points progress bars to the adequate value and color.
      * Sets the text indicating the numerical value of the hit points
      */
-    private void pgUpdate() {
-        int pg = player.getPg();
-        negPgBar.setProgress(pg < 0 ? -pg : 0);
-        posPgBar.setProgress(pg > 0 ? pg : 0);
+    private void hpUpdate() {
+        int hp = player.getHp();
+        negHpBar.setProgress(hp < 0 ? -hp : 0);
+        posHpBar.setProgress(hp > 0 ? hp : 0);
 
-        currentPg.setText(player.getPg() + " / " + player.getMaxPg());
+        hpText.setText(player.getHp() + " / " + player.getMaxHp());
 
-        int color = player.getStatusColor(getApplicationContext());
-        posPgBar.getProgressDrawable().setColorFilter(color, PorterDuff.Mode.SRC_IN);
-        negPgBar.getProgressDrawable().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+        int color = player.getStatusColor(getApplicationContext().getResources());
+        posHpBar.getProgressDrawable().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+        negHpBar.getProgressDrawable().setColorFilter(color, PorterDuff.Mode.SRC_IN);
     }
 
     /**
      * Recovers the player's data from the sharedPreferences and then updates all the layouts
-     * This includes an update for the attackList layout.
+     * This includes an update for the powerList layout.
      */
     private void restoreData(){
         //Loading player
 
         player = new Player( p );
 
-        pxUpdate();
+        xpUpdate();
         xpBar.setMax(
-                Player.LEVEL_PX[player.getLevel()] -
-                        Player.LEVEL_PX[player.getLevel() - 1]
+                Player.LEVEL_XP[player.getLevel()] -
+                        Player.LEVEL_XP[player.getLevel() - 1]
         );
 
-        player.setCurativeEffort(p.getInt("curativeEfforts", player.getMaxCurativeEfforts()));
-        player.setPg(p.getInt("pg", player.getMaxPg()));
+        player.setCurativeEffort(p.getInt("curativeEfforts", player.getMaxSurges()));
+        player.setHp(p.getInt("pg", player.getMaxHp()));
 
-        posPgBar.setMax(player.getMaxPg());
-        negPgBar.setMax(player.getMaxPg() / 2);
-        curativeEffortsBar.setMax(player.getMaxCurativeEfforts());
-        pgUpdate();
-        ceUpdate();
+        posHpBar.setMax(player.getMaxHp());
+        negHpBar.setMax(player.getMaxHp() / 2);
+        surgesBar.setMax(player.getMaxSurges());
+        hpUpdate();
+        surgeUpdate();
         //set restored values to the respective fields
         toolbar.setTitle(player.getName());
         toolbar.setSubtitle(
                 player.getClassName() + " " + player.getRaceName()
         );
-
-//        //attacks
-//        ((TextView) findViewById(R.id.FUE)).setText(
-//                getString(R.string.FUE) + ":" + player.getFue()
-//        );
-//        ((TextView) findViewById(R.id.CON)).setText(
-//                getString(R.string.CON) + ":" + player.getCon()
-//        );
-//        ((TextView) findViewById(R.id.DES)).setText(
-//                getString(R.string.DES) + ":" + player.getDes()
-//        );
-//        ((TextView) findViewById(R.id.INT)).setText(
-//                getString(R.string.INT) + ":" + player.getInt()
-//        );
-//        ((TextView) findViewById(R.id.SAB)).setText(
-//                getString(R.string.SAB) + ":" + player.getSab()
-//        );
-//        ((TextView) findViewById(R.id.CAR)).setText(
-//                getString(R.string.CAR) + ":" + player.getCar()
-//        );
-//
-//        //defenses
-//        ((TextView) findViewById(R.id.CA)).setText(
-//                getString(R.string.CA) + ":" + player.getCa()
-//        );
-//        ((TextView) findViewById(R.id.FORT)).setText(
-//                getString(R.string.FORT) + ":" + player.getFort()
-//        );
-//        ((TextView) findViewById(R.id.REF)).setText(
-//                getString(R.string.REF) + ":" + player.getRef()
-//        );
-//        ((TextView) findViewById(R.id.VOL)).setText(
-//                getString(R.string.VOL) + ":" + player.getVol()
-//        );
-//
-//
         //Loading powers and abilities (not implemented yet)
         refreshList();
     }
@@ -502,34 +464,35 @@ public class ShowPlayer extends ActionBarActivity {
     /**
      * This updates the progress and indicator text of the available surges.
      */
-    private void ceUpdate() {
-        curativeEffortsBar.setProgress(player.getCurativeEfforts());
-        currentCurativeEfforts.setText(
-                player.getCurativeEfforts() + " / " +
-                player.getMaxCurativeEfforts()
+    private void surgeUpdate() {
+        surgesBar.setProgress(player.getSurges());
+        surgesText.setText(
+                player.getSurges() + " / " +
+                        player.getMaxSurges()
         );
     }
 
     /**
      * Updates the progress and indicator text of the XP
      */
-    private void pxUpdate() {
-        xpBar.setProgress(player.getPx() - Player.LEVEL_PX[player.getLevel() - 1]);
-        level.setText(getString(R.string.level) + " " + player.getLevel());
-        currentXp.setText(
-                player.getPx() + " / " +
-                        Player.LEVEL_PX[player.getLevel()]
+    private void xpUpdate() {
+        xpBar.setProgress(player.getXp() - Player.LEVEL_XP[player.getLevel() - 1]);
+        levelText.setText(getString(R.string.level) + " " + player.getLevel());
+        xpText.setText(
+                player.getXp() + " / " +
+                        Player.LEVEL_XP[player.getLevel()]
         );
 
     }
 
     /**
-     * Undoes the last change done by the player. Only used in damage(). Healing is not yet included
+     * Undoes the last change done by the player. Only used in damage().
+     * Healing is undone in the health dialog
      */
     private void undo() {
         String message = "";
         if(undoObject == CURRENT_PG){
-            player.setPg(undoPreviousValue);
+            player.setHp(undoPreviousValue);
             undoObject = NULL;
             message = getString(R.string.restored);
         }
@@ -541,7 +504,7 @@ public class ShowPlayer extends ActionBarActivity {
                             .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE)
             );
         }
-        pgUpdate();
+        hpUpdate();
         undo = false;
         invalidateOptionsMenu();
     }
@@ -575,8 +538,8 @@ public class ShowPlayer extends ActionBarActivity {
 
         int n = p.getInt("powers",0);
         int elements = 0;
-         attackList = (ListView) findViewById(R.id.attackList);
-        final AttackAdapter adapter = (AttackAdapter) attackList.getAdapter();
+        powerList = (ListView) findViewById(R.id.powerList);
+        final PowerAdapter adapter = (PowerAdapter) powerList.getAdapter();
 
         if ( adapter != null )
             elements = adapter.getCount();
@@ -593,24 +556,15 @@ public class ShowPlayer extends ActionBarActivity {
                 powers.add( new Power(sav) );
             }
 
-            attackList.setAdapter(new AttackAdapter(this, powers));
+            powerList.setAdapter(new PowerAdapter(this, powers));
             final Activity activity = this;
-            attackList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            powerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
 
                     final Dialog dialog = new Dialog(ShowPlayer.this);
                     dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                     dialog.setContentView(R.layout.attack_display);
-                    // set the custom dialog components - text, image and button
-//                    Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
-//                    // if button is clicked, close the custom dialog
-//                    dialogButton.setOnClickListener(new OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            dialog.dismiss();
-//                        }
-//                    });
 
                     //identify all the elements from the VIEW and then add LISTENERS
                     final Power power = (Power) parent.getItemAtPosition(position);
@@ -628,8 +582,8 @@ public class ShowPlayer extends ActionBarActivity {
                     ((TextView) dialog.findViewById(R.id.impactText)).setText(power.getImpact());
                     ((TextView) dialog.findViewById(R.id.otherText)).setText(power.getOther());
 
-                    String[] attack = getResources().getStringArray(R.array.attack_array);
-                    String[] defense = getResources().getStringArray(R.array.defense_array);
+                    String[] attack = getResources().getStringArray(R.array.attack);
+                    String[] defense = getResources().getStringArray(R.array.defense);
                     ((TextView) dialog.findViewById(R.id.attackText)).setText(attack[power.getAtk()]
                             + " " + getResources().getString(R.string.vs)
                             + " " + defense[power.getDef()]);
@@ -657,7 +611,7 @@ public class ShowPlayer extends ActionBarActivity {
                                     useButton.setEnabled(false);
                                     useButton.setClickable(false);
                                     getSharedPreferences(p.getString("power" + position, ""), MODE_PRIVATE)
-                                        .edit().putBoolean("used", true).apply();
+                                            .edit().putBoolean("used", true).apply();
                                     refreshList();
                                     SnackbarManager.show(
                                             Snackbar.with(getApplicationContext())
@@ -665,7 +619,7 @@ public class ShowPlayer extends ActionBarActivity {
                                                     .actionListener(new ActionClickListener() {
                                                         @Override
                                                         public void onActionClicked(Snackbar snackbar) {
-                                                            power.recover(Power.DIARIO);
+                                                            power.recover(Power.DAILY);
                                                             useButton.setBackgroundColor(color);
                                                             useButton.setTextColor(getResources().getColor(R.color.white));
                                                             useButton.getBackground().setAlpha(255);
@@ -700,17 +654,16 @@ public class ShowPlayer extends ActionBarActivity {
         }
         final Activity thisActivity = this;
 
-        attackList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        powerList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(final AdapterView<?> parent, View view, final int position, long id) {
                 AlertDialog.Builder alert = new AlertDialog.Builder(thisActivity);
                 alert.setItems(
                         new String[]{getString(R.string.delete), getString(R.string.edit)},
-                        new DialogInterface.OnClickListener()
-                        {
+                        new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                if ( which == 0 ) {
+                                if (which == 0) {
                                     SnackbarManager.show(
                                             Snackbar.with(getApplicationContext())
                                                     .text(R.string.sure)
@@ -754,7 +707,7 @@ public class ShowPlayer extends ActionBarActivity {
                                     );
                                 }
                             }
-                });
+                        });
                 alert.show();
                 return true;
             }

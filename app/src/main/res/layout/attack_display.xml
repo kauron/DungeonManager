@@ -7,13 +7,13 @@
     android:layout_height="wrap_content">
 
     <TextView
+        tools:text="Explosion"
+        tools:background="@color/encounter"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@color/encounter"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
         android:paddingLeft="10dp"
-        tools:text="Explosión"
         android:textSize="20sp"
         android:textStyle="bold"
         android:textColor="@color/white"
@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            tools:text="Diario"
+            tools:text="Daily"
             android:id="@+id/freqText"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
@@ -42,7 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            tools:text="Fuego, arcano"
+            tools:text="Fire, arcana"
             android:id="@+id/keywordsText"
             android:layout_toRightOf="@+id/freqText"
             android:textColor="@color/black"
@@ -53,7 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            tools:text="Acción estándar"
+            tools:text="Standard action"
             android:textColor="@color/black"
             android:id="@+id/typeText"
             android:layout_below="@+id/freqText"
@@ -160,44 +160,18 @@
             android:layout_below="@+id/impact"
             tools:text="If you are reading this the description has been displayed"
             android:layout_alignParentLeft="true"/>
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Use"
+            android:text="@string/use"
             android:background="@android:color/transparent"
             android:textStyle="bold"
             android:id="@+id/useButton"
-            android:layout_below="@+id/linearLayout"
+            android:layout_gravity="right"
+            android:layout_below="@+id/otherText"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/otherText"
-            android:id="@+id/linearLayout">
-
-
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/edit"
-                android:visibility="gone"
-                android:layout_weight="1"
-                android:textStyle="bold"
-                android:background="@android:color/transparent"
-                android:id="@+id/editButton" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/delete"
-                android:textColor="#ff0000"
-                android:visibility="gone"
-                android:textStyle="bold"
-                android:layout_weight="1"
-                android:background="@android:color/transparent"
-                android:id="@+id/deleteButton" />
-        </LinearLayout>
     </RelativeLayout>
+
 </LinearLayout>

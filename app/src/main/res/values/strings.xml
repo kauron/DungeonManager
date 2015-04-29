@@ -5,17 +5,17 @@
     <string name="attack">Attack</string>
     <string name="action_cure">Cure</string>
     <string name="action_undo">Undo</string>
-    <string name="pg">PG</string>
+    <string name="hp">HP</string>
     <string name="die">Die</string>
     <string name="CA">AC</string>
     <string name="FORT">FORT</string>
     <string name="REF">REF</string>
     <string name="VOL">WILL</string>
     <string name="defense">Defense</string>
-    <string name="curative_efforts">Curative efforts</string>
+    <string name="curative_efforts">Surges</string>
     <string name="load_text">Load %1$s</string>
     <string name="rest_done">Your encounter powers have been restored</string>
-    <string name="long_rest_done">All your stats have been restored</string>
+    <string name="long_rest_done">You have rested and restored all your powers</string>
     <string name="action_reset">Reset</string>
     <string name="message_reset">All the data has been cleared</string>
     <string name="reset_confirmation_title">Are you sure?</string>
@@ -49,12 +49,12 @@
 
     <string name="level">Level</string>
     <string name="max_curative_efforts">Max surges</string>
-    <string name="max_pg">Max PG</string>
+    <string name="max_pg">Max HP</string>
     <string name="missing_info_error">You need to fill all the information</string>
     <string name="no_curative_efforts_error">You don\'t have any surges left!</string>
-    <string name="maxed_curative">You have reached your maximum level of PG</string>
+    <string name="maxed_curative">You have reached your maximum level of HP</string>
     <string name="suffer_damage">Input the damage suffered</string>
-    <string name="suffer_damage_hint">PG lost</string>
+    <string name="suffer_damage_hint">HP lost</string>
     <string name="me">Me</string>
     <string name="px_awarded_title">Input XP awarded</string>
     <string name="px_awarded_hint">XP from the encounter</string>
@@ -69,10 +69,10 @@
     <string name="CAR">CHA</string>
     <string name="SAB">WIS</string>
     <string name="action_save">Save</string>
-    <string name="dialog_resolve_max_pg_hint">Max PG</string>
+    <string name="dialog_resolve_max_pg_hint">Max HP</string>
     <string name="empty_field">Please input something</string>
     <string name="dialog_resolve_max_pg_title">Alert</string>
-    <string name="dialog_resolve_max_pg_message">Couldn\'t compute your max PG based on your level</string>
+    <string name="dialog_resolve_max_pg_message">Couldn\'t compute your max HP based on your level</string>
     <string name="action_download">Update app</string>
     <string name="message_no_back_button_intro">Your information hasn\'t been saved</string>
     <string name="title_activity_welcome">Welcome</string>
@@ -81,7 +81,7 @@
     <string name="new_character">New character</string>
     <string name="load_character">Load character</string>
     <string name="new_character_warning">This will erase any previously existing data saved</string>
-    <string name="new_attack">New attack</string>
+    <string name="new_attack">New power</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
     <string name="title_activity_power_editor">Power Editor</string>
@@ -109,9 +109,9 @@
     <string name="sure">Are you sure?</string>
     <string name="healed">You have restored %d HP</string>
     <string name="restored">Values restored</string>
-    <string name="export">Exportar</string>
+    <string name="export">Export</string>
 
-    <string-array name="freq_array">
+    <string-array name="frequencies">
         <item>Frequency</item>
         <item>Opportunity</item>
         <item>At will</item>
@@ -119,7 +119,7 @@
         <item>Daily</item>
     </string-array>
 
-    <string-array name="actions_array">
+    <string-array name="actions">
         <item>Action type</item>
         <item>Standard</item>
         <item>Movement</item>
@@ -127,7 +127,7 @@
         <item>Free</item>
     </string-array>
 
-    <string-array name="ranges_array">
+    <string-array name="ranges">
         <item>Range</item>
         <item>Melee</item>
         <item>Ranged</item>
@@ -136,7 +136,7 @@
         <item>Aura</item>
     </string-array>
 
-    <string-array name="atk_array">
+    <string-array name="atk">
         <item>ATK</item>
         <item>STR</item>
         <item>CON</item>
@@ -146,7 +146,7 @@
         <item>CHA</item>
     </string-array>
 
-    <string-array name="def_array">
+    <string-array name="def">
         <item>DEF</item>
         <item>AC</item>
         <item>FORT</item>
@@ -154,7 +154,7 @@
         <item>WILL</item>
     </string-array>
 
-    <string-array name="attack_array">
+    <string-array name="attack">
         <item>Attack</item>
         <item>Strength</item>
         <item>Constitution</item>
@@ -164,16 +164,73 @@
         <item>Charisma</item>
     </string-array>
 
-    <string-array name="defense_array">
+    <string-array name="defense">
         <item>Defense</item>
         <item>AC</item>
         <item>Fortitude</item>
         <item>Reflexes</item>
         <item>Will</item>
     </string-array>
+
+    <string-array name="abilities">
+        <item>Ability</item>
+        <item>Acrobatics</item>
+        <item>Arcana</item>
+        <item>Athletics</item>
+        <item>Bluff</item>
+        <item>Diplomacy</item>
+        <item>Dungeoneering</item>
+        <item>Endurance</item>
+        <item>Heal</item>
+        <item>History</item>
+        <item>Insight</item>
+        <item>Intimidate</item>
+        <item>Nature</item>
+        <item>Perception</item>
+        <item>Religion</item>
+        <item>Stealth</item>
+        <item>Streetwise</item>
+        <item>Thievery</item>
+    </string-array>
+
+    <string-array name="classes">
+        <item>Class</item>
+        <item>Ardiente</item>
+        <item>Brujo</item>
+        <item>Buscador</item>
+        <item>Clérigo</item>
+        <item>Explorador</item>
+        <item>Guerrero</item>
+        <item>Mago</item>
+        <item>Mente de Batalla</item>
+        <item>Monje</item>
+        <item>Paladín</item>
+        <item>Pícaro</item>
+        <item>Psiónico</item>
+        <item>Sacerdote Rúnico</item>
+        <item>Señor de la Guerra</item>
+    </string-array>
+
+    <string-array name="races">
+        <item>Race</item>
+        <item>Dracónidos</item>
+        <item>Eladrines</item>
+        <item>Elfos</item>
+        <item>Enanos</item>
+        <item>Gitzerai</item>
+        <item>Humanos</item>
+        <item>Medianos</item>
+        <item>Mente del Fragmento</item>
+        <item>Minotauro</item>
+        <item>Salvaje</item>
+        <item>Semielfo</item>
+        <item>Tiflin</item>
+    </string-array>
+
     <string name="title_activity_player_creator">Player Creator</string>
     <string name="hello_world">Hello world!</string>
     <string name="lost_hp">Lost %d HP</string>
     <string name="level_up">Level up</string>
+    <string name="use">Use</string>
 
 </resources>
