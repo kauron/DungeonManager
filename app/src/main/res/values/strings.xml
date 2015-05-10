@@ -48,7 +48,7 @@
     <string name="add_player">Add player</string>
     <string name="zero" translatable="false">0</string>
     <string name="no_players">No players, please add one</string>
-    <string name="help_welcome_text">Press a player to open, hold for options</string>
+    <string name="help_list">Press to open, hold for options</string>
     <string name="name">Name</string>
     <string name="keywords">Keywords</string>
     <string name="powerNameHint">Blasting charm</string>
@@ -61,7 +61,8 @@
     <string name="objective">Objective</string>
     <string name="objectiveHint">One creature</string>
     <string name="required">This field is required</string>
-    <string name="used">You have used</string>
+    <string name="used">Used</string>
+    <string name="have_used">You have used</string>
     <string name="sure">Are you sure?</string>
     <string name="healed">You have restored %d HP</string>
     <string name="restored">Values restored</string>
@@ -149,22 +150,23 @@
         <item>Thievery</item>
     </string-array>
 
+    <!-- TODO: correctly translate and order the classes-->
     <string-array name="classes">
         <item>Class</item>
         <item>Ardiente</item>
-        <item>Brujo</item>
+        <item>Warlock</item>
         <item>Buscador</item>
-        <item>Clérigo</item>
-        <item>Explorador</item>
-        <item>Guerrero</item>
-        <item>Mago</item>
+        <item>Cleric</item>
+        <item>Explorer</item>
+        <item>Warrior</item>
+        <item>Wizard</item>
         <item>Mente de Batalla</item>
         <item>Monje</item>
         <item>Paladín</item>
         <item>Pícaro</item>
         <item>Psiónico</item>
         <item>Sacerdote Rúnico</item>
-        <item>Señor de la Guerra</item>
+        <item>Warlord</item>
     </string-array>
 
     <string-array name="races">
@@ -187,5 +189,7 @@
     <string name="lost_hp">Lost %d HP</string>
     <string name="level_up">Level up</string>
     <string name="use">Use</string>
+    <string name="no_powers">There are no powers, try creating one</string>
+    <string name="show_stats">Show attack/defense</string>
 
 </resources>

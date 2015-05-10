@@ -34,4 +34,11 @@
             </menu>
         </item>
 
+    <item
+        android:id="@+id/action_stats"
+        android:title="@string/show_stats"
+        android:orderInCategory="10"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_action_stats" />
+
 </menu>

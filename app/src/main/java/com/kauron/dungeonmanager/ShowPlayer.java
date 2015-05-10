@@ -35,12 +35,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class ShowPlayer extends ActionBarActivity {
-
-    public static final int CURRENT_PG = 1, NULL = 0;
-
     public Player player;
-    private boolean undo;
-    private int undoObject, undoPreviousValue;
 
     private ProgressBar posHpBar, negHpBar, xpBar, surgesBar;
     private TextView hpText, xpText, surgesText, levelText;
@@ -83,7 +78,6 @@ public class ShowPlayer extends ActionBarActivity {
                         .setColorFilter(getResources().getColor(R.color.px_bar), PorterDuff.Mode.SRC_IN);
         surgesBar.getProgressDrawable()
                         .setColorFilter(getResources().getColor(R.color.surges_bar), PorterDuff.Mode.SRC_IN);
-        undo = false;
 
         restoreData();
         invalidateOptionsMenu();
@@ -176,18 +170,18 @@ public class ShowPlayer extends ActionBarActivity {
             input.requestFocus();
             return true;
         } else if (id == R.id.action_time_long_rest) {
-            PowerAdapter powerAdapter = (PowerAdapter) powerList.getAdapter();
+            PowerAdapter powerAdapter = powerList == null ? null : (PowerAdapter) powerList.getAdapter();
             if (powerAdapter != null) {
                 for (int i = 0; i < powerAdapter.getCount(); i++) {
                     Power power = powerAdapter.getItem(i);
                     if ( power.getFreq() != Power.AT_WILL) {
-                        power.recover(Power.DAILY);
+                        power.setUsed(false);
                         getSharedPreferences(p.getString("power" + i, ""), MODE_PRIVATE)
-                                .edit().putBoolean("used", false);
+                                .edit().putBoolean("used", false).apply();
                     }
                 }
+                powerAdapter.notifyDataSetChanged();
                 //TODO: substitute all calls to refreshList for an update on the single view that changed
-                refreshList();
             }
             player.rest(true);
             SnackbarManager.show(
@@ -203,17 +197,17 @@ public class ShowPlayer extends ActionBarActivity {
             hpUpdate();
             surgeUpdate();
         } else if (id == R.id.action_time_rest) {
-            PowerAdapter powerAdapter = (PowerAdapter) powerList.getAdapter();
+            PowerAdapter powerAdapter = powerList == null ? null : (PowerAdapter) powerList.getAdapter();
             if (powerAdapter != null) {
                 for (int i = 0; i < powerAdapter.getCount(); i++) {
                     Power power = powerAdapter.getItem(i);
                     if ( power.getFreq() == Power.ENCOUNTER) {
-                        power.recover(Power.ENCOUNTER);
+                        power.setUsed(false);
                         getSharedPreferences(p.getString("power" + i, ""), MODE_PRIVATE)
-                                .edit().putBoolean("used", false);
+                                .edit().putBoolean("used", false).apply();
                     }
                 }
-                refreshList();
+                powerAdapter.notifyDataSetChanged();
             }
 //            player.rest(false); TODO: this isn't needed without action points
             SnackbarManager.show(
@@ -224,9 +218,20 @@ public class ShowPlayer extends ActionBarActivity {
             );
             hpUpdate();
             surgeUpdate();
+        } else if (id == R.id.action_stats) {
+            statsDialog();
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void statsDialog() {
+        final Dialog dialog = new Dialog(ShowPlayer.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.stats_dialog);
+        //TODO: finish him!
+        dialog.show();
+        Toast.makeText(getApplicationContext(), "Not ready yet", Toast.LENGTH_LONG).show();
     }
 
     private void levelUp() {
@@ -283,7 +288,7 @@ public class ShowPlayer extends ActionBarActivity {
                 .setTitle(R.string.new_energies)
                 .setPositiveButton(R.string.me, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        undoPreviousValue = player.getHp();
+                        final int undoPreviousValue = player.getHp();
                         if (heal(true)) { //a surge has been used
                             SnackbarManager.show(
                                     Snackbar.with(getApplicationContext())
@@ -318,7 +323,7 @@ public class ShowPlayer extends ActionBarActivity {
                 .setNegativeButton(R.string.other, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        undoPreviousValue = player.getHp();
+                        final int undoPreviousValue = player.getHp();
                         heal(false);
                         SnackbarManager.show(
                                 Snackbar.with(getApplicationContext())
@@ -377,19 +382,25 @@ public class ShowPlayer extends ActionBarActivity {
         alert.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 try {
-                    int preValue = player.getHp();
+                    final int undoPreviousValue = player.getHp();
                     int damage = Integer.parseInt(input.getText().toString());
                     player.losePg(damage);
-                    undo = true;
-                    undoPreviousValue = preValue;
-                    undoObject = CURRENT_PG;
                     SnackbarManager.show(
                             Snackbar.with(context).text(String.format(getString(R.string.lost_hp), damage))
                                     .actionLabel(R.string.action_undo) // action button label
                                     .actionListener(new ActionClickListener() {
                                         @Override
                                         public void onActionClicked(Snackbar snackbar) {
-                                            undo();
+                                            SnackbarManager.show(
+                                                    Snackbar
+                                                            .with(activity)
+                                                            .text(R.string.restored)
+                                                            .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE)
+                                            );
+                                            player.setHp(undoPreviousValue);
+                                            p.edit().putInt("pg", player.getHp()).apply();
+                                            hpUpdate();
+                                            invalidateOptionsMenu();
                                         }
                                     })
                                     .actionColor(getResources().getColor(R.color.yellow))
@@ -485,30 +496,6 @@ public class ShowPlayer extends ActionBarActivity {
 
     }
 
-    /**
-     * Undoes the last change done by the player. Only used in damage().
-     * Healing is undone in the health dialog
-     */
-    private void undo() {
-        String message = "";
-        if(undoObject == CURRENT_PG){
-            player.setHp(undoPreviousValue);
-            undoObject = NULL;
-            message = getString(R.string.restored);
-        }
-        if (!message.isEmpty()) {
-            SnackbarManager.show(
-                    Snackbar
-                            .with(this)
-                            .text(message)
-                            .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE)
-            );
-        }
-        hpUpdate();
-        undo = false;
-        invalidateOptionsMenu();
-    }
-
 
     /**
      * Launches the PowerEditor to create a new attack inside the current player
@@ -537,180 +524,186 @@ public class ShowPlayer extends ActionBarActivity {
         //TODO: check which is active (now there is only a power list), so there is only one possibility
 
         int n = p.getInt("powers",0);
-        int elements = 0;
-        powerList = (ListView) findViewById(R.id.powerList);
-        final PowerAdapter adapter = (PowerAdapter) powerList.getAdapter();
+        if ( n == 0 ) {
+            findViewById(R.id.layout_no_powers).setVisibility(View.VISIBLE);
+            findViewById(R.id.layout_powers).setVisibility(View.GONE);
+        } else {
+            findViewById(R.id.layout_no_powers).setVisibility(View.GONE);
+            findViewById(R.id.layout_powers).setVisibility(View.VISIBLE);
+            int elements = 0;
+            powerList = (ListView) findViewById(R.id.powerList);
+            final PowerAdapter adapter = (PowerAdapter) powerList.getAdapter();
 
-        if ( adapter != null )
-            elements = adapter.getCount();
-        if ( elements < n  && adapter != null ) {
-            for ( int i = elements; i < n; i++ ) {
-                SharedPreferences sav = getSharedPreferences(p.getString("power" + i, ""), MODE_PRIVATE);
-                //TODO: solve error when closing the editor
-                adapter.add( new Power ( sav ) );
-            }
-        } else if ( n != 0 ) {
-            ArrayList<Power> powers = new ArrayList<>();
-            for (int i = 0; i < n; i++) {
-                SharedPreferences sav = getSharedPreferences(p.getString("power" + i, ""), MODE_PRIVATE);
-                powers.add( new Power(sav) );
-            }
+            if (adapter != null)
+                elements = adapter.getCount();
+            if (elements < n && adapter != null) {
+                for (int i = elements; i < n; i++) {
+                    SharedPreferences sav = getSharedPreferences(p.getString("power" + i, ""), MODE_PRIVATE);
+                    adapter.add(new Power(sav));
+                }
+            } else {
+                ArrayList<Power> powers = new ArrayList<>();
+                for (int i = 0; i < n; i++) {
+                    SharedPreferences sav = getSharedPreferences(p.getString("power" + i, ""), MODE_PRIVATE);
+                    powers.add(new Power(sav));
+                }
 
-            powerList.setAdapter(new PowerAdapter(this, powers));
-            final Activity activity = this;
-            powerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                powerList.setAdapter(new PowerAdapter(this, powers));
+                final Activity activity = this;
+                powerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
 
-                    final Dialog dialog = new Dialog(ShowPlayer.this);
-                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                    dialog.setContentView(R.layout.attack_display);
+                        final Dialog dialog = new Dialog(ShowPlayer.this);
+                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                        dialog.setContentView(R.layout.attack_display);
 
-                    //identify all the elements from the VIEW and then add LISTENERS
-                    final Power power = (Power) parent.getItemAtPosition(position);
-                    View nameText = dialog.findViewById(R.id.nameText);
-                    final int color = power.getFreqColor(getApplicationContext());
-                    nameText.setBackgroundColor(color);
+                        //identify all the elements from the VIEW and then add LISTENERS
+                        final Power power = (Power) parent.getItemAtPosition(position);
+                        View nameText = dialog.findViewById(R.id.nameText);
+                        final int color = power.getFreqColor(getApplicationContext());
+                        nameText.setBackgroundColor(color);
 
-                    ((TextView) nameText).setText(power.getName());
-                    ((TextView) dialog.findViewById(R.id.typeText)).setText(power.getTypeString());
-                    ((TextView) dialog.findViewById(R.id.rangeText)).setText(power.getRangeString() + " ");
-                    ((TextView) dialog.findViewById(R.id.freqText)).setText(power.getFrequencyString());
-                    ((TextView) dialog.findViewById(R.id.keywordsText)).setText(power.getKeywords());
-                    ((TextView) dialog.findViewById(R.id.distanceText)).setText(String.valueOf(power.getDistance()));
-                    ((TextView) dialog.findViewById(R.id.objectiveText)).setText(power.getObjective());
-                    ((TextView) dialog.findViewById(R.id.impactText)).setText(power.getImpact());
-                    ((TextView) dialog.findViewById(R.id.otherText)).setText(power.getOther());
+                        ((TextView) nameText).setText(power.getName());
+                        ((TextView) dialog.findViewById(R.id.typeText)).setText(power.getTypeString());
+                        ((TextView) dialog.findViewById(R.id.rangeText)).setText(power.getRangeString() + " ");
+                        ((TextView) dialog.findViewById(R.id.freqText)).setText(power.getFrequencyString());
+                        ((TextView) dialog.findViewById(R.id.keywordsText)).setText(power.getKeywords());
+                        ((TextView) dialog.findViewById(R.id.distanceText)).setText(String.valueOf(power.getDistance()));
+                        ((TextView) dialog.findViewById(R.id.objectiveText)).setText(power.getObjective());
+                        ((TextView) dialog.findViewById(R.id.impactText)).setText(power.getImpact());
+                        ((TextView) dialog.findViewById(R.id.otherText)).setText(power.getOther());
 
-                    String[] attack = getResources().getStringArray(R.array.attack);
-                    String[] defense = getResources().getStringArray(R.array.defense);
-                    ((TextView) dialog.findViewById(R.id.attackText)).setText(attack[power.getAtk()]
-                            + " " + getResources().getString(R.string.vs)
-                            + " " + defense[power.getDef()]);
+                        String[] attack = getResources().getStringArray(R.array.attack);
+                        String[] defense = getResources().getStringArray(R.array.defense);
+                        ((TextView) dialog.findViewById(R.id.attackText)).setText(attack[power.getAtk()]
+                                + " " + getResources().getString(R.string.vs) + " " + defense[power.getDef()]);
 
-                    final Button useButton = (Button) dialog.findViewById(R.id.useButton);
+                        final Button useButton = (Button) dialog.findViewById(R.id.useButton);
 
-                    if (power.isUsed()) {
-                        useButton.getBackground().setAlpha(128);
-                        useButton.setEnabled(false);
-                        useButton.setClickable(false);
-                    } else {
-                        useButton.setBackgroundColor(color);
-                        useButton.setTextColor(getResources().getColor(R.color.white));
-                        useButton.getBackground().setAlpha(255);
-                        useButton.setEnabled(true);
-                        useButton.setClickable(true);
-                        useButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                //TODO: use power
-                                power.use();
-                                if (power.isUsed()) {
-                                    useButton.getBackground().setAlpha(128);
-                                    useButton.setTextColor(getResources().getColor(R.color.black));
-                                    useButton.setEnabled(false);
-                                    useButton.setClickable(false);
-                                    getSharedPreferences(p.getString("power" + position, ""), MODE_PRIVATE)
-                                            .edit().putBoolean("used", true).apply();
-                                    refreshList();
-                                    SnackbarManager.show(
-                                            Snackbar.with(getApplicationContext())
-                                                    .text(getString(R.string.used) + " " + power.getName())
-                                                    .actionListener(new ActionClickListener() {
-                                                        @Override
-                                                        public void onActionClicked(Snackbar snackbar) {
-                                                            power.recover(Power.DAILY);
-                                                            useButton.setBackgroundColor(color);
-                                                            useButton.setTextColor(getResources().getColor(R.color.white));
-                                                            useButton.getBackground().setAlpha(255);
-                                                            useButton.setEnabled(true);
-                                                            useButton.setClickable(true);
-                                                            getSharedPreferences(p.getString("power" + position, ""), MODE_PRIVATE)
-                                                                    .edit().putBoolean("used", false).apply();
-                                                            refreshList();
-                                                        }
-                                                    })
-                                                    .actionLabel(getString(R.string.action_undo))
-                                                    .actionColor(getResources().getColor(R.color.yellow))
-                                                    .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE),
-                                            activity
-                                    );
-                                } else {
-                                    SnackbarManager.show(
-                                            Snackbar.with(getApplicationContext())
-                                                    .text(getString(R.string.used) + " " + power.getName())
-                                                    .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE),
-                                            activity
-                                    );
+                        if (power.isUsed()) {
+                            useButton.getBackground().setAlpha(128);
+                            useButton.setEnabled(false);
+                            useButton.setText(R.string.used);
+                            useButton.setClickable(false);
+                        } else {
+                            useButton.setBackgroundColor(color);
+                            useButton.setTextColor(getResources().getColor(R.color.white));
+                            useButton.getBackground().setAlpha(255);
+                            useButton.setEnabled(true);
+                            useButton.setClickable(true);
+                            useButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    //TODO: use power
+                                    power.use();
+                                    if (power.isUsed()) {
+                                        useButton.getBackground().setAlpha(128);
+                                        useButton.setTextColor(getResources().getColor(R.color.black));
+                                        useButton.setEnabled(false);
+                                        useButton.setClickable(false);
+                                        getSharedPreferences(p.getString("power" + position, ""), MODE_PRIVATE)
+                                                .edit().putBoolean("used", true).apply();
+                                        refreshList();
+                                        SnackbarManager.show(
+                                                Snackbar.with(getApplicationContext())
+                                                        .text(getString(R.string.have_used) + " " + power.getName())
+                                                        .actionListener(new ActionClickListener() {
+                                                            @Override
+                                                            public void onActionClicked(Snackbar snackbar) {
+                                                                power.setUsed(false);
+                                                                useButton.setBackgroundColor(color);
+                                                                useButton.setTextColor(getResources().getColor(R.color.white));
+                                                                useButton.getBackground().setAlpha(255);
+                                                                useButton.setEnabled(true);
+                                                                useButton.setClickable(true);
+                                                                getSharedPreferences(p.getString("power" + position, ""), MODE_PRIVATE)
+                                                                        .edit().putBoolean("used", power.isUsed()).apply();
+                                                                refreshList();
+                                                            }
+                                                        })
+                                                        .actionLabel(getString(R.string.action_undo))
+                                                        .actionColor(getResources().getColor(R.color.yellow))
+                                                        .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE),
+                                                activity
+                                        );
+                                    } else {
+                                        SnackbarManager.show(
+                                                Snackbar.with(getApplicationContext())
+                                                        .text(getString(R.string.have_used) + " " + power.getName())
+                                                        .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE),
+                                                activity
+                                        );
+                                    }
+                                    dialog.dismiss();
+
                                 }
-                                dialog.dismiss();
-
-                            }
-                        });
+                            });
+                        }
+                        dialog.show();
                     }
-                    dialog.show();
+                });
+            }
+            final Activity thisActivity = this;
+
+            powerList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(final AdapterView<?> parent, View view, final int position, long id) {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(thisActivity);
+                    alert.setItems(
+                            new String[]{getString(R.string.delete), getString(R.string.edit)},
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    if (which == 0) {
+                                        SnackbarManager.show(
+                                                Snackbar.with(getApplicationContext())
+                                                        .text(R.string.sure)
+                                                        .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE)
+                                                        .actionLabel(R.string.delete)
+                                                        .actionColor(getResources().getColor(R.color.yellow))
+                                                        .actionListener(new ActionClickListener() {
+                                                            @Override
+                                                            public void onActionClicked(Snackbar snackbar) {
+                                                                //delete the item
+                                                                String name = p.getString("power" + position, "");
+                                                                if (name != null && !name.isEmpty()) {
+                                                                    getSharedPreferences(name, MODE_PRIVATE).edit().clear().apply();
+                                                                    Log.d("Tag", thisActivity.getApplicationContext().getFilesDir().getParent()
+                                                                            + File.separator + "shared_prefs" + File.separator + name + ".xml");
+                                                                    try {
+                                                                        if (!new File(thisActivity.getApplicationContext().getFilesDir().getParent()
+                                                                                + File.separator + "shared_prefs" + File.separator + name + ".xml").delete())
+                                                                            throw new Exception();
+                                                                    } catch (Exception e) {
+                                                                        Log.e("POWER:DELETION", "Error deleting attack files\n" + e.getMessage() + "\n");
+                                                                    }
+                                                                    int max = p.getInt("powers", 0);
+                                                                    SharedPreferences.Editor ed = p.edit();
+                                                                    for (int i = position; i < max - 1; i++)
+                                                                        ed.putString("power" + i, p.getString("power" + (i + 1), "max"));
+                                                                    ed.putInt("powers", max - 1).apply();
+                                                                    refreshList();
+                                                                    ed.remove("power" + (max - 1)).apply();
+                                                                }
+                                                            }
+                                                        }),
+                                                thisActivity
+                                        );
+                                    } else {
+                                        //edit the item
+                                        startActivity(
+                                                new Intent(getApplicationContext(), PowerEditor.class)
+                                                        .putExtra("power", position)
+                                                        .putExtra("player", player.getName())
+                                        );
+                                    }
+                                }
+                            });
+                    alert.show();
+                    return true;
                 }
             });
         }
-        final Activity thisActivity = this;
-
-        powerList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(final AdapterView<?> parent, View view, final int position, long id) {
-                AlertDialog.Builder alert = new AlertDialog.Builder(thisActivity);
-                alert.setItems(
-                        new String[]{getString(R.string.delete), getString(R.string.edit)},
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                if (which == 0) {
-                                    SnackbarManager.show(
-                                            Snackbar.with(getApplicationContext())
-                                                    .text(R.string.sure)
-                                                    .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE)
-                                                    .actionLabel(R.string.delete)
-                                                    .actionColor(getResources().getColor(R.color.yellow))
-                                                    .actionListener(new ActionClickListener() {
-                                                        @Override
-                                                        public void onActionClicked(Snackbar snackbar) {
-                                                            //delete the item
-                                                            String name = p.getString("power" + position, "");
-                                                            if (name != null && !name.isEmpty()) {
-                                                                getSharedPreferences(name, MODE_PRIVATE).edit().clear().apply();
-                                                                Log.d("Tag", thisActivity.getApplicationContext().getFilesDir().getParent()
-                                                                        + File.separator + "shared_prefs" + File.separator + name + ".xml");
-                                                                try {
-                                                                    if (!new File(thisActivity.getApplicationContext().getFilesDir().getParent()
-                                                                            + File.separator + "shared_prefs" + File.separator + name + ".xml").delete())
-                                                                        throw new Exception();
-                                                                } catch (Exception e) {
-                                                                    Log.e("POWER:DELETION", "Error deleting attack files\n" + e.getMessage() + "\n" + e.getStackTrace().toString());
-                                                                }
-                                                                int max = p.getInt("powers", 0);
-                                                                SharedPreferences.Editor ed = p.edit();
-                                                                for (int i = position; i < max - 1; i++)
-                                                                    ed.putString("power" + i, p.getString("power" + (i + 1), "max"));
-                                                                ed.putInt("powers", max - 1).apply();
-                                                                refreshList();
-                                                                ed.remove("power" + (max - 1)).apply();
-                                                            }
-                                                        }
-                                                    }),
-                                            thisActivity
-                                    );
-                                } else {
-                                    //edit the item
-                                    startActivity(
-                                            new Intent(getApplicationContext(), PowerEditor.class)
-                                                    .putExtra("power", position)
-                                                    .putExtra("player", player.getName())
-                                    );
-                                }
-                            }
-                        });
-                alert.show();
-                return true;
-            }
-        });
     }
 }

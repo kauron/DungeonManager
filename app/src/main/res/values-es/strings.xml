@@ -38,7 +38,7 @@
     <string name="add_player">Añadir personaje</string>
     <string name="delete">Borrar</string>
     <string name="edit">Editar</string>
-    <string name="help_welcome_text">Toca un jugador para seleccionarlo, mantén pulsado para opciones</string>
+    <string name="help_list">Toca para abrir, mantén pulsado para opciones</string>
     <string name="impact">Impacto</string>
     <string name="impactEditHint">1d6 + 4 y eres invisible</string>
     <string name="keywords">Palabras clave</string>
@@ -104,7 +104,7 @@
         <item>Carisma</item>
     </string-array>
 
-    <string-array name="defence">
+    <string-array name="defense">
         <item>Defensa</item>
         <item>CA</item>
         <item>Fortaleza</item>
@@ -112,10 +112,66 @@
         <item>Voluntad</item>
     </string-array>
 
+    <string-array name="abilities">
+        <item>Habilidad</item>
+        <item>Acrobacias</item>
+        <item>Arcanos</item>
+        <item>Atletismo</item>
+        <item>BLUFF</item>
+        <item>Diplomacia</item>
+        <item>Dungeons</item>
+        <item>ENDURANCE</item>
+        <item>Sanar</item>
+        <item>Historia</item>
+        <item>INSIGHT</item>
+        <item>Intimidación</item>
+        <item>Naturaleza</item>
+        <item>Percepción</item>
+        <item>Religión</item>
+        <item>STEALTH</item>
+        <item>STREETWISE</item>
+        <item>Hurto</item>
+    </string-array>
+
+    <string-array name="classes">
+        <item>Clase</item>
+        <item>Ardiente</item>
+        <item>Brujo</item>
+        <item>Buscador</item>
+        <item>Clérigo</item>
+        <item>Explorador</item>
+        <item>Guerrero</item>
+        <item>Mago</item>
+        <item>Mente de Batalla</item>
+        <item>Monje</item>
+        <item>Paladín</item>
+        <item>Pícaro</item>
+        <item>Psiónico</item>
+        <item>Sacerdote Rúnico</item>
+        <item>Señor de la Guerra</item>
+    </string-array>
+
+
+    <string-array name="races">
+        <item>Race</item>
+        <item>Dracónidos</item>
+        <item>Eladrines</item>
+        <item>Elfos</item>
+        <item>Enanos</item>
+        <item>Gitzerai</item>
+        <item>Humanos</item>
+        <item>Medianos</item>
+        <item>Mente del Fragmento</item>
+        <item>Minotauro</item>
+        <item>Salvaje</item>
+        <item>Semielfo</item>
+        <item>Tiflin</item>
+    </string-array>
 
     <string name="required">Este campo es obligatorio</string>
     <string name="sure">¿Estás seguro?</string>
-    <string name="used">Has usado</string>
+    <string name="used">Usado</string>
+    <string name="have_used">Has usado</string>
     <string name="restored">Valores restaurados</string>
     <string name="export">Exportar</string>
     <string name="healed">Has recuperado %d PG</string>
@@ -123,4 +179,6 @@
     <string name="lost_hp">Has perdido %d PG</string>
     <string name="level_up">Subir un nivel</string>
     <string name="use">Usar</string>
+    <string name="no_powers">No tienes poderes, añade uno</string>
+    <string name="show_stats">Mostrar ataque/defensa</string>
 </resources>
