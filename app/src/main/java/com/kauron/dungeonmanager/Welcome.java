@@ -166,7 +166,7 @@ public class Welcome extends ActionBarActivity {
                                         //TODO: export as files
                                         /**TEMP*/
                                         startActivity(new Intent(
-                                                getApplicationContext(), TabsViewPagerFragmentActivity.class
+                                                getApplicationContext(), Display.class
                                         ).putExtra("player", position));
                                         Toast.makeText(
                                                 activity, "Exporting feature not implemented yet", Toast.LENGTH_LONG)

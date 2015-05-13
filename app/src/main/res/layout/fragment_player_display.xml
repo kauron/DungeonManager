@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -47,7 +47,7 @@
                     android:layout_row="0"
                     android:layout_column="0"
                     android:id="@+id/STR"
-                    tools:text="@string/STR" />
+                    android:text="@string/STR" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -58,7 +58,7 @@
                     android:layout_row="1"
                     android:layout_column="0"
                     android:id="@+id/CON"
-                    tools:text="@string/CON" />
+                    android:text="@string/CON" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -69,7 +69,7 @@
                     android:layout_row="0"
                     android:layout_column="1"
                     android:id="@+id/DEX"
-                    tools:text="@string/DEX" />
+                    android:text="@string/DEX" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -80,7 +80,7 @@
                     android:layout_row="1"
                     android:layout_column="1"
                     android:id="@+id/INT"
-                    tools:text="@string/INT" />
+                    android:text="@string/INT" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -91,7 +91,7 @@
                     android:layout_row="0"
                     android:layout_column="2"
                     android:id="@+id/WIS"
-                    tools:text="@string/WIS" />
+                    android:text="@string/WIS" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -102,83 +102,83 @@
                     android:layout_row="1"
                     android:layout_column="2"
                     android:id="@+id/CHA"
-                    tools:text="@string/CHA" />
+                    android:text="@string/CHA" />
             </GridLayout>
         </HorizontalScrollView>
     </LinearLayout>
 
     <LinearLayout
-            android:id="@+id/defenseContainer"
-            android:layout_width="wrap_content"
+        android:id="@+id/defenseContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/titleDefense"
+            android:text="Defense"
+            android:textAllCaps="true"
+            android:layout_marginBottom="5dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="vertical">
+            android:textStyle="bold"
+            android:textColor="?android:textColorSecondary"
+            android:textSize="14sp"
+            android:gravity="center_vertical"
+            android:paddingLeft="8dip"
+            android:paddingRight="8dip"/>
+
+        <GridLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/defenseGrid"
+            android:columnCount="2"
+            android:rowCount="2">
 
             <TextView
-                android:id="@+id/titleDefense"
-                android:text="Defense"
-                android:textAllCaps="true"
-                android:layout_marginBottom="5dp"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:textColor="?android:textColorSecondary"
-                android:textSize="14sp"
-                android:gravity="center_vertical"
-                android:paddingLeft="8dip"
-                android:paddingRight="8dip"/>
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:typeface="monospace"
+                android:ems="5"
+                android:layout_row="0"
+                android:layout_column="0"
+                android:id="@+id/CA"
+                android:text="AC" />
 
-            <GridLayout
-                android:layout_width="fill_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/defenseGrid"
-                android:columnCount="2"
-                android:rowCount="2">
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:typeface="monospace"
+                android:ems="5"
+                android:layout_row="0"
+                android:layout_column="1"
+                android:id="@+id/FORT"
+                android:text="FORT" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:typeface="monospace"
-                    android:ems="5"
-                    android:layout_row="0"
-                    android:layout_column="0"
-                    android:id="@+id/CA"
-                    tools:text="AC" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:typeface="monospace"
+                android:ems="5"
+                android:layout_row="1"
+                android:layout_column="0"
+                android:id="@+id/REF"
+                android:text="REF" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:typeface="monospace"
-                    android:ems="5"
-                    android:layout_row="0"
-                    android:layout_column="1"
-                    android:id="@+id/FORT"
-                    tools:text="FORT" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:typeface="monospace"
-                    android:ems="5"
-                    android:layout_row="1"
-                    android:layout_column="0"
-                    android:id="@+id/REF"
-                    tools:text="REF" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:typeface="monospace"
-                    android:ems="5"
-                    android:layout_row="1"
-                    android:layout_column="1"
-                    android:id="@+id/VOL"
-                    tools:text="VOL" />
-            </GridLayout>
-        </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:typeface="monospace"
+                android:ems="5"
+                android:layout_row="1"
+                android:layout_column="1"
+                android:id="@+id/VOL"
+                android:text="VOL" />
+        </GridLayout>
+    </LinearLayout>
 
 </LinearLayout>

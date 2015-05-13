@@ -16,7 +16,7 @@
         </activity>
 
         <activity
-            android:name=".TabsViewPagerFragmentActivity"
+            android:name=".Display"
             android:parentActivityName=".Welcome">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
