@@ -4,8 +4,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -156,20 +156,23 @@ public class Welcome extends ActionBarActivity {
                                                         }),
                                                 activity
                                         );
-                                } else if(which==1) {
-                                    //TODO: edit the player
-                                    /**TEMP*/
-                                    Toast.makeText(
-                                            activity, "Editor not implemented yet", Toast.LENGTH_LONG)
-                                            .show();
-                                } else {
-                                    //TODO: export as files
-                                    /**TEMP*/
-                                    Toast.makeText(
-                                            activity, "Exporting feature not implemented yet", Toast.LENGTH_LONG)
-                                            .show();
+                                    } else if(which==1) {
+                                        //TODO: edit the player
+                                        /**TEMP*/
+                                        Toast.makeText(
+                                                activity, "Editor not implemented yet", Toast.LENGTH_LONG)
+                                                .show();
+                                    } else {
+                                        //TODO: export as files
+                                        /**TEMP*/
+                                        startActivity(new Intent(
+                                                getApplicationContext(), TabsViewPagerFragmentActivity.class
+                                        ).putExtra("player", position));
+                                        Toast.makeText(
+                                                activity, "Exporting feature not implemented yet", Toast.LENGTH_LONG)
+                                                .show();
+                                    }
                                 }
-                            }
                 }
 
                 );

@@ -23,6 +23,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.NumberPicker;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -370,9 +371,11 @@ public class ShowPlayer extends ActionBarActivity {
         alert.setTitle(R.string.suffer_damage);
 
         // Set an EditText view to get user input
-        final EditText input = new EditText(this);
-        input.setInputType(InputType.TYPE_CLASS_NUMBER);
-        input.setHint(R.string.suffer_damage_hint);
+        final NumberPicker input = new NumberPicker (this);
+        input.setMinValue(0);
+        input.setMaxValue(player.getMaxHp() * 3);
+        input.setValue(0);
+        input.setWrapSelectorWheel(false);
 
         alert.setView(input);
 
@@ -381,37 +384,32 @@ public class ShowPlayer extends ActionBarActivity {
 
         alert.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                try {
-                    final int undoPreviousValue = player.getHp();
-                    int damage = Integer.parseInt(input.getText().toString());
-                    player.losePg(damage);
-                    SnackbarManager.show(
-                            Snackbar.with(context).text(String.format(getString(R.string.lost_hp), damage))
-                                    .actionLabel(R.string.action_undo) // action button label
-                                    .actionListener(new ActionClickListener() {
-                                        @Override
-                                        public void onActionClicked(Snackbar snackbar) {
-                                            SnackbarManager.show(
-                                                    Snackbar
-                                                            .with(activity)
-                                                            .text(R.string.restored)
-                                                            .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE)
-                                            );
-                                            player.setHp(undoPreviousValue);
-                                            p.edit().putInt("pg", player.getHp()).apply();
-                                            hpUpdate();
-                                            invalidateOptionsMenu();
-                                        }
-                                    })
-                                    .actionColor(getResources().getColor(R.color.yellow))
-                                    .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE)
-                    ,activity); // action button's
-                    p.edit().putInt("pg", player.getHp()).apply();
-                    hpUpdate();
-                    invalidateOptionsMenu();
-                } catch (Exception e) {
-                    Toast.makeText(getApplicationContext(), "There was an error", Toast.LENGTH_LONG).show();
-                }
+                final int undoPreviousValue = player.getHp();
+                player.losePg(input.getValue());
+                SnackbarManager.show(
+                        Snackbar.with(context).text(String.format(getString(R.string.lost_hp), input.getValue()))
+                                .actionLabel(R.string.action_undo) // action button label
+                                .actionListener(new ActionClickListener() {
+                                    @Override
+                                    public void onActionClicked(Snackbar snackbar) {
+                                        SnackbarManager.show(
+                                                Snackbar
+                                                        .with(activity)
+                                                        .text(R.string.restored)
+                                                        .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE)
+                                        );
+                                        player.setHp(undoPreviousValue);
+                                        p.edit().putInt("pg", player.getHp()).apply();
+                                        hpUpdate();
+                                        invalidateOptionsMenu();
+                                    }
+                                })
+                                .actionColor(getResources().getColor(R.color.yellow))
+                                .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE)
+                ,activity); // action button's
+                p.edit().putInt("pg", player.getHp()).apply();
+                hpUpdate();
+                invalidateOptionsMenu();
             }
         });
 

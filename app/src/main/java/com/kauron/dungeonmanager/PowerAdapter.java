@@ -37,14 +37,10 @@ class PowerAdapter extends ArrayAdapter<Power> {
                 mView.getBackground().setAlpha(0);
                 int black = getContext().getResources().getColor(R.color.black);
 
-                name      .setTextColor(black);
-                keywords  .setTextColor(black);
-                frequency .setTextColor(black);
-                range     .setTextColor(black);
-
-                //name.setPaintFlags(name.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            } else {
-                mView.getBackground().setAlpha((position % 2) * 50 + 205);
+                name      .setTextColor ( black ) ;
+                keywords  .setTextColor ( black ) ;
+                frequency .setTextColor ( black ) ;
+                range     .setTextColor ( black ) ;
             }
         }
         return mView;

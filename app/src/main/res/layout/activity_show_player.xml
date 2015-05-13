@@ -220,8 +220,6 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/powerList"
                     android:layout_gravity="center_horizontal"
-                    android:divider="@android:color/transparent"
-                    android:dividerHeight="0dp"
                     android:choiceMode="none" />
                 <TextView
                     android:layout_height="wrap_content"
