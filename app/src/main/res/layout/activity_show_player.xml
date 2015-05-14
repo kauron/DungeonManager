@@ -210,190 +210,35 @@
                     android:text="Go to abilities"/>
 
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/layout_powers"
+                android:orientation="vertical">
+                <ListView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/powerList"
+                    android:layout_gravity="center_horizontal"
+                    android:choiceMode="none" />
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="fill_parent"
+                    android:id="@+id/help_text"
+                    android:text="@string/help_list" />
+            </LinearLayout>
 
-            <ListView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/powerList"
-                android:layout_gravity="center_horizontal"
-                android:divider="@android:color/transparent"
-                android:dividerHeight="0dp"
-                android:choiceMode="none" />
-
-            <!--<LinearLayout-->
-                <!--android:id="@+id/attackContainer"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginTop="10dp"-->
-                <!--android:orientation="vertical"-->
-                <!--android:visibility="gone">-->
-
-                <!--<TextView-->
-                    <!--android:id="@+id/titleAttack"-->
-                    <!--android:text="@string/attack"-->
-                    <!--android:textAllCaps="true"-->
-                    <!--android:drawableBottom="?android:attr/listChoiceBackgroundIndicator"-->
-                    <!--android:layout_marginBottom="5dp"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:textStyle="bold"-->
-                    <!--android:textColor="?android:textColorSecondary"-->
-                    <!--android:textSize="14sp"-->
-                    <!--android:gravity="center_vertical"-->
-                    <!--android:paddingLeft="8dip"-->
-                    <!--android:paddingRight="8dip"/>-->
-                <!--<HorizontalScrollView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content">-->
-                    <!--<GridLayout-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:id="@+id/attackGrid"-->
-                        <!--android:columnCount="3"-->
-                        <!--android:rowCount="2">-->
-
-                        <!--<TextView-->
-                            <!--android:layout_width="wrap_content"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:textAppearance="?android:attr/textAppearanceLarge"-->
-                            <!--android:typeface="monospace"-->
-                            <!--android:ems="4"-->
-                            <!--android:layout_row="0"-->
-                            <!--android:layout_column="0"-->
-                            <!--android:id="@+id/STR"-->
-                            <!--tools:text="@string/FUE" />-->
-
-                        <!--<TextView-->
-                            <!--android:layout_width="wrap_content"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:textAppearance="?android:attr/textAppearanceLarge"-->
-                            <!--android:typeface="monospace"-->
-                            <!--android:ems="4"-->
-                            <!--android:layout_row="1"-->
-                            <!--android:layout_column="0"-->
-                            <!--android:id="@+id/CON"-->
-                            <!--tools:text="@string/CON" />-->
-
-                        <!--<TextView-->
-                            <!--android:layout_width="wrap_content"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:textAppearance="?android:attr/textAppearanceLarge"-->
-                            <!--android:typeface="monospace"-->
-                            <!--android:ems="4"-->
-                            <!--android:layout_row="0"-->
-                            <!--android:layout_column="1"-->
-                            <!--android:id="@+id/DEX"-->
-                            <!--tools:text="@string/DES" />-->
-
-                        <!--<TextView-->
-                            <!--android:layout_width="wrap_content"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:textAppearance="?android:attr/textAppearanceLarge"-->
-                            <!--android:typeface="monospace"-->
-                            <!--android:ems="4"-->
-                            <!--android:layout_row="1"-->
-                            <!--android:layout_column="1"-->
-                            <!--android:id="@+id/INT"-->
-                            <!--tools:text="@string/INT" />-->
-
-                        <!--<TextView-->
-                            <!--android:layout_width="wrap_content"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:textAppearance="?android:attr/textAppearanceLarge"-->
-                            <!--android:typeface="monospace"-->
-                            <!--android:ems="4"-->
-                            <!--android:layout_row="0"-->
-                            <!--android:layout_column="2"-->
-                            <!--android:id="@+id/WIS"-->
-                            <!--tools:text="@string/SAB" />-->
-
-                        <!--<TextView-->
-                            <!--android:layout_width="wrap_content"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:textAppearance="?android:attr/textAppearanceLarge"-->
-                            <!--android:typeface="monospace"-->
-                            <!--android:ems="4"-->
-                            <!--android:layout_row="1"-->
-                            <!--android:layout_column="2"-->
-                            <!--android:id="@+id/CHA"-->
-                            <!--tools:text="@string/CAR" />-->
-                    <!--</GridLayout>-->
-                <!--</HorizontalScrollView>-->
-            <!--</LinearLayout>-->
-
-            <!--<LinearLayout-->
-                <!--android:id="@+id/defenseContainer"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginTop="10dp"-->
-                <!--android:visibility="gone"-->
-                <!--android:orientation="vertical">-->
-
-                <!--<TextView-->
-                    <!--android:id="@+id/titleDefense"-->
-                    <!--android:text="@string/defense"-->
-                    <!--android:textAllCaps="true"-->
-                    <!--android:layout_marginBottom="5dp"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:textStyle="bold"-->
-                    <!--android:textColor="?android:textColorSecondary"-->
-                    <!--android:textSize="14sp"-->
-                    <!--android:gravity="center_vertical"-->
-                    <!--android:paddingLeft="8dip"-->
-                    <!--android:paddingRight="8dip"/>-->
-
-                <!--<GridLayout-->
-                    <!--android:layout_width="fill_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:id="@+id/defenseGrid"-->
-                    <!--android:columnCount="2"-->
-                    <!--android:rowCount="2">-->
-
-                    <!--<TextView-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:textAppearance="?android:attr/textAppearanceLarge"-->
-                        <!--android:typeface="monospace"-->
-                        <!--android:ems="5"-->
-                        <!--android:layout_row="0"-->
-                        <!--android:layout_column="0"-->
-                        <!--android:id="@+id/CA"-->
-                        <!--tools:text="@string/CA" />-->
-
-                    <!--<TextView-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:textAppearance="?android:attr/textAppearanceLarge"-->
-                        <!--android:typeface="monospace"-->
-                        <!--android:ems="5"-->
-                        <!--android:layout_row="0"-->
-                        <!--android:layout_column="1"-->
-                        <!--android:id="@+id/FORT"-->
-                        <!--tools:text="@string/FORT" />-->
-
-                    <!--<TextView-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:textAppearance="?android:attr/textAppearanceLarge"-->
-                        <!--android:typeface="monospace"-->
-                        <!--android:ems="5"-->
-                        <!--android:layout_row="1"-->
-                        <!--android:layout_column="0"-->
-                        <!--android:id="@+id/REF"-->
-                        <!--tools:text="@string/REF" />-->
-
-                    <!--<TextView-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:textAppearance="?android:attr/textAppearanceLarge"-->
-                        <!--android:typeface="monospace"-->
-                        <!--android:ems="5"-->
-                        <!--android:layout_row="1"-->
-                        <!--android:layout_column="1"-->
-                        <!--android:id="@+id/VOL"-->
-                        <!--tools:text="@string/VOL" />-->
-                <!--</GridLayout>-->
-            <!--</LinearLayout>-->
-        </LinearLayout>
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:visibility="gone"
+                android:id="@+id/layout_no_powers">
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="@string/no_powers"/>
+            </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

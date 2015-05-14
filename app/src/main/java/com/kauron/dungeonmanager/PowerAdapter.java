@@ -21,15 +21,27 @@ class PowerAdapter extends ArrayAdapter<Power> {
 
         final Power attack = getItem(position);
         if ( attack != null ) {
-            ((TextView) mView.findViewById(R.id.name)).setText(attack.getName());
-            ((TextView) mView.findViewById(R.id.keywords)).setText(attack.getKeywords());
-            ((TextView) mView.findViewById(R.id.frequency)).setText(attack.getFrequencyString());
-            ((TextView) mView.findViewById(R.id.range_and_distance)).setText(attack.getRangeString() + " " + attack.getDistance());
+            TextView name      = (TextView) mView.findViewById(R.id.name);
+            TextView keywords  = (TextView) mView.findViewById(R.id.keywords);
+            TextView frequency = (TextView) mView.findViewById(R.id.frequency);
+            TextView range     = (TextView) mView.findViewById(R.id.range_and_distance);
+
+            name      .setText(attack.getName());
+            keywords  .setText(attack.getKeywords());
+            frequency .setText(attack.getFrequencyString());
+            range     .setText(attack.getRangeString() + " " + attack.getDistance());
+
             mView.setBackgroundColor(attack.getFreqColor(getContext()));
-            if (attack.isUsed())
+
+            if (attack.isUsed()) {
                 mView.getBackground().setAlpha(0);
-            else
-                mView.getBackground().setAlpha((position % 2) * 50 + 205);
+                int black = getContext().getResources().getColor(R.color.black);
+
+                name      .setTextColor ( black ) ;
+                keywords  .setTextColor ( black ) ;
+                frequency .setTextColor ( black ) ;
+                range     .setTextColor ( black ) ;
+            }
         }
         return mView;
     }

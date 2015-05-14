@@ -89,6 +89,7 @@ class Power implements Serializable{
     void recover(int type){
         if(this.freq <= type) used = false;
     }
+    void setUsed(boolean used) {this.used = used;}
 
     int getFreqColor(Context context) {
         switch (freq) {
