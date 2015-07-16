@@ -153,7 +153,7 @@
 
 
     <string-array name="races">
-        <item>Race</item>
+        <item>Raza</item>
         <item>Dracónidos</item>
         <item>Eladrines</item>
         <item>Elfos</item>
@@ -181,4 +181,12 @@
     <string name="use">Usar</string>
     <string name="no_powers">No tienes poderes, añade uno</string>
     <string name="show_stats">Mostrar ataque/defensa</string>
+    <string name="action_settings">Ajustes</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_display">Display</string>
+    <string name="title_section1">Sección 1</string>
+    <string name="title_section2">Sección 2</string>
+    <string name="title_section3">Sección 3</string>
+    <string name="progress_lost">Tus cambios se perderán</string>
+    <string name="yes">Sí</string>
 </resources>
