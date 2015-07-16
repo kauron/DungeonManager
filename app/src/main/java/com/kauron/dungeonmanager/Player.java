@@ -1,6 +1,5 @@
 package com.kauron.dungeonmanager;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 
@@ -63,12 +62,12 @@ class Player implements Serializable {
     /**
      * Values for attack
      */
-    public static final int STR = 0, CON = 1, DEX = 2, INT = 3, WIS = 4, CHA = 5;
+    public static final int STR = 1, CON = 2, DEX = 3, INT = 4, WIS = 5, CHA = 6;
 
     /**
      * Values for defenses
      */
-    public static final int AC = 0, FORT = 1, REF = 2, WILL = 3;
+    public static final int AC = 1, FORT = 2, REF = 3, WILL = 4;
 
     //TODO: develop abilities like attacks, with a popup
     //could be introduced by the player in a introduction screen, with ticks for train and bonuses
@@ -79,7 +78,7 @@ class Player implements Serializable {
             "Habilidades", "Acrobacias", "Aguante", "Arcanos", "Atletismo", "Diplomacia", "Dungeons", "Engañar",
             "Historia", "Hurto", "Intimidar", "Naturaleza", "Percepción", "Perspicacia", "Recursos",
             "Religión", "Sanar", "Sigilo"
-    };
+    }; //TODO: move the names to a string-array in the res/values folder
 
     public static final int[] ABILITY_BOOST = new int[] {
             -1, DEX, CON, INT, STR, CHA, WIS, CHA, INT, CHA, DEX, WIS, WIS, WIS, CHA, INT, WIS, DEX
@@ -110,8 +109,9 @@ class Player implements Serializable {
         setLevel();
         this.raceInt = p.getInt(RACE, 0);
         this.classInt = p.getInt(CLASS, 0);
-        this.def = new int[4];
+        this.def = new int[5];
         setAtk(new int[] {
+                0,
                 p.getInt("fue", 10),
                 p.getInt("con", 10),
                 p.getInt("des", 10),
@@ -207,16 +207,8 @@ class Player implements Serializable {
 
     private void setAtk(int[] atk) {this.atk = atk; if(classInt != NULL) setClass();}
 
-    int getFue() {return atk[STR];}
-    int getCon() {return atk[CON];}
-    int getSab() {return atk[WIS];}
-    int getCar() {return atk[CHA];}
-    int getDes() {return atk[DEX];}
-    int getInt() {return atk[INT];}
-    int getCa() {return def[AC];}
-    int getFort() {return def[FORT];}
-    int getRef() {return def[REF];}
-    int getVol() {return def[WILL];}
+    int[] getAtk() {return atk;}
+    int[] getDef() {return def;}
 
     private void setClass() {
         maxHp = atk[CON] + CLASS_STATS[INITIAL_HP][classInt]

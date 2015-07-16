@@ -230,9 +230,23 @@ public class ShowPlayer extends ActionBarActivity {
         final Dialog dialog = new Dialog(ShowPlayer.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.stats_dialog);
-        //TODO: finish him!
+
+        String[] atkString = getResources().getStringArray(R.array.atk);
+        int[] atk = player.getAtk();
+        ((TextView)dialog.findViewById(R.id.STR)).setText(atkString[Player.STR] + ": " + atk[Player.STR]);
+        ((TextView)dialog.findViewById(R.id.CON)).setText(atkString[Player.CON] + ": " + atk[Player.CON]);
+        ((TextView)dialog.findViewById(R.id.CHA)).setText(atkString[Player.CHA] + ": " + atk[Player.CHA]);
+        ((TextView)dialog.findViewById(R.id.DEX)).setText(atkString[Player.DEX] + ": " + atk[Player.DEX]);
+        ((TextView)dialog.findViewById(R.id.WIS)).setText(atkString[Player.WIS] + ": " + atk[Player.WIS]);
+        ((TextView)dialog.findViewById(R.id.INT)).setText(atkString[Player.INT] + ": " + atk[Player.INT]);
+
+        String[] defString = getResources().getStringArray(R.array.def);
+        int[] def = player.getDef();
+        ((TextView)dialog.findViewById(R.id.AC)).setText(defString[Player.AC] + ": " + def[Player.AC]);
+        ((TextView)dialog.findViewById(R.id.FORT)).setText(defString[Player.FORT] + ": " + def[Player.FORT]);
+        ((TextView)dialog.findViewById(R.id.REF)).setText(defString[Player.REF] + ": " + def[Player.REF]);
+        ((TextView)dialog.findViewById(R.id.WILL)).setText(defString[Player.WILL] + ": " + def[Player.WILL]);
         dialog.show();
-        Toast.makeText(getApplicationContext(), "Not ready yet", Toast.LENGTH_LONG).show();
     }
 
     private void levelUp() {
@@ -406,7 +420,7 @@ public class ShowPlayer extends ActionBarActivity {
                                 })
                                 .actionColor(getResources().getColor(R.color.yellow))
                                 .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE)
-                ,activity); // action button's
+                        ,activity); // action button's
                 p.edit().putInt("pg", player.getHp()).apply();
                 hpUpdate();
                 invalidateOptionsMenu();
