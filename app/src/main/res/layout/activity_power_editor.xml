@@ -81,23 +81,35 @@
                 android:layout_marginRight="10dp" />
 
             <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/keywordsEdit"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:id="@+id/spinnersLayout">
+                android:orientation="horizontal"
+                android:id="@+id/spinnersLayout"
+                android:layout_below="@+id/keywordsEdit">
 
                 <Spinner
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/freqSpinner"
                     android:layout_weight="1"
                     android:spinnerMode="dropdown" />
+                <Spinner
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/actionSpinner"
+                    android:layout_weight="1"
+                    android:spinnerMode="dropdown" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/distanceLayout"
+                android:layout_below="@+id/spinnersLayout">
 
                 <Spinner
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/rangeSpinner"
                     android:layout_weight="1"
@@ -109,7 +121,7 @@
                     android:inputType="textCapSentences"
                     android:ems="10"
                     android:id="@+id/distanceNumEdit"
-                    android:layout_weight="0.75"
+                    android:layout_weight="1"
                     android:hint="@string/number10"
                     android:focusableInTouchMode="true" />
             </LinearLayout>
@@ -117,28 +129,32 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/spinnersLayout"
+                android:layout_below="@+id/objectiveEdit"
                 android:orientation="horizontal"
                 android:gravity="center"
                 android:id="@+id/vsLayout">
                 <Spinner
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/atkSpinner"
-                    android:spinnerMode="dropdown" />
+                    android:spinnerMode="dropdown"
+                    android:layout_weight="1" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="@string/vs"
-                    android:id="@+id/vsText" />
+                    android:id="@+id/vsText"
+                    android:layout_weight="1"
+                    android:gravity="center" />
 
                 <Spinner
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/defSpinner"
-                    android:spinnerMode="dropdown" />
+                    android:spinnerMode="dropdown"
+                    android:layout_weight="1" />
 
             </LinearLayout>
 
@@ -170,15 +186,6 @@
                 android:layout_alignBottom="@+id/impactEdit"
                 android:layout_marginRight="10dp" />
 
-            <Spinner
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/actionSpinner"
-                android:layout_below="@+id/impactEdit"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:spinnerMode="dropdown" />
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -186,7 +193,7 @@
                 android:text="@string/objective"
                 android:id="@+id/objectiveText"
                 android:gravity="center_vertical"
-                android:layout_below="@+id/actionSpinner"
+                android:layout_below="@+id/distanceLayout"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_marginRight="10dp"
@@ -197,25 +204,14 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/objectiveEdit"
                 android:hint="@string/objectiveHint"
-                android:layout_below="@+id/actionSpinner"
+                android:layout_below="@+id/distanceLayout"
                 android:layout_alignParentRight="true"
                 android:capitalize="sentences"
                 android:layout_alignParentEnd="true"
                 android:layout_toRightOf="@+id/objectiveText"
                 android:layout_toEndOf="@+id/objectiveText" />
 
-            <Button
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/save"
-                android:id="@+id/saveButton"
-                android:layout_below="@+id/objectiveEdit"
-                android:layout_alignRight="@+id/impactEdit"
-                android:layout_alignEnd="@+id/impactEdit"
-                android:background="@android:color/transparent"
-                android:onClick="saveClick"
-                android:textColor="@color/primary_dark"/>
+
 
         </RelativeLayout>
     </ScrollView>

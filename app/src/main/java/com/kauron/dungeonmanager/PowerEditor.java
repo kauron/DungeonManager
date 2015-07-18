@@ -7,7 +7,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -52,6 +53,7 @@ public class PowerEditor extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_power_editor);
+        //identify toolbar, set it as ActionBar and add the back button to the last activity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
@@ -123,7 +125,7 @@ public class PowerEditor extends ActionBarActivity {
 
     }
 
-    public void saveClick(View view) {
+    public void save() {
         boolean readyToSave = true;
 
         for ( int i = 0; i < edits.length; i++ ) {
@@ -174,5 +176,23 @@ public class PowerEditor extends ActionBarActivity {
 
             finish();
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_save) {
+            save();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_power_editor, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 }
