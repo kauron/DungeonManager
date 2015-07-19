@@ -19,162 +19,159 @@
         android:textColor="@color/white"
         android:id="@+id/nameText" />
 
-    <RelativeLayout
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <ScrollView android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            tools:text="Daily"
-            android:id="@+id/freqText"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginRight="25dp"
-            android:textColor="@color/black"
-            android:textStyle="bold" />
+        <LinearLayout
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            tools:text="Fire, arcana"
-            android:id="@+id/keywordsText"
-            android:layout_toRightOf="@+id/freqText"
-            android:textColor="@color/black"
-            android:layout_toEndOf="@+id/freqText"
-            android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            tools:text="Standard action"
-            android:textColor="@color/black"
-            android:id="@+id/typeText"
-            android:layout_below="@+id/keywordsText"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginRight="25dp"
-            android:textStyle="bold" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    tools:text="Daily"
+                    android:id="@+id/freqText"
+                    android:layout_marginRight="25dp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            tools:text="Ranged "
-            android:id="@+id/rangeText"
-            android:textStyle="bold"
-            android:layout_alignTop="@+id/typeText"
-            android:layout_toRightOf="@+id/typeText"
-            android:layout_toEndOf="@+id/typeText" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            tools:text="8"
-            android:id="@+id/distanceText"
-            android:layout_toRightOf="@+id/rangeText"
-            android:layout_alignTop="@+id/rangeText"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    tools:text="Fire, arcana"
+                    android:id="@+id/keywordsText"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
-        <TextView
-            android:textColor="@color/black"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="@string/objective"
-            android:paddingRight="3sp"
-            android:id="@+id/objective"
-            android:layout_below="@+id/distanceText"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="@string/attack"
-            android:paddingRight="3sp"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:id="@+id/attack"
-            android:layout_below="@+id/objectiveText"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    tools:text="Standard action"
+                    android:textColor="@color/black"
+                    android:id="@+id/actionText"
+                    android:layout_marginRight="25dp"
+                    android:textStyle="bold" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:textColor="@color/black"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="@string/impact"
-            android:paddingRight="3sp"
-            android:textStyle="bold"
-            android:id="@+id/impact"
-            android:layout_below="@+id/attack"
-            android:background="@color/darkened_text"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    tools:text="Ranged "
+                    android:id="@+id/rangeText"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    tools:text="8"
+                    android:id="@+id/distanceText"/>
+            </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:textColor="@color/black"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            tools:text="Constitución contra Reflejos"
-            android:id="@+id/attackText"
-            android:layout_below="@+id/objectiveText"
-            android:layout_toRightOf="@+id/attack"
-            android:layout_toEndOf="@+id/attack" />
+            <LinearLayout
+                android:id="@+id/objectiveLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            tools:text="one creature"
-            android:textColor="@color/black"
-            android:id="@+id/objectiveText"
-            android:layout_below="@+id/distanceText"
-            android:layout_toRightOf="@+id/objective"
-            android:layout_toEndOf="@+id/objective" />
+                <TextView
+                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="@string/objective"
+                    android:paddingRight="3sp"
+                    android:id="@+id/objective"
+                    android:textStyle="bold" />
 
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/darkened_text"
-            android:textColor="@color/black"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            tools:text="1d8"
-            android:id="@+id/impactText"
-            android:layout_below="@+id/attackText"
-            android:layout_toRightOf="@+id/impact"
-            android:layout_toEndOf="@+id/impact" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:textColor="@color/black"
-            android:layout_height="wrap_content"
-            android:id="@+id/otherText"
-            android:layout_below="@+id/impactText"
-            tools:text="If you are reading this the description has been displayed"
-            android:layout_alignParentLeft="true"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    tools:text="one creature"
+                    android:textColor="@color/black"
+                    android:id="@+id/objectiveText"/>
+            </LinearLayout>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/use"
-            android:background="@android:color/transparent"
-            android:textStyle="bold"
-            android:id="@+id/useButton"
-            android:layout_gravity="right"
-            android:layout_below="@+id/otherText"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
-    </RelativeLayout>
+            <LinearLayout
+                android:id="@+id/attackLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="@string/attack"
+                    android:paddingRight="3sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:id="@+id/attack"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:textColor="@color/black"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    tools:text="Constitución contra Reflejos"
+                    android:id="@+id/attackText"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/impactLayout"
+                android:background="@color/darkened_text"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:textColor="@color/black"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="@string/impact"
+                    android:paddingRight="3sp"
+                    android:textStyle="bold"
+                    android:id="@+id/impact"/>
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    tools:text="1d8"
+                    android:id="@+id/impactText"/>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:textColor="@color/black"
+                android:layout_height="wrap_content"
+                android:id="@+id/otherText"
+                android:layout_below="@+id/impactText"
+                tools:text="Other text"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/use"
+                android:background="@android:color/transparent"
+                android:textStyle="bold"
+                android:id="@+id/useButton"
+                android:layout_gravity="right" />
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

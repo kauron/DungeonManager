@@ -577,13 +577,30 @@ public class ShowPlayer extends ActionBarActivity {
                         nameText.setBackgroundColor(color);
 
                         ((TextView) nameText).setText(power.getName());
-                        ((TextView) dialog.findViewById(R.id.typeText)).setText(power.getTypeString());
-                        ((TextView) dialog.findViewById(R.id.rangeText)).setText(power.getRangeString() + " ");
-                        ((TextView) dialog.findViewById(R.id.freqText)).setText(power.getFrequencyString());
+
+                        if (power.getAction() != 0)
+                            ((TextView) dialog.findViewById(R.id.actionText)).setText(power.getActionString());
+                        else dialog.findViewById(R.id.actionText).setVisibility(View.GONE);
+
+                        if (power.getRange() != 0)
+                            ((TextView) dialog.findViewById(R.id.rangeText)).setText(power.getRangeString() + " ");
+                        else dialog.findViewById(R.id.rangeText).setVisibility(View.GONE);
+
+                        if (power.getFreq() != 0)
+                            ((TextView) dialog.findViewById(R.id.freqText)).setText(power.getFrequencyString());
+                        else dialog.findViewById(R.id.freqText).setVisibility(View.GONE);
+
                         ((TextView) dialog.findViewById(R.id.keywordsText)).setText(power.getKeywords());
                         ((TextView) dialog.findViewById(R.id.distanceText)).setText(String.valueOf(power.getDistance()));
-                        ((TextView) dialog.findViewById(R.id.objectiveText)).setText(power.getObjective());
-                        ((TextView) dialog.findViewById(R.id.impactText)).setText(power.getImpact());
+
+                        if (!power.getObjective().isEmpty())
+                            ((TextView) dialog.findViewById(R.id.objectiveText)).setText(power.getObjective());
+                        else dialog.findViewById(R.id.objectiveLayout).setVisibility(View.GONE);
+
+                        if (!power.getImpact().isEmpty())
+                            ((TextView) dialog.findViewById(R.id.impactText)).setText(power.getImpact());
+                        else dialog.findViewById(R.id.impactLayout).setVisibility(View.GONE);
+
                         ((TextView) dialog.findViewById(R.id.otherText)).setText(power.getOther());
 
                         String[] attack = getResources().getStringArray(R.array.attack);

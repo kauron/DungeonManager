@@ -59,13 +59,15 @@ class Power implements Serializable{
 
     String getKeywords() {return keywords;}
 
-    String getTypeString() {return ACTIONS[action];}
+    String getActionString() {return ACTIONS[action];}
     String getFrequencyString() {return FREQ[freq];}
     String getRangeString() {return RANGES[range];}
 
     int getAtk() {return atk;}
     int getDef() {return def;}
     int getFreq() {return freq;}
+    int getAction() {return action;}
+    int getRange() {return range;}
 
     String getDistance() {return distance;}
     String getName(){return name;}
