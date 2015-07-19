@@ -590,8 +590,13 @@ public class ShowPlayer extends ActionBarActivity {
                             ((TextView) dialog.findViewById(R.id.freqText)).setText(power.getFrequencyString());
                         else dialog.findViewById(R.id.freqText).setVisibility(View.GONE);
 
-                        ((TextView) dialog.findViewById(R.id.keywordsText)).setText(power.getKeywords());
-                        ((TextView) dialog.findViewById(R.id.distanceText)).setText(String.valueOf(power.getDistance()));
+                        if (!power.getKeywords().isEmpty())
+                            ((TextView) dialog.findViewById(R.id.keywordsText)).setText(power.getKeywords());
+                        else dialog.findViewById(R.id.keywordsText).setVisibility(View.GONE);
+
+                        if (!power.getDistance().isEmpty())
+                            ((TextView) dialog.findViewById(R.id.distanceText)).setText(power.getDistance());
+                        else dialog.findViewById(R.id.distanceText).setVisibility(View.GONE);
 
                         if (!power.getObjective().isEmpty())
                             ((TextView) dialog.findViewById(R.id.objectiveText)).setText(power.getObjective());
@@ -603,10 +608,18 @@ public class ShowPlayer extends ActionBarActivity {
 
                         ((TextView) dialog.findViewById(R.id.otherText)).setText(power.getOther());
 
-                        String[] attack = getResources().getStringArray(R.array.attack);
-                        String[] defense = getResources().getStringArray(R.array.defense);
-                        ((TextView) dialog.findViewById(R.id.impactText)).setText(attack[power.getAtk()]
-                                + " " + getResources().getString(R.string.vs) + " " + defense[power.getDef()]);
+                        if (power.getAtk() != 0) {
+                            String[] attack = getResources().getStringArray(R.array.attack);
+                            String[] defense;
+                            String text = attack[power.getAtk()];
+                            if (power.getDef() != 0) {
+                                defense = getResources().getStringArray(R.array.defense);
+                                text += " " + getString(R.string.vs) + " " + defense[power.getDef()];
+                            }
+                            ((TextView) dialog.findViewById(R.id.attackText)).setText(text);
+                        } else {
+                            dialog.findViewById(R.id.attackLayout).setVisibility(View.GONE);
+                        }
 
                         final Button useButton = (Button) dialog.findViewById(R.id.useButton);
 

@@ -19,9 +19,9 @@ import com.nispok.snackbar.SnackbarManager;
 public class PowerEditor extends ActionBarActivity {
 
     private EditText [] edits = new EditText[6];
-    private Spinner [] spinners = new Spinner[6];
+    private Spinner [] spinners = new Spinner[5];
 
-    private String[] strings = new String[5];
+    private String[] strings = new String[6];
     private int[] ints = new int[5];
 
     private String originalName;

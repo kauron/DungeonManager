@@ -129,7 +129,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     tools:text="Constitución contra Reflejos"
-                    android:id="@+id/impactText"/>
+                    android:id="@+id/attackText"/>
             </LinearLayout>
 
             <LinearLayout
