@@ -56,7 +56,7 @@
             tools:text="Standard action"
             android:textColor="@color/black"
             android:id="@+id/typeText"
-            android:layout_below="@+id/freqText"
+            android:layout_below="@+id/keywordsText"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_marginRight="25dp"
@@ -87,9 +87,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Objective: "
+            android:text="@string/objective"
+            android:paddingRight="3sp"
             android:id="@+id/objective"
-            android:layout_below="@+id/typeText"
+            android:layout_below="@+id/distanceText"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:textStyle="bold" />
@@ -98,11 +99,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Attack: "
+            android:text="@string/attack"
+            android:paddingRight="3sp"
             android:textStyle="bold"
             android:textColor="@color/black"
             android:id="@+id/attack"
-            android:layout_below="@+id/objective"
+            android:layout_below="@+id/objectiveText"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 
@@ -111,7 +113,8 @@
             android:textColor="@color/black"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Impact: "
+            android:text="@string/impact"
+            android:paddingRight="3sp"
             android:textStyle="bold"
             android:id="@+id/impact"
             android:layout_below="@+id/attack"
@@ -126,7 +129,7 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             tools:text="Constitución contra Reflejos"
             android:id="@+id/attackText"
-            android:layout_below="@+id/objective"
+            android:layout_below="@+id/objectiveText"
             android:layout_toRightOf="@+id/attack"
             android:layout_toEndOf="@+id/attack" />
 
@@ -137,7 +140,7 @@
             tools:text="one creature"
             android:textColor="@color/black"
             android:id="@+id/objectiveText"
-            android:layout_below="@+id/typeText"
+            android:layout_below="@+id/distanceText"
             android:layout_toRightOf="@+id/objective"
             android:layout_toEndOf="@+id/objective" />
 
@@ -157,7 +160,7 @@
             android:textColor="@color/black"
             android:layout_height="wrap_content"
             android:id="@+id/otherText"
-            android:layout_below="@+id/impact"
+            android:layout_below="@+id/impactText"
             tools:text="If you are reading this the description has been displayed"
             android:layout_alignParentLeft="true"/>
 

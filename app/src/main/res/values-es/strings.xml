@@ -178,7 +178,7 @@
     <string name="title_activity_player_creator">Creador de personaje</string>
     <string name="lost_hp">Has perdido %d PG</string>
     <string name="level_up">Subir un nivel</string>
-    <string name="use">Usar</string>
+    <string name="use">USAR</string>
     <string name="no_powers">No tienes poderes, añade uno</string>
     <string name="show_stats">Mostrar ataque/defensa</string>
     <string name="action_settings">Ajustes</string>
@@ -194,4 +194,5 @@
     <string name="add_new_player">Añadir un nuevo aventurero</string>
     <string name="import_confirmation">Importar</string>
     <string name="paste_here">Pega el código de personaje aquí</string>
+    <string name="attack">Ataque</string>
 </resources>

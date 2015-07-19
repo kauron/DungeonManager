@@ -188,7 +188,7 @@
     <string name="title_activity_player_creator">Player Creator</string>
     <string name="lost_hp">Lost %d HP</string>
     <string name="level_up">Level up</string>
-    <string name="use">Use</string>
+    <string name="use">USE</string>
     <string name="no_powers">There are no powers, try creating one</string>
     <string name="show_stats">Show attack/defense</string>
     <string name="title_activity_display">Display</string>
@@ -207,5 +207,6 @@
     <string name="add_import">Import an adventurer from text</string>
     <string name="paste_here">Paste here</string>
     <string name="import_confirmation">Import</string>
+    <string name="attack">Attack</string>
 
 </resources>
