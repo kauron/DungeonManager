@@ -200,32 +200,24 @@
                     android:textStyle="bold"
                     android:onClick="addToList"/>
 
-                <Button
-                    style="?android:attr/buttonBarButtonStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/listSelectButton"
-                    android:textStyle="bold"
-                    android:textColor="@color/primary"
-                    android:text="Go to abilities"/>
-
             </LinearLayout>
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:id="@+id/layout_powers"
                 android:orientation="vertical">
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="fill_parent"
+                    android:id="@+id/help_text"
+                    android:text="@string/help_list"
+                    android:gravity="center"/>
                 <ListView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/powerList"
                     android:layout_gravity="center_horizontal"
                     android:choiceMode="none" />
-                <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="fill_parent"
-                    android:id="@+id/help_text"
-                    android:text="@string/help_list" />
             </LinearLayout>
 
             <LinearLayout
