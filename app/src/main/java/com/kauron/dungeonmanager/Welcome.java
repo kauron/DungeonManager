@@ -28,6 +28,7 @@ import java.util.ArrayList;
 public class Welcome extends ActionBarActivity {
 
     public static final String PREFERENCES = "basics";
+    public static final char SEPARATOR = '¬';
 
     private SharedPreferences p;
 
@@ -92,8 +93,9 @@ public class Welcome extends ActionBarActivity {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     Gson gson = new Gson();
+                                    String imp = input.getText().toString();
                                     Player player = gson
-                                            .fromJson(input.getText().toString(), Player.class);
+                                            .fromJson(imp.substring(0, imp.indexOf(SEPARATOR)), Player.class);
                                     p.edit().putString(
                                                     "player" + p.getInt("players", 0),
                                                     player.getName())
@@ -101,6 +103,26 @@ public class Welcome extends ActionBarActivity {
                                     player.saveToPreferences(
                                             getSharedPreferences(player.getName(), MODE_PRIVATE)
                                     );
+                                    String errors = "";
+                                    while (imp.length() != 1) {
+                                        int powers = p.getInt("powers", 0);
+                                        imp = imp.substring(imp.indexOf(SEPARATOR) + 1);
+                                        Power power = gson
+                                                .fromJson(imp.substring(0, imp.indexOf(SEPARATOR)), Power.class);
+                                        boolean match = false;
+                                        for (int i = 0; i < powers; i++)
+                                            if (power.getName().equals(p.getString("power" + i, "")))
+                                                match = true;
+                                        if (!match) {
+                                            p.edit().putString("power" + powers, power.getName()).apply();
+                                            power.saveToPreferences(getSharedPreferences(power.getName(), MODE_PRIVATE));
+                                        } else {
+                                            errors += String.format(getString(R.string.power_already_exists), power.getName());
+                                        }
+                                    }
+                                    if (errors.isEmpty()) errors = getString(R.string.import_completed);
+                                    SnackbarManager.show(Snackbar.with(activity).text(errors));
+                                    load();
                                 }
                             });
                             importDialog.show();
@@ -218,16 +240,17 @@ public class Welcome extends ActionBarActivity {
 //                                        ObjectOutputStream oos = null;
                                         SharedPreferences current = getSharedPreferences(name, MODE_PRIVATE);
                                         int n = current.getInt("powers", 0);
-                                        String[] export = new String[n + 1];
                                         Gson gson = new Gson();
-                                        export[0] = gson.toJson(new Player(current));
-//                                        for (int i = 0; i < n; i++) {
-//                                            SharedPreferences sav = getSharedPreferences(current.getString("power" + i, ""), MODE_PRIVATE);
-//                                            export[i + 1] = gson.toJson(new Power(sav));
-//                                        }
+                                        String export = gson.toJson(new Player(current));
+                                        for (int i = 0; i < n; i++) {
+                                            SharedPreferences sav = getSharedPreferences(current.getString("power" + i, ""), MODE_PRIVATE);
+                                            export += SEPARATOR + gson.toJson(new Power(sav));
+                                        }
+                                        export += SEPARATOR;
                                         Intent shareIntent = new Intent();
                                         shareIntent.setAction(Intent.ACTION_SEND);
-                                        shareIntent.putExtra(Intent.EXTRA_TEXT, export[0]);
+                                        shareIntent.putExtra(Intent.EXTRA_TEXT, export);
+                                        shareIntent.setType("text/plain");
                                         startActivity(Intent.createChooser(shareIntent, "Compartir con..."));
 
 //                                        try {
