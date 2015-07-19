@@ -42,12 +42,12 @@ public class PowerEditor extends ActionBarActivity {
             }
         });
 
-        alert.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+        alert.setNeutralButton(R.string.cancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 // Canceled.
             }
         });
-        alert.setNeutralButton(R.string.no, new DialogInterface.OnClickListener() {
+        alert.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 PowerEditor.super.onBackPressed();
