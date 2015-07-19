@@ -1,5 +1,6 @@
 package com.kauron.dungeonmanager;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,9 +13,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
 import com.nispok.snackbar.listeners.ActionClickListener;
@@ -58,10 +61,54 @@ public class Welcome extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if ( id == R.id.action_add_player ) {
-            startActivity(new Intent(this, PlayerEditor.class).putExtra("first_time", true));
+            addPlayer();
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    void addPlayer(){
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        final Activity activity = this;
+        alert.setItems(
+                new String[]{
+                        getString(R.string.add_new_player),
+                        getString(R.string.add_existing_player),
+                        getString(R.string.add_import)},
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (which == 0) {
+                            startActivity(new Intent(activity, PlayerEditor.class).putExtra("first_time", true));
+                        } else if (which == 1) {
+                            startActivity(new Intent(activity, PlayerEditor.class).putExtra("first_time", false));
+                        } else if (which == 2) {
+                            AlertDialog.Builder importDialog = new AlertDialog.Builder(activity);
+                            final EditText input = new EditText(activity);
+                            input.setHint(getString(R.string.paste_here));
+                            importDialog.setView(input);
+                            importDialog.setTitle(R.string.add_import);
+                            importDialog.setPositiveButton(R.string.import_confirmation, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Gson gson = new Gson();
+                                    Player player = gson
+                                            .fromJson(input.getText().toString(), Player.class);
+                                    p.edit().putString(
+                                                    "player" + p.getInt("players", 0),
+                                                    player.getName())
+                                            .apply();
+                                    player.saveToPreferences(
+                                            getSharedPreferences(player.getName(), MODE_PRIVATE)
+                                    );
+                                }
+                            });
+                        }
+                    }
+                }
+
+        );
+        alert.show();
     }
 
     @Override
@@ -117,7 +164,8 @@ public class Welcome extends ActionBarActivity {
                             new String[]{
                                     getString(R.string.delete),
                                     getString(R.string.edit),
-                                    getString(R.string.export)},
+                                    getString(R.string.export),
+                                    "Test new PlayerDisplay"},
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
@@ -156,23 +204,67 @@ public class Welcome extends ActionBarActivity {
                                                         }),
                                                 activity
                                         );
-                                    } else if(which==1) {
+                                    } else if (which == 1) {
                                         //TODO: edit the player
                                         /**TEMP*/
                                         Toast.makeText(
                                                 activity, "Editor not implemented yet", Toast.LENGTH_LONG)
                                                 .show();
-                                    } else {
+                                    } else if (which == 2) {
                                         //TODO: export as files
+                                        String name = p.getString("player" + position, "");
+//                                        File file = new File(getCacheDir() + File.separator + name + ".dm");
+//                                        ObjectOutputStream oos = null;
+                                        SharedPreferences current = getSharedPreferences(name, MODE_PRIVATE);
+                                        int n = current.getInt("powers", 0);
+                                        String[] export = new String[n + 1];
+                                        Gson gson = new Gson();
+                                        export[0] = gson.toJson(new Player(current));
+//                                        for (int i = 0; i < n; i++) {
+//                                            SharedPreferences sav = getSharedPreferences(current.getString("power" + i, ""), MODE_PRIVATE);
+//                                            export[i + 1] = gson.toJson(new Power(sav));
+//                                        }
+                                        Intent shareIntent = new Intent();
+                                        shareIntent.setAction(Intent.ACTION_SEND);
+                                        shareIntent.putExtra(Intent.EXTRA_TEXT, export[0]);
+                                        startActivity(Intent.createChooser(shareIntent, "Compartir con..."));
+
+//                                        try {
+//                                            oos = new ObjectOutputStream(
+//                                                    new BufferedOutputStream(
+//                                                            new FileOutputStream(string)
+//                                                    )
+//                                            );
+//
+//                                            SharedPreferences current = getSharedPreferences(name, MODE_PRIVATE);
+//                                            oos.writeObject(new Player(current));
+//                                            int n = current.getInt("powers", 0);
+//                                            for (int i = 0; i < n; i++) {
+//                                                SharedPreferences sav = getSharedPreferences(current.getString("power" + i, ""), MODE_PRIVATE);
+//                                                oos.writeObject(new Power(sav));
+//                                            }
+//                                          TODO: fix URI share action (needs a FileProvider)
+//                                            Intent shareIntent = new Intent();
+//                                            shareIntent.setAction(Intent.ACTION_SEND);
+//                                            shareIntent.putExtra(Intent.EXTRA_TEXT, string);
+//                                            shareIntent.setType("text/*");
+//                                            startActivity(Intent.createChooser(shareIntent, "Compartir con..."));
+//                                        } catch (IOException e) {
+//                                            e.printStackTrace();
+//                                        } finally {
+//                                            if (oos != null) try {
+//                                                oos.close();
+//                                            } catch (IOException e) {
+//                                                e.printStackTrace();
+//                                            }
+//                                        }
+                                    } else {
                                         /**TEMP*/
                                         startActivity(new Intent(
                                                 getApplicationContext(), Display.class
                                         ).putExtra("player", position));
-                                        Toast.makeText(
-                                                activity, "Exporting feature not implemented yet", Toast.LENGTH_LONG)
-                                                .show();
                                     }
-                                }
+                            }
                 }
 
                 );
