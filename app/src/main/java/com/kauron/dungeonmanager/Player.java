@@ -247,4 +247,23 @@ class Player implements Serializable {
         }
         //TODO: here implement action points!
     }
+
+    void saveToPreferences(SharedPreferences s) {
+        s.edit().clear().commit();
+        SharedPreferences.Editor e = s.edit();
+        e.putString(NAME, name);
+        e.putInt(XP, xp);
+        e.putInt(RACE, raceInt);
+        e.putInt(CLASS, classInt);
+        e.putInt("fue", atk[STR]);
+        e.putInt("con", atk[CON]);
+        e.putInt("des", atk[DEX]);
+        e.putInt("int", atk[INT]);
+        e.putInt("sab", atk[WIS]);
+        e.putInt("car", atk[CHA]);
+        //TODO: defenses (add armor and other bonuses)
+        e.putInt("pg", hp);
+        e.putInt("curativeEfforts", surges);
+        e.commit();
+    }
 }
