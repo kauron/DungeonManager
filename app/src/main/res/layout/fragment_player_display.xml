@@ -143,7 +143,7 @@
                 android:ems="5"
                 android:layout_row="0"
                 android:layout_column="0"
-                android:id="@+id/CA"
+                android:id="@+id/AC"
                 android:text="AC" />
 
             <TextView
@@ -176,7 +176,7 @@
                 android:ems="5"
                 android:layout_row="1"
                 android:layout_column="1"
-                android:id="@+id/VOL"
+                android:id="@+id/WILL"
                 android:text="VOL" />
         </GridLayout>
     </LinearLayout>
