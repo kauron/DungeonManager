@@ -33,13 +33,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/nameEdit"
-                android:capitalize="sentences"
+                android:inputType="textShortMessage"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:layout_toEndOf="@+id/keywordsText"
-                android:layout_toRightOf="@+id/keywordsText"
-                android:hint="@string/powerNameHint"/>
+                android:layout_toRightOf="@+id/keywordsText"/>
 
             <EditText
                 android:layout_width="wrap_content"
@@ -51,11 +50,12 @@
                 android:layout_alignEnd="@+id/nameEdit"
                 android:layout_toRightOf="@+id/keywordsText"
                 android:layout_toEndOf="@+id/keywordsText"
-                android:hint="@string/keywordsPowerHint" />
+                android:inputType="textCapSentences" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/black"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/name"
                 android:id="@+id/nameText"
@@ -70,6 +70,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/black"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/keywords"
                 android:id="@+id/keywordsText"
@@ -122,7 +123,6 @@
                     android:ems="10"
                     android:id="@+id/distanceNumEdit"
                     android:layout_weight="1"
-                    android:hint="@string/number10"
                     android:focusableInTouchMode="true" />
             </LinearLayout>
 
@@ -167,18 +167,17 @@
                 android:layout_below="@+id/vsLayout"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
-                android:capitalize="sentences"
-                android:hint="@string/impactEditHint"
-                android:layout_toRightOf="@+id/attackText"
-                android:layout_toEndOf="@+id/attackText" />
+                android:layout_toRightOf="@+id/impactText"
+                android:layout_toEndOf="@+id/impactText" />
 
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/black"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/impact"
-                android:id="@+id/attackText"
+                android:id="@+id/impactText"
                 android:gravity="center_vertical"
                 android:layout_below="@+id/vsLayout"
                 android:layout_alignParentLeft="true"
@@ -189,6 +188,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/black"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/objective"
                 android:id="@+id/objectiveText"
@@ -203,14 +203,38 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/objectiveEdit"
-                android:hint="@string/objectiveHint"
                 android:layout_below="@+id/distanceLayout"
                 android:layout_alignParentRight="true"
-                android:capitalize="sentences"
+                android:inputType="textMultiLine"
                 android:layout_alignParentEnd="true"
                 android:layout_toRightOf="@+id/objectiveText"
                 android:layout_toEndOf="@+id/objectiveText" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/other"
+                android:id="@+id/otherText"
+                android:gravity="center_vertical"
+                android:layout_below="@+id/impactEdit"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignBottom="@+id/otherEdit"
+                android:layout_marginRight="10dp" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:ems="10"
+                android:id="@+id/otherEdit"
+                android:layout_below="@+id/impactEdit"
+                android:layout_alignRight="@+id/vsLayout"
+                android:layout_alignEnd="@+id/vsLayout"
+                android:layout_alignLeft="@+id/impactEdit"
+                android:layout_alignStart="@+id/impactEdit" />
 
 
         </RelativeLayout>

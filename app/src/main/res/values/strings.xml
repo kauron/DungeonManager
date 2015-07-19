@@ -54,7 +54,7 @@
     <string name="powerNameHint">Blasting charm</string>
     <string name="keywordsPowerHint">Magic, fire, weapon</string>
     <string name="number10" translatable="false">10</string>
-    <string name="vs" translatable="false">VS</string>
+    <string name="vs">VS</string>
     <string name="save">Save</string>
     <string name="impactEditHint">1d6 + mod. CHAR and you become invisible</string>
     <string name="impact">Impact</string>
@@ -211,7 +211,7 @@
     <string name="save_changes">Save changes?</string>
     <string name="no">No</string>
     <string name="power_same_name">Can\'t be saved. Another power already has that name.</string>
-    <string name="power_already_exists">The power %s already exists and hasn\'t been copied</string>
+    <string name="power_already_exists">The power %s already exists and hasn\'t been imported</string>
     <string name="import_completed">Import completed without errors</string>
 
 </resources>

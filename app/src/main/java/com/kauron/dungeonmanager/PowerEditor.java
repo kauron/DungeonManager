@@ -18,8 +18,8 @@ import com.nispok.snackbar.SnackbarManager;
 
 public class PowerEditor extends ActionBarActivity {
 
-    private EditText [] edits = new EditText[5];
-    private Spinner [] spinners = new Spinner[5];
+    private EditText [] edits = new EditText[6];
+    private Spinner [] spinners = new Spinner[6];
 
     private String[] strings = new String[5];
     private int[] ints = new int[5];
@@ -80,6 +80,7 @@ public class PowerEditor extends ActionBarActivity {
         edits[2] = (EditText) findViewById(R.id.impactEdit);
         edits[3] = (EditText) findViewById(R.id.distanceNumEdit);
         edits[4] = (EditText) findViewById(R.id.objectiveEdit);
+        edits[5] = (EditText) findViewById(R.id.otherEdit);
 
         //Spinners
         spinners[0] = (Spinner) findViewById(R.id.freqSpinner);

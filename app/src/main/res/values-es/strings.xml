@@ -198,4 +198,7 @@
     <string name="save_changes">¿Guardar los cambios?</string>
     <string name="no">No</string>
     <string name="power_same_name">No puede ser guardado. Otro poder ya tiene ese nombre</string>
+    <string name="import_completed">Importación completada sin errores</string>
+    <string name="vs">contra</string>
+    <string name="power_already_exists">El poder %s ya existe y no ha sido importado</string>
 </resources>

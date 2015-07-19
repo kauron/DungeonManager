@@ -27,16 +27,17 @@ class Power implements Serializable{
 
     private boolean used;
     private int freq, action, range;
-    private String name, impact, objective, distance;
+    private String name, impact, objective, distance, other;
     private String keywords; //fire, spell...
     private int atk, def; //constants from Player to denote atk and defense
 
     Power ( SharedPreferences p ) {
-        this.name      = p.getString("s0", "Name");
-        this.keywords  = p.getString("s1", "Keywords");
-        this.impact    = p.getString("s2", "2d10");
-        this.distance  = p.getString("s3", "10");
-        this.objective = p.getString("s4", "One creature");
+        this.name      = p.getString("s0", "Power");
+        this.keywords  = p.getString("s1", "");
+        this.impact    = p.getString("s2", "");
+        this.distance  = p.getString("s3", "");
+        this.objective = p.getString("s4", "");
+        this.other     = p.getString("s5", "");
 
         this.used = p.getBoolean("used", false);
 
@@ -73,7 +74,7 @@ class Power implements Serializable{
     String getName(){return name;}
     String getImpact() {return impact;}
     String getObjective() {return objective;}
-    String getOther() {return "";}
+    String getOther() {return other;}
 
     //TODO: add other element to include further description
 
@@ -111,6 +112,7 @@ class Power implements Serializable{
         e.putString("s2", impact);
         e.putString("s3", distance);
         e.putString("s4", objective);
+        e.putString("s5", other);
         e.putBoolean("used", used);
         e.putInt("i0", freq);
         e.putInt("i1", range);

@@ -605,7 +605,7 @@ public class ShowPlayer extends ActionBarActivity {
 
                         String[] attack = getResources().getStringArray(R.array.attack);
                         String[] defense = getResources().getStringArray(R.array.defense);
-                        ((TextView) dialog.findViewById(R.id.attackText)).setText(attack[power.getAtk()]
+                        ((TextView) dialog.findViewById(R.id.impactText)).setText(attack[power.getAtk()]
                                 + " " + getResources().getString(R.string.vs) + " " + defense[power.getDef()]);
 
                         final Button useButton = (Button) dialog.findViewById(R.id.useButton);
