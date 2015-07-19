@@ -3,7 +3,6 @@ package com.kauron.dungeonmanager;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -12,6 +11,9 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+
+import com.nispok.snackbar.Snackbar;
+import com.nispok.snackbar.SnackbarManager;
 
 
 public class PowerEditor extends ActionBarActivity {
@@ -25,23 +27,30 @@ public class PowerEditor extends ActionBarActivity {
     private String originalName;
     private int power;
     private SharedPreferences p;
-    private Drawable background;
+
+    private boolean changed;
 
     @Override
     public void onBackPressed() {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle(R.string.sure);
+        alert.setTitle(R.string.save_changes);
         alert.setMessage(R.string.progress_lost);
 
         alert.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                PowerEditor.super.onBackPressed();
+                save();
             }
         });
 
         alert.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 // Canceled.
+            }
+        });
+        alert.setNeutralButton(R.string.no, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                PowerEditor.super.onBackPressed();
             }
         });
 
@@ -57,6 +66,8 @@ public class PowerEditor extends ActionBarActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
+
+        changed = false;
 
         power = getIntent().getIntExtra("power", -1);
 
@@ -111,8 +122,6 @@ public class PowerEditor extends ActionBarActivity {
                         Power.ACTIONS
                 )
         );
-        background = spinners[0].getBackground();
-
 
         if (power != -1) {
             SharedPreferences powerPrefs = getSharedPreferences(p.getString("power" + power, ""), MODE_PRIVATE);
@@ -123,60 +132,56 @@ public class PowerEditor extends ActionBarActivity {
             originalName = edits[0].getText().toString();
         }
 
+        //TODO: detect changes in edits and spinners
+//        for (int i = 0; i < edits.length; i++) {
+//            edits[i].;
+//        }
+
     }
 
     public void save() {
-        boolean readyToSave = true;
+        for (int i = 0; i < strings.length; i++)
+            strings[i] = edits[i].getText().toString();
+        for (int i = 0; i < spinners.length; i++)
+            ints[i] = spinners[i].getSelectedItemPosition();
 
-        for ( int i = 0; i < edits.length; i++ ) {
-            String s = edits[i].getText().toString().trim();
-            if (s.length() == 0) {
-                edits[i].setError(getString(R.string.required));
-                readyToSave = false;
-            } else {
-                strings[i] = s;
-            }
+        if (strings[0].length() == 0) {
+            edits[0].setError(getString(R.string.required));
+            return;
         }
 
-        for ( int i = 0; i < spinners.length; i++) {
-            int n = spinners[i].getSelectedItemPosition();
-            if ( n == 0) {
-                spinners[i].setBackgroundColor(getResources().getColor(R.color.red));
-                readyToSave = false;
-                //TODO: TEST THIS remove the color when the user has made a choice
-            } else {
-                spinners[i].setBackground(background);
-                ints[i] = n;
-            }
-        }
+        int powers = p.getInt("powers", 0);
 
-        if ( readyToSave ) {
-            int powers = p.getInt("powers", 0);
-
-            String saveName;
-            if ( originalName == null ) {
-                saveName = strings[0];
-                for (int i = 0; i < powers; i++) {
-                    if (p.getString("power" + power, "").equals(saveName)) saveName += "2";
+        String saveName;
+        if ( originalName == null ) {
+            saveName = strings[0];
+            for (int i = 0; i < powers; i++) {
+                if (p.getString("power" + power, "").equals(saveName)) {
+                    SnackbarManager.show(Snackbar
+                            .with(this)
+                            .text(R.string.power_same_name)
+                            .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE));
+                    return;
                 }
-                p.edit().putString("power" + powers, saveName)
-                        .putInt("powers", powers + 1)
-                        .apply();
-            } else {
-                saveName = originalName;
             }
-
-            SharedPreferences.Editor ed = getSharedPreferences( saveName, MODE_PRIVATE).edit();
-
-            for (int i = 0; i < strings.length; i++)
-                ed.putString("s" + i, strings[i]);
-            for (int i = 0; i < ints.length; i++)
-                ed.putInt("i" + i, ints[i]);
-            ed.apply();
-
-            finish();
+            p.edit().putString("power" + powers, saveName)
+                    .putInt("powers", powers + 1)
+                    .apply();
+        } else {
+            saveName = originalName;
         }
-    }
+
+        SharedPreferences.Editor ed = getSharedPreferences( saveName, MODE_PRIVATE).edit();
+
+        for (int i = 0; i < strings.length; i++)
+            if (!strings[i].isEmpty())
+                ed.putString("s" + i, strings[i]);
+        for (int i = 0; i < ints.length; i++)
+            ed.putInt("i" + i, ints[i]);
+        ed.apply();
+
+        finish();
+}
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

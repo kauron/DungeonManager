@@ -200,7 +200,7 @@
     <string name="hello_world">Hello world!</string>
 
     <string name="action_settings">Settings</string>
-    <string name="progress_lost">Your changes will be lost</string>
+    <string name="progress_lost">Your changes will be lost otherwise</string>
     <string name="yes">Yes</string>
     <string name="add_new_player">Add a new adventurer</string>
     <string name="add_existing_player">Add an existing adventurer</string>
@@ -208,5 +208,8 @@
     <string name="paste_here">Paste here</string>
     <string name="import_confirmation">Import</string>
     <string name="attack">Attack</string>
+    <string name="save_changes">Save changes?</string>
+    <string name="no">No</string>
+    <string name="power_same_name">Can\'t be saved. Another power already has that name.</string>
 
 </resources>

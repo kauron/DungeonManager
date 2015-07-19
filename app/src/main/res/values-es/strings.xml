@@ -187,7 +187,7 @@
     <string name="title_section1">Sección 1</string>
     <string name="title_section2">Sección 2</string>
     <string name="title_section3">Sección 3</string>
-    <string name="progress_lost">Tus cambios se perderán</string>
+    <string name="progress_lost">Tus cambios se perderán si no lo haces</string>
     <string name="yes">Sí</string>
     <string name="add_existing_player">Añadir un aventurero existente</string>
     <string name="add_import">Importar un aventurero</string>
@@ -195,4 +195,7 @@
     <string name="import_confirmation">Importar</string>
     <string name="paste_here">Pega el código de personaje aquí</string>
     <string name="attack">Ataque</string>
+    <string name="save_changes">¿Guardar los cambios?</string>
+    <string name="no">No</string>
+    <string name="power_same_name">No puede ser guardado. Otro poder ya tiene ese nombre</string>
 </resources>
