@@ -117,19 +117,19 @@
         <item>Acrobacias</item>
         <item>Arcanos</item>
         <item>Atletismo</item>
-        <item>BLUFF</item>
+        <item>Engañar</item>
         <item>Diplomacia</item>
         <item>Dungeons</item>
-        <item>ENDURANCE</item>
+        <item>Aguante</item>
         <item>Sanar</item>
         <item>Historia</item>
-        <item>INSIGHT</item>
+        <item>Perspicacia</item>
         <item>Intimidación</item>
         <item>Naturaleza</item>
         <item>Percepción</item>
         <item>Religión</item>
-        <item>STEALTH</item>
-        <item>STREETWISE</item>
+        <item>Sigilo</item>
+        <item>Recursos</item>
         <item>Hurto</item>
     </string-array>
 
@@ -154,13 +154,13 @@
 
     <string-array name="races">
         <item>Raza</item>
-        <item>Dracónidos</item>
-        <item>Eladrines</item>
-        <item>Elfos</item>
-        <item>Enanos</item>
+        <item>Dracónido</item>
+        <item>Eladrín</item>
+        <item>Elfo</item>
+        <item>Enano</item>
         <item>Gitzerai</item>
-        <item>Humanos</item>
-        <item>Medianos</item>
+        <item>Humano</item>
+        <item>Mediano</item>
         <item>Mente del Fragmento</item>
         <item>Minotauro</item>
         <item>Salvaje</item>
@@ -189,4 +189,9 @@
     <string name="title_section3">Sección 3</string>
     <string name="progress_lost">Tus cambios se perderán</string>
     <string name="yes">Sí</string>
+    <string name="add_existing_player">Añadir un aventurero existente</string>
+    <string name="add_import">Importar un aventurero</string>
+    <string name="add_new_player">Añadir un nuevo aventurero</string>
+    <string name="import_confirmation">Importar</string>
+    <string name="paste_here">Pega el código de personaje aquí</string>
 </resources>
