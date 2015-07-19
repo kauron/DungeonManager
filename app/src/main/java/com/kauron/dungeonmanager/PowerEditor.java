@@ -156,7 +156,7 @@ public class PowerEditor extends ActionBarActivity {
         if ( originalName == null ) {
             saveName = strings[0];
             for (int i = 0; i < powers; i++) {
-                if (p.getString("power" + power, "").equals(saveName)) {
+                if (saveName.equals(p.getString("power" + power, ""))) {
                     SnackbarManager.show(Snackbar
                             .with(this)
                             .text(R.string.power_same_name)
