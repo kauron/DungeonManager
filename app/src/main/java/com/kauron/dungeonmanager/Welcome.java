@@ -103,6 +103,7 @@ public class Welcome extends ActionBarActivity {
                                     );
                                 }
                             });
+                            importDialog.show();
                         }
                     }
                 }
