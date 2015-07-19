@@ -175,8 +175,9 @@ public class PowerEditor extends ActionBarActivity {
         SharedPreferences.Editor ed = getSharedPreferences( saveName, MODE_PRIVATE).edit();
 
         for (int i = 0; i < strings.length; i++)
-            if (!strings[i].isEmpty())
-                ed.putString("s" + i, strings[i]);
+            if (strings[i].isEmpty())
+                ed.remove("s" + i);
+            else ed.putString("s" + i, strings[i]);
         for (int i = 0; i < ints.length; i++)
             ed.putInt("i" + i, ints[i]);
         ed.apply();
