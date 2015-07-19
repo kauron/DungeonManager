@@ -211,5 +211,7 @@
     <string name="save_changes">Save changes?</string>
     <string name="no">No</string>
     <string name="power_same_name">Can\'t be saved. Another power already has that name.</string>
+    <string name="power_already_exists">The power %s already exists and hasn\'t been copied</string>
+    <string name="import_completed">Import completed without errors</string>
 
 </resources>

@@ -103,4 +103,20 @@ class Power implements Serializable{
                 return context.getResources().getColor(R.color.at_will);
         }
     }
+
+    void saveToPreferences(SharedPreferences sav) {
+        SharedPreferences.Editor e = sav.edit();
+        e.putString("s0", name);
+        e.putString("s1", keywords);
+        e.putString("s2", impact);
+        e.putString("s3", distance);
+        e.putString("s4", objective);
+        e.putBoolean("used", used);
+        e.putInt("i0", freq);
+        e.putInt("i1", range);
+        e.putInt("i2", atk);
+        e.putInt("i3", def);
+        e.putInt("i4", action);
+        e.apply();
+    }
 }
