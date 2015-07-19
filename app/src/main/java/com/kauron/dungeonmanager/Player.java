@@ -97,7 +97,6 @@ class Player implements Serializable {
     private String name;
     private int level;
     private int[] atk, def;
-    //TODO: implement fully operational powers (die rolling)
 
     /**
      * Builds a whole player from its saved stats
