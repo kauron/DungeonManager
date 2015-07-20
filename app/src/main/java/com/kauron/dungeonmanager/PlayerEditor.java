@@ -124,19 +124,19 @@ public class PlayerEditor extends ActionBarActivity {
             if (!atk[i].getText().toString().isEmpty())
                 atkInts[i] = Integer.parseInt(atk[i].getText().toString());
         boolean validAtk = true;
-        for (int i : atkInts)
-            if (i == 0) {
+        for (int i = Player.STR; i <= Player.CHA; i++)
+            if (atkInts[i] == 0) {
                 validAtk = false;
                 break;
             }
 
         if (
                 !nameString.isEmpty() &&
-                        classInt != Player.NULL &&
-                        raceInt != Player.NULL &&
-                        pxInt != -1 &&
-                        validAtk
-                ) {
+                classInt != Player.NULL &&
+                raceInt != Player.NULL &&
+                pxInt != -1 &&
+                validAtk
+        ) {
             SharedPreferences p = getSharedPreferences(Welcome.PREFERENCES, MODE_PRIVATE);
             int i = p.getInt("players", 0);
             String saveName = nameString;
