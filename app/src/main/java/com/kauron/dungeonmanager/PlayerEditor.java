@@ -60,10 +60,10 @@ public class PlayerEditor extends ActionBarActivity {
         if ( position != -1 ) {
             Player p = new Player(getSharedPreferences("player" + position, MODE_PRIVATE));
             name.setText(p.getName());
-            xp.setText(p.getXp());
+            xp.setText(String.valueOf(p.getXp()));
             int[] attack = p.getAtk();
             for (int i = Player.STR; i < Player.CHA + 1; i++)
-                atk[i].setText(attack[i]);
+                atk[i].setText(String.valueOf(attack[i]));
             classSpinner.setSelection(p.getClassInt());
             raceSpinner.setSelection(p.getRaceInt());
         }
