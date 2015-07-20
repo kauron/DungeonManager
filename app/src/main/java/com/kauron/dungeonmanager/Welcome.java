@@ -95,7 +95,7 @@ public class Welcome extends ActionBarActivity {
                                     Gson gson = new Gson();
                                     String imp = input.getText().toString();
                                     Player player = gson
-                                            .fromJson(imp.substring(0, imp.indexOf(SEPARATOR)), Player.class);
+                                            .fromJson(imp/*.substring(0, imp.indexOf(SEPARATOR))*/, Player.class);
                                     p.edit().putString(
                                                     "player" + p.getInt("players", 0),
                                                     player.getName())
@@ -104,22 +104,22 @@ public class Welcome extends ActionBarActivity {
                                             getSharedPreferences(player.getName(), MODE_PRIVATE)
                                     );
                                     String errors = "";
-                                    while (imp.length() != 1) {
-                                        int powers = p.getInt("powers", 0);
-                                        imp = imp.substring(imp.indexOf(SEPARATOR) + 1);
-                                        Power power = gson
-                                                .fromJson(imp.substring(0, imp.indexOf(SEPARATOR)), Power.class);
-                                        boolean match = false;
-                                        for (int i = 0; i < powers; i++)
-                                            if (power.getName().equals(p.getString("power" + i, "")))
-                                                match = true;
-                                        if (!match) {
-                                            p.edit().putString("power" + powers, power.getName()).apply();
-                                            power.saveToPreferences(getSharedPreferences(power.getName(), MODE_PRIVATE));
-                                        } else {
-                                            errors += String.format(getString(R.string.power_already_exists), power.getName());
-                                        }
-                                    }
+//                                    while (imp.length() != 1) {
+//                                        int powers = p.getInt("powers", 0);
+//                                        imp = imp.substring(imp.indexOf(SEPARATOR) + 1);
+//                                        Power power = gson
+//                                                .fromJson(imp.substring(0, imp.indexOf(SEPARATOR)), Power.class);
+//                                        boolean match = false;
+//                                        for (int i = 0; i < powers; i++)
+//                                            if (power.getName().equals(p.getString("power" + i, "")))
+//                                                match = true;
+//                                        if (!match) {
+//                                            p.edit().putString("power" + powers, power.getName()).apply();
+//                                            power.saveToPreferences(getSharedPreferences(power.getName(), MODE_PRIVATE));
+//                                        } else {
+//                                            errors += String.format(getString(R.string.power_already_exists), power.getName());
+//                                        }
+//                                    }
                                     if (errors.isEmpty()) errors = getString(R.string.import_completed);
                                     SnackbarManager.show(Snackbar.with(activity).text(errors));
                                     load();
