@@ -203,6 +203,8 @@ class Player implements Serializable {
     String getName() {return name;}
     String getClassName() {return CLASS_STRINGS[classInt];}
     String getRaceName() {return RACE_STRINGS[raceInt];}
+    int getClassInt() {return classInt;}
+    int getRaceInt() {return raceInt;}
 
     private void setAtk(int[] atk) {this.atk = atk; if(classInt != NULL) setClass();}
 

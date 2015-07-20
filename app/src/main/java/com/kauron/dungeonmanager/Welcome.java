@@ -80,9 +80,9 @@ public class Welcome extends ActionBarActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == 0) {
-                            startActivity(new Intent(activity, PlayerEditor.class).putExtra("first_time", true));
+                            startActivity(new Intent(activity, PlayerEditor.class).putExtra("player", -1));
                         } else if (which == 1) {
-                            startActivity(new Intent(activity, PlayerEditor.class).putExtra("first_time", false));
+                            startActivity(new Intent(activity, PlayerEditor.class).putExtra("player", -1));
                         } else if (which == 2) {
                             AlertDialog.Builder importDialog = new AlertDialog.Builder(activity);
                             final EditText input = new EditText(activity);
@@ -192,7 +192,7 @@ public class Welcome extends ActionBarActivity {
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    if (which == 0) {
+                                    if (which == 0) { //delete
                                         //delete the item
                                         SnackbarManager.show(
                                                 Snackbar.with(getApplicationContext())
@@ -227,13 +227,17 @@ public class Welcome extends ActionBarActivity {
                                                         }),
                                                 activity
                                         );
-                                    } else if (which == 1) {
+                                    } else if (which == 1) { //edit
                                         //TODO: edit the player
                                         /**TEMP*/
                                         Toast.makeText(
-                                                activity, "Editor not implemented yet", Toast.LENGTH_LONG)
+                                                activity, "Consumed PG and surges won't be restored by the editor", Toast.LENGTH_LONG)
                                                 .show();
-                                    } else if (which == 2) {
+                                        startActivity(new Intent(
+                                                getApplicationContext(),
+                                                PlayerEditor.class
+                                        ).putExtra("player", position));
+                                    } else if (which == 2) { //export
                                         //TODO: export as files
                                         String name = p.getString("player" + position, "");
 //                                        File file = new File(getCacheDir() + File.separator + name + ".dm");
@@ -282,7 +286,7 @@ public class Welcome extends ActionBarActivity {
 //                                                e.printStackTrace();
 //                                            }
 //                                        }
-                                    } else {
+                                    } else { //experimental
                                         /**TEMP*/
                                         startActivity(new Intent(
                                                 getApplicationContext(), Display.class

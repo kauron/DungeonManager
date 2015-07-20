@@ -17,14 +17,13 @@ import com.nispok.snackbar.SnackbarManager;
 
 public class PlayerEditor extends ActionBarActivity {
 
-    private EditText name, level;
-    private EditText str, con, dex, wis, intel, cha;
+    private EditText name, xp;
+    private EditText[] atk = new EditText[7];
     private Spinner classSpinner, raceSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_player_editor);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -32,13 +31,13 @@ public class PlayerEditor extends ActionBarActivity {
 
         name = (EditText) findViewById(R.id.namePlayerEdit);
         name.requestFocus();
-        level = (EditText) findViewById(R.id.xpEdit);
-        str = (EditText) findViewById(R.id.STR);
-        con = (EditText) findViewById(R.id.CON);
-        dex = (EditText) findViewById(R.id.DEX);
-        wis = (EditText) findViewById(R.id.WIS);
-        intel = (EditText) findViewById(R.id.INT);
-        cha = (EditText) findViewById(R.id.CHA);
+        xp = (EditText) findViewById(R.id.xpEdit);
+        atk[Player.STR] = (EditText) findViewById(R.id.STR);
+        atk[Player.CON] = (EditText) findViewById(R.id.CON);
+        atk[Player.DEX] = (EditText) findViewById(R.id.DEX);
+        atk[Player.WIS] = (EditText) findViewById(R.id.WIS);
+        atk[Player.INT] = (EditText) findViewById(R.id.INT);
+        atk[Player.CHA] = (EditText) findViewById(R.id.CHA);
 
         classSpinner = (Spinner) findViewById(R.id.classSpinner);
         classSpinner.setAdapter(
@@ -57,6 +56,17 @@ public class PlayerEditor extends ActionBarActivity {
                         Player.RACE_STRINGS
                 )
         );
+        int position = getIntent().getExtras().getInt("player", -1);
+        if ( position != -1 ) {
+            Player p = new Player(getSharedPreferences("player" + position, MODE_PRIVATE));
+            name.setText(p.getName());
+            xp.setText(p.getXp());
+            int[] attack = p.getAtk();
+            for (int i = Player.STR; i < Player.CHA + 1; i++)
+                atk[i].setText(attack[i]);
+            classSpinner.setSelection(p.getClassInt());
+            raceSpinner.setSelection(p.getRaceInt());
+        }
     }
 
 
@@ -104,34 +114,28 @@ public class PlayerEditor extends ActionBarActivity {
         int raceInt = raceSpinner.getSelectedItemPosition();
 
         int pxInt = -1;
-        if (!level.getText().toString().isEmpty())
-            pxInt = Integer.parseInt(level.getText().toString());
+        if (!xp.getText().toString().isEmpty())
+            pxInt = Integer.parseInt(xp.getText().toString());
+        else
+            xp.setError(getString(R.string.required));
 
-        int fue = 0, con = 0, des = 0, intel = 0, sab = 0, car = 0;
-        if (!this.cha.getText().toString().isEmpty())
-            car = Integer.parseInt(this.cha.getText().toString());
-        if (!this.str.getText().toString().isEmpty())
-            fue = Integer.parseInt(this.str.getText().toString());
-        if (!this.con.getText().toString().isEmpty())
-            con = Integer.parseInt(this.con.getText().toString());
-        if (!this.dex.getText().toString().isEmpty())
-            des = Integer.parseInt(this.dex.getText().toString());
-        if (!this.intel.getText().toString().isEmpty())
-            intel = Integer.parseInt(this.intel.getText().toString());
-        if (!this.wis.getText().toString().isEmpty())
-            sab = Integer.parseInt(this.wis.getText().toString());
+        int[] atkInts = new int[7];
+        for (int i = Player.STR; i <= Player.CHA; i++)
+            if (!atk[i].getText().toString().isEmpty())
+                atkInts[i] = Integer.parseInt(atk[i].getText().toString());
+        boolean validAtk = true;
+        for (int i : atkInts)
+            if (i == 0) {
+                validAtk = false;
+                break;
+            }
 
         if (
                 !nameString.isEmpty() &&
                         classInt != Player.NULL &&
                         raceInt != Player.NULL &&
                         pxInt != -1 &&
-                        car != 0 &&
-                        fue != 0 &&
-                        con != 0 &&
-                        des != 0 &&
-                        intel != 0 &&
-                        sab != 0
+                        validAtk
                 ) {
             SharedPreferences p = getSharedPreferences(Welcome.PREFERENCES, MODE_PRIVATE);
             int i = p.getInt("players", 0);
@@ -149,12 +153,12 @@ public class PlayerEditor extends ActionBarActivity {
             ed.putInt("raceInt", raceInt);
             ed.putInt("px", pxInt);
 
-            ed.putInt("fue", fue);
-            ed.putInt("car", car);
-            ed.putInt("int", intel);
-            ed.putInt("sab", sab);
-            ed.putInt("con", con);
-            ed.putInt("des", des);
+            ed.putInt("str", atkInts[Player.STR]);
+            ed.putInt("cha", atkInts[Player.CHA]);
+            ed.putInt("int", atkInts[Player.INT]);
+            ed.putInt("wis", atkInts[Player.WIS]);
+            ed.putInt("con", atkInts[Player.CON]);
+            ed.putInt("dex", atkInts[Player.DEX]);
             //TEMP
             ed.putBoolean("new", true);
             ed.apply();
