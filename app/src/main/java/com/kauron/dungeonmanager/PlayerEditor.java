@@ -159,8 +159,6 @@ public class PlayerEditor extends ActionBarActivity {
             ed.putInt("wis", atkInts[Player.WIS]);
             ed.putInt("con", atkInts[Player.CON]);
             ed.putInt("dex", atkInts[Player.DEX]);
-            //TEMP
-            ed.putBoolean("new", true);
             ed.apply();
             return true;
         } else {
