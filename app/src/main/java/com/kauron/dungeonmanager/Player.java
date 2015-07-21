@@ -81,7 +81,7 @@ class Player implements Serializable {
     }; //TODO: move the names to a string-array in the res/values folder
 
     public static final int[] ABILITY_BOOST = new int[] {
-            -1, DEX, CON, INT, STR, CHA, WIS, CHA, INT, CHA, DEX, WIS, WIS, WIS, CHA, INT, WIS, DEX
+            NULL, DEX, CON, INT, STR, CHA, WIS, CHA, INT, CHA, DEX, WIS, WIS, WIS, CHA, INT, WIS, DEX
     };
 
     /**
@@ -108,7 +108,6 @@ class Player implements Serializable {
         setLevel();
         this.raceInt = p.getInt(RACE, 0);
         this.classInt = p.getInt(CLASS, 0);
-        this.def = new int[5];
         setAtk(new int[] {
                 0,
                 p.getInt("fue", 10),
@@ -118,6 +117,28 @@ class Player implements Serializable {
                 p.getInt("sab", 10),
                 p.getInt("car", 10)}
         );
+        this.def = new int[]{
+                0,
+                p.getInt(
+                        "ac",
+                        10 + level / 2 + Math.max(0, Player.getModifier(Math.max(atk[DEX], atk[INT])))
+                ),
+                p.getInt(
+                        "fort",
+                        10 + level / 2 + Player.getModifier(Math.max(atk[CON], atk[STR])) +
+                                CLASS_STATS[DEF_FORT][classInt]
+                ),
+                p.getInt(
+                        "ref",
+                        10 + level / 2 + Player.getModifier(Math.max(atk[DEX], atk[INT])) +
+                                CLASS_STATS[DEF_REF][classInt]
+                ),
+                p.getInt(
+                        "will",
+                        10 + level / 2 + Player.getModifier(Math.max(atk[CHA], atk[WIS])) +
+                                CLASS_STATS[DEF_WILL][classInt]
+                )
+        };
         setState();
         this.hp = p.getInt( "pg" , maxHp);
         this.surges = p.getInt( "curativeEfforts" , maxSurges);
@@ -216,14 +237,13 @@ class Player implements Serializable {
                 + ( level - 1 ) * CLASS_STATS[HP_ON_LEVEL_UP][classInt];
         maxSurges =
                 Player.getModifier(atk[CON]) + CLASS_STATS[DAILY_SURGES][classInt];
-        //TODO: implement armor!
-        def[AC] = 10 + level / 2 + Math.max(0, Player.getModifier(Math.max(atk[DEX], atk[INT])));
-        def[FORT] = 10 + level / 2 + Player.getModifier(Math.max(atk[CON], atk[STR])) +
-                CLASS_STATS[DEF_FORT][classInt];
-        def[REF] = 10 + level / 2 + Player.getModifier(Math.max(atk[DEX], atk[INT])) +
-                CLASS_STATS[DEF_REF][classInt];
-        def[WILL] = 10 + level / 2 + Player.getModifier(Math.max(atk[CHA], atk[WIS])) +
-                CLASS_STATS[DEF_WILL][classInt];
+//        def[AC] = 10 + level / 2 + Math.max(0, Player.getModifier(Math.max(atk[DEX], atk[INT])));
+//        def[FORT] = 10 + level / 2 + Player.getModifier(Math.max(atk[CON], atk[STR])) +
+//                CLASS_STATS[DEF_FORT][classInt];
+//        def[REF] = 10 + level / 2 + Player.getModifier(Math.max(atk[DEX], atk[INT])) +
+//                CLASS_STATS[DEF_REF][classInt];
+//        def[WILL] = 10 + level / 2 + Player.getModifier(Math.max(atk[CHA], atk[WIS])) +
+//                CLASS_STATS[DEF_WILL][classInt];
     }
 
     static int getModifier(int i) {
@@ -262,7 +282,12 @@ class Player implements Serializable {
         e.putInt("int", atk[INT]);
         e.putInt("sab", atk[WIS]);
         e.putInt("car", atk[CHA]);
-        //TODO: defenses (add armor and other bonuses)
+
+        e.putInt("ac", def[AC]);
+        e.putInt("fort", def[FORT]);
+        e.putInt("ref", def[REF]);
+        e.putInt("will", def[WILL]);
+
         e.putInt("pg", hp);
         e.putInt("curativeEfforts", surges);
         e.commit();

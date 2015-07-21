@@ -1,11 +1,13 @@
 package com.kauron.dungeonmanager;
 
+import android.app.Dialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -18,7 +20,10 @@ import com.nispok.snackbar.SnackbarManager;
 public class PlayerEditor extends ActionBarActivity {
 
     private EditText name, xp;
-    private EditText[] atk = new EditText[7];
+    private EditText[] editAtk = new EditText[7];
+    private int[] def;
+    private int position;
+    private Player player;
     private Spinner classSpinner, raceSpinner;
 
     @Override
@@ -32,12 +37,12 @@ public class PlayerEditor extends ActionBarActivity {
         name = (EditText) findViewById(R.id.namePlayerEdit);
         name.requestFocus();
         xp = (EditText) findViewById(R.id.xpEdit);
-        atk[Player.STR] = (EditText) findViewById(R.id.STR);
-        atk[Player.CON] = (EditText) findViewById(R.id.CON);
-        atk[Player.DEX] = (EditText) findViewById(R.id.DEX);
-        atk[Player.WIS] = (EditText) findViewById(R.id.WIS);
-        atk[Player.INT] = (EditText) findViewById(R.id.INT);
-        atk[Player.CHA] = (EditText) findViewById(R.id.CHA);
+        editAtk[Player.STR] = (EditText) findViewById(R.id.STR);
+        editAtk[Player.CON] = (EditText) findViewById(R.id.CON);
+        editAtk[Player.DEX] = (EditText) findViewById(R.id.DEX);
+        editAtk[Player.WIS] = (EditText) findViewById(R.id.WIS);
+        editAtk[Player.INT] = (EditText) findViewById(R.id.INT);
+        editAtk[Player.CHA] = (EditText) findViewById(R.id.CHA);
 
         classSpinner = (Spinner) findViewById(R.id.classSpinner);
         classSpinner.setAdapter(
@@ -56,16 +61,21 @@ public class PlayerEditor extends ActionBarActivity {
                         Player.RACE_STRINGS
                 )
         );
-        int position = getIntent().getExtras().getInt("player", -1);
+        position = getIntent().getIntExtra("player", -1);
         if ( position != -1 ) {
-            Player p = new Player(getSharedPreferences("player" + position, MODE_PRIVATE));
-            name.setText(p.getName());
-            xp.setText(String.valueOf(p.getXp()));
-            int[] attack = p.getAtk();
+            player = new Player(
+                    getSharedPreferences(
+                            getSharedPreferences(Welcome.PREFERENCES, MODE_PRIVATE)
+                                    .getString("player" + position, ""),
+                            MODE_PRIVATE)
+            );
+            name.setText(player.getName());
+            xp.setText(String.valueOf(player.getXp()));
+            int[] attack = player.getAtk();
             for (int i = Player.STR; i < Player.CHA + 1; i++)
-                atk[i].setText(String.valueOf(attack[i]));
-            classSpinner.setSelection(p.getClassInt());
-            raceSpinner.setSelection(p.getRaceInt());
+                editAtk[i].setText(String.valueOf(attack[i]));
+            classSpinner.setSelection(player.getClassInt());
+            raceSpinner.setSelection(player.getRaceInt());
         }
     }
 
@@ -121,8 +131,8 @@ public class PlayerEditor extends ActionBarActivity {
 
         int[] atkInts = new int[7];
         for (int i = Player.STR; i <= Player.CHA; i++)
-            if (!atk[i].getText().toString().isEmpty())
-                atkInts[i] = Integer.parseInt(atk[i].getText().toString());
+            if (!editAtk[i].getText().toString().isEmpty())
+                atkInts[i] = Integer.parseInt(editAtk[i].getText().toString());
         boolean validAtk = true;
         for (int i = Player.STR; i <= Player.CHA; i++)
             if (atkInts[i] == 0) {
@@ -139,13 +149,32 @@ public class PlayerEditor extends ActionBarActivity {
         ) {
             SharedPreferences p = getSharedPreferences(Welcome.PREFERENCES, MODE_PRIVATE);
             int i = p.getInt("players", 0);
-            String saveName = nameString;
-            for (int j = 0; j < i; j++) {
-                if (p.getString("player" + j, "").equals(saveName))
-                    saveName += "2";
+            boolean isNew = true;
+            if (player == null) {
+                for (int j = 0; j < i; j++) {
+                    if (nameString.equals(p.getString("player" + j, ""))) {
+                        if (player == null) {
+                            Toast.makeText(
+                                    this,
+                                    "There is another player with that name, edit that player or change the name",
+                                    Toast.LENGTH_LONG
+                            ).show();
+                            return false;
+                        }
+                        isNew = false;
+                        break;
+                    }
+                }
+            } else {
+                isNew = false;
+                if (nameString != player.getName()) {
+                    getSharedPreferences(player.getName(), MODE_PRIVATE).edit().clear().apply();
+                    p.edit().putString("player" + position, nameString).apply();
+                }
             }
-            p.edit().putString("player" + i, saveName).putInt("players", i + 1).apply();
-            SharedPreferences.Editor ed = getSharedPreferences(saveName, MODE_PRIVATE).edit();
+
+            if (isNew) p.edit().putString("player" + i, nameString).putInt("players", i + 1).apply();
+            SharedPreferences.Editor ed = getSharedPreferences(nameString, MODE_PRIVATE).edit();
 
             //first save it all
             ed.putString("playerName", nameString);
@@ -153,16 +182,59 @@ public class PlayerEditor extends ActionBarActivity {
             ed.putInt("raceInt", raceInt);
             ed.putInt("px", pxInt);
 
-            ed.putInt("str", atkInts[Player.STR]);
-            ed.putInt("cha", atkInts[Player.CHA]);
+            ed.putInt("fue", atkInts[Player.STR]);
+            ed.putInt("car", atkInts[Player.CHA]);
             ed.putInt("int", atkInts[Player.INT]);
-            ed.putInt("wis", atkInts[Player.WIS]);
+            ed.putInt("sab", atkInts[Player.WIS]);
             ed.putInt("con", atkInts[Player.CON]);
-            ed.putInt("dex", atkInts[Player.DEX]);
+            ed.putInt("des", atkInts[Player.DEX]);
+
+            if (def != null) {
+                ed.putInt("ac", def[Player.AC]);
+                ed.putInt("fort", def[Player.FORT]);
+                ed.putInt("ref", def[Player.REF]);
+                ed.putInt("will", def[Player.WILL]);
+            }
+
             ed.apply();
             return true;
         } else {
             return false;
         }
+    }
+
+    public void onDefenseClick(View view) {
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.defense_editor);
+        if (player != null) {
+            ((EditText) dialog.findViewById(R.id.ac)).setText(
+                    String.valueOf(player.getDef()[Player.AC]));
+            ((EditText) dialog.findViewById(R.id.fort)).setText(
+                    String.valueOf(player.getDef()[Player.FORT]));
+            ((EditText) dialog.findViewById(R.id.ref)).setText(
+                    String.valueOf(player.getDef()[Player.REF]));
+            ((EditText) dialog.findViewById(R.id.will)).setText(
+                    String.valueOf(player.getDef()[Player.WILL]));
+        }
+        dialog.findViewById(R.id.saveButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                def = new int[7];
+                EditText ac = (EditText) dialog.findViewById(R.id.ac);
+                if (!ac.getText().toString().isEmpty())
+                    def[Player.AC] = Integer.parseInt(ac.getText().toString());
+                EditText fort = (EditText) dialog.findViewById(R.id.fort);
+                if (!ac.getText().toString().isEmpty())
+                    def[Player.FORT] = Integer.parseInt(fort.getText().toString());
+                EditText ref = (EditText) dialog.findViewById(R.id.ref);
+                if (!ac.getText().toString().isEmpty())
+                    def[Player.REF] = Integer.parseInt(ref.getText().toString());
+                EditText will = (EditText) dialog.findViewById(R.id.will);
+                if (!ac.getText().toString().isEmpty())
+                    def[Player.WILL] = Integer.parseInt(will.getText().toString());
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 }
