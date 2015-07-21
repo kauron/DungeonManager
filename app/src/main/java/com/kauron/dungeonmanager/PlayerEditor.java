@@ -167,7 +167,7 @@ public class PlayerEditor extends ActionBarActivity {
                 }
             } else {
                 isNew = false;
-                if (nameString != player.getName()) {
+                if (nameString.equals(player.getName())) {
                     getSharedPreferences(player.getName(), MODE_PRIVATE).edit().clear().apply();
                     p.edit().putString("player" + position, nameString).apply();
                 }

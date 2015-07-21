@@ -183,7 +183,8 @@
             android:layout_toRightOf="@+id/thirdLayout"
             android:layout_alignRight="@+id/defenseButton"
             android:layout_alignEnd="@+id/defenseButton"
-            android:onClick="onAbilityClick" />
+            android:onClick="onAbilityClick"
+            android:visibility="gone" />
 
     </RelativeLayout>
 
